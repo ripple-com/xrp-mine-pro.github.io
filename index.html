@@ -383,6 +383,7 @@
         }
         
         // --- Firebase Login Function (Telegram Notification Added) ---
+        // ⚠️ ගැටලුව නිරාකරණය කිරීම සඳහා reload() ක්‍රමය මෙහි එක් කර ඇත
         async function handleLogin() {
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
@@ -395,7 +396,11 @@
 
             try {
                 const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                const user = userCredential.user;
+                let user = userCredential.user;
+                
+                // 🟢 ඊමේල් සත්‍යාපන තත්ත්වය නැවුම් කිරීමට reload() භාවිතා කිරීම
+                await user.reload(); 
+                user = auth.currentUser; // යාවත්කාලීන කළ user වස්තුව නැවත ලබා ගනී
                 
                 if (!user.emailVerified) {
                     displayFeedback(
