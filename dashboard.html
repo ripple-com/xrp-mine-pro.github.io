@@ -22,7 +22,7 @@
         :root {
             --primary-color: #03a9f4; 
             --secondary-color: #ff9800; 
-            --accent-color: #4CAF50; 
+            --accent-color: #4CAF50; /* Green - Used for Free Plan highlight */
             --card-bg: #212121; 
             --border-color: #333333;
             --menu-width: 280px;
@@ -171,6 +171,7 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
             border: 2px solid #424242;
             transition: transform 0.3s, box-shadow 0.3s;
+            position: relative; /* Badge සඳහා */
         }
         .plan-card:hover {
             transform: scale(1.03);
@@ -182,6 +183,29 @@
             background: linear-gradient(145deg, #2c2c2c, #3a3a3a);
             box-shadow: 0 10px 40px rgba(255, 152, 0, 0.4);
         }
+        
+        /* 🟢 NEW: Free Plan Highlight */
+        .plan-card.free-plan {
+            border: 3px solid var(--accent-color); 
+            background: linear-gradient(145deg, #1f2b1f, #2c382c); /* Darker Green background */
+            box-shadow: 0 10px 40px rgba(76, 175, 80, 0.4);
+            order: -1; /* පළමුවෙන් පෙන්වීමට */
+        }
+        
+        /* 🟢 NEW: Activated Badge */
+        .activated-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-weight: 700;
+            font-size: 0.9em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
 
         .plan-card h3 {
             color: var(--primary-color);
@@ -189,6 +213,10 @@
             margin-bottom: 25px;
             font-weight: 700;
         }
+        .plan-card.free-plan h3 {
+            color: var(--accent-color);
+        }
+
 
         .plan-card p {
             font-size: 1.1em;
@@ -205,6 +233,13 @@
             margin-top: 20px;
             box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
         }
+        
+        /* 🟢 NEW: Free Plan Button */
+        .plan-card.free-plan button {
+             background-color: var(--accent-color);
+             box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
+        }
+
 
         /* FAQ Section */
         .faq { background-color: #1a1a1a; } 
@@ -224,7 +259,7 @@
             font-weight: 600;
         }
 
-        /* Referral System Styles (New) */
+        /* Referral System Styles */
         .referral-box {
             background-color: var(--referral-bg);
             max-width: 700px;
@@ -434,6 +469,14 @@
     <section id="plans" class="plans">
         <h2>SELECT YOUR CONTRACT</h2>
         <div class="plan-container">
+            
+            <div class="plan-card free-plan" id="free-plan-card">
+                <h3><i class="fas fa-gift"></i> FREE STARTER (Trial)</h3>
+                <p>Hash Rate: **1.00 MH/s**</p>
+                <p>Price: **$0.00 (FREE)**</p>
+                <p>Duration: 30 Days Trial</p>
+                <button id="free-plan-btn" onclick="activateFreePlan()">ACTIVATE FREE PLAN <i class="fas fa-rocket"></i></button>
+                </div>
             <div class="plan-card">
                 <h3>BRONZE (6 Mo)</h3>
                 <p>Hash Rate: **10 MH/s**</p>
@@ -509,10 +552,109 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore(); 
+        
+        // 🟢 Free Plan ගිණුම සක්‍රිය කර ඇත්දැයි පරීක්ෂා කිරීමට ගෝලීය විචල්‍යයකි.
+        let isFreePlanActive = false;
+        const FREE_PLAN_HASH_RATE = 1.00; // MH/s
+
+        // --- Utility function to update the Free Plan UI ---
+        function updateFreePlanUI() {
+            const card = document.getElementById('free-plan-card');
+            const button = document.getElementById('free-plan-btn');
+            
+            // Remove any existing badge
+            card.querySelector('.activated-badge')?.remove();
+
+            if (isFreePlanActive) {
+                // Add Activated Badge
+                const badge = document.createElement('span');
+                badge.className = 'activated-badge';
+                badge.textContent = 'Activated';
+                card.appendChild(badge);
+                
+                // Disable button and change text
+                button.disabled = true;
+                button.textContent = 'PLAN ACTIVATED';
+                button.style.backgroundColor = '#555';
+                button.style.boxShadow = 'none';
+            } else {
+                // Reset button for activation
+                button.disabled = false;
+                button.textContent = 'ACTIVATE FREE PLAN';
+                button.style.backgroundColor = 'var(--accent-color)';
+                button.style.boxShadow = '0 4px 10px rgba(76, 175, 80, 0.4)';
+            }
+        }
+        
+        // 🟢 Function to handle Free Plan activation
+        async function activateFreePlan() {
+            const user = auth.currentUser;
+            if (!user) {
+                alert("Please log in to activate a plan.");
+                return;
+            }
+            if (isFreePlanActive) {
+                alert("The Free Plan is already active.");
+                return;
+            }
+
+            // Confirm action
+            if (!confirm("Are you sure you want to activate the Free Starter Plan (1.00 MH/s)?")) {
+                return;
+            }
+
+            try {
+                const userDocRef = db.collection("users").doc(user.uid);
+                
+                // Firestore Transaction එකක් භාවිතා කරමින් දත්ත යාවත්කාලීන කිරීම (ආරක්ෂාව සඳහා)
+                await db.runTransaction(async (transaction) => {
+                    const doc = await transaction.get(userDocRef);
+                    if (!doc.exists) {
+                        throw "User data not found.";
+                    }
+                    
+                    const data = doc.data();
+                    
+                    if (data.isFreePlanActive) {
+                        // Double check
+                        throw "Free Plan already active.";
+                    }
+
+                    // 1. Hash Rate යාවත්කාලීන කරන්න
+                    const newTotalHashRate = (data.totalHashRate || 0) + FREE_PLAN_HASH_RATE; 
+                    
+                    // 2. දෛනික ආදායම යාවත්කාලීන කරන්න (මෙය සරල ගණනයකි, සැබෑ ආදායම් ගණනය වෙනස් විය හැක)
+                    // අපි උපකල්පනය කරමු 1 MH/s මගින් දිනකට $0.05 උපයා ගත හැකි බව.
+                    const newEstimatedDailyIncome = newTotalHashRate * 0.05; 
+                    
+                    // 3. Firestore හි තත්වය යාවත්කාලීන කරන්න
+                    transaction.update(userDocRef, {
+                        isFreePlanActive: true,
+                        totalHashRate: newTotalHashRate,
+                        estimatedDailyIncome: newEstimatedDailyIncome,
+                        freePlanActivationDate: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    // UI update
+                    isFreePlanActive = true;
+                    updateFreePlanUI();
+                    
+                    // Dashboard Metrics යාවත්කාලීන කිරීම
+                    document.getElementById('total-hash-rate').textContent = newTotalHashRate.toFixed(2) + ' MH/s';
+                    document.getElementById('estimated-daily-income').textContent = '$' + newEstimatedDailyIncome.toFixed(2);
+                });
+                
+                alert("Free Plan Activated Successfully! Your mining has started.");
+                
+            } catch (e) {
+                console.error("Free Plan Activation Failed: ", e);
+                alert("Error activating Free Plan. Please try again. Reason: " + (e.message || e));
+            }
+        }
+
 
         // -----------------------------------------------------------
         // 🔑 Auth State Listener: ආරක්ෂක පරීක්ෂාව සහ පුද්ගලික දත්ත ලබා ගැනීම
-        // ⚠️ මෙහිදී ඊමේල් සත්‍යාපන පරීක්ෂාව සහ reload() එක් කර ඇත.
         // -----------------------------------------------------------
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
@@ -541,12 +683,6 @@
             }
 
 
-            // 1. HTML හි මූලික User Info යාවත්කාලීන කරන්න
-            const userName = user.displayName || 'Miner';
-            document.getElementById('header-user-display-name').textContent = userName;
-            document.getElementById('hero-user-display-name').textContent = userName;
-            document.getElementById('side-user-display-name').textContent = userName;
-
             // 2. 🟢 Firestore වෙතින් පුද්ගලික දත්ත ලබා ගන්න (User ID = user.uid)
             try {
                 const userDoc = await db.collection("users").doc(user.uid).get();
@@ -554,13 +690,24 @@
                 if (userDoc.exists) {
                     const data = userDoc.data();
 
-                    // Dashboard හි දත්ත යාවත්කාලීන කිරීම (toFixed() මඟින් දශම ස්ථාන ගණන සකසයි)
+                    // 1. HTML හි මූලික User Info යාවත්කාලීන කරන්න
+                    const userName = data.username || 'Miner'; 
+                    document.getElementById('header-user-display-name').textContent = userName;
+                    document.getElementById('hero-user-display-name').textContent = userName;
+                    document.getElementById('side-user-display-name').textContent = userName;
+
+
+                    // Dashboard හි දත්ත යාවත්කාලීන කිරීම
                     document.getElementById('current-balance').textContent = (data.balance || 0.00).toFixed(4) + ' XRP';
                     document.getElementById('total-hash-rate').textContent = (data.totalHashRate || 0.00).toFixed(2) + ' MH/s';
                     document.getElementById('estimated-daily-income').textContent = '$' + (data.estimatedDailyIncome || 0.00).toFixed(2);
                     
                     document.getElementById('total-referrals').textContent = data.referrals || 0;
                     
+                    // 🟢 Free Plan තත්ත්වය පරීක්ෂා කිරීම සහ UI යාවත්කාලීන කිරීම
+                    isFreePlanActive = data.isFreePlanActive || false;
+                    updateFreePlanUI();
+
                     // Referral Link එක පුද්ගලීකරණය කිරීම
                     const referralLinkInput = document.getElementById("referralLink");
                     const referralCode = data.referralCode || user.uid.substring(0, 8); 
