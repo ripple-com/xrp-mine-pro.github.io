@@ -26,8 +26,8 @@
             --card-bg: #212121; 
             --border-color: #333333;
             --menu-width: 280px;
+            /* New color for referral card */
             --referral-bg: #1e1e1e; 
-            --error-color: #f44336; 
         }
         
         /* Global Reset & Transitions */
@@ -58,7 +58,7 @@
         nav a { margin-left: 35px; font-weight: 600; font-size: 1em; color: #bbbbbb; }
         nav a:hover { color: var(--primary-color); }
 
-        /* User Info & Logout Button Styles */
+        /* 🟢 User Info & Logout Button Styles */
         .user-auth-area {
             display: flex;
             align-items: center;
@@ -69,7 +69,8 @@
             font-weight: 600;
         }
         .logout-btn {
-            background-color: var(--error-color);
+            /* Fix error-color not defined in :root */
+            background-color: #f44336; 
             padding: 10px 25px;
             border-radius: 8px;
             font-weight: 600;
@@ -81,31 +82,31 @@
         }
 
 
-        /* Hero Section */
+        /* Hero Section - Dashboard එකක් ලෙස ක්‍රියාත්මක වීමට Hero එකේ විලාසය වෙනස් කරමු */
         .hero {
             background: linear-gradient(135deg, #121212 0%, #0a0a0a 100%);
-            padding: 50px 5% 30px; 
+            padding: 50px 5% 30px; /* උස අඩු කළා */
             text-align: center;
             min-height: auto; 
         }
 
         .hero h1 {
             color: white;
-            font-size: 3em; 
+            font-size: 3em; /* ප්‍රමාණය අඩු කළා */
             margin-bottom: 10px;
             font-weight: 800;
             text-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
         }
 
         .hero p {
-            font-size: 1.2em; 
+            font-size: 1.2em; /* ප්‍රමාණය අඩු කළා */
             margin-bottom: 0;
             color: #bdbdbd;
         }
 
         /* Content Sections */
         .stats, .plans, .faq, .referral {
-            padding: 40px 5%; 
+            padding: 40px 5%; /* Padding අඩු කළා */
             text-align: center;
         }
         .referral { background-color: #1a1a1a; } 
@@ -114,7 +115,7 @@
             color: var(--primary-color);
             font-size: 2.5em;
             font-weight: 700;
-            margin-bottom: 30px; 
+            margin-bottom: 30px; /* Margin අඩු කළා */
         }
 
         /* Stats Boxes - Raised Material Cards */
@@ -153,7 +154,7 @@
             font-weight: 800;
             margin-top: 5px;
         }
-        
+
         /* Plan Cards */
         .plan-container {
             display: flex;
@@ -214,8 +215,8 @@
             padding: 25px;
             border-radius: 8px;
             text-align: left;
-            border-left: 4px solid var(--accent-color);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            border-left: 4px solid var(--accent-color);
         }
         .qa-item h4 {
             color: var(--primary-color);
@@ -223,7 +224,7 @@
             font-weight: 600;
         }
 
-        /* Referral System Styles */
+        /* Referral System Styles (New) */
         .referral-box {
             background-color: var(--referral-bg);
             max-width: 700px;
@@ -277,7 +278,7 @@
             color: var(--secondary-color);
             font-weight: 600;
             margin-top: 15px;
-            display: none; 
+            display: none; /* Initially hidden */
         }
 
 
@@ -311,9 +312,9 @@
         .side-menu a i { margin-right: 15px; color: var(--secondary-color); } 
         .side-menu .close-btn { position: absolute; top: 15px; right: 25px; font-size: 36px; color: #eeeeee; cursor: pointer; background: none; border: none; }
         
-        /* Side Menu Logout Button */
+        /* 🟢 Side Menu Logout Button */
         .side-menu .logout-btn-side {
-            background-color: var(--error-color); 
+            background-color: #f44336; 
             margin: 20px 25px; 
             display: block; 
             text-align: center;
@@ -337,26 +338,45 @@
             display: none; 
         }
 
-        /* --- RESPONSIVENESS --- */
-        @media (min-width: 769px) {
-            
-            .open-btn { display: none; }
-            nav { display: block; }
+        /* --- MOBILE-ONLY OPTIMIZATION --- */
+        /* සෑම තිර ප්‍රමාණයකදීම ජංගම දුරකථන පෙනුම පවත්වා ගැනීම */
+        @media (min-width: 1px) {
+            /* Desktop Navigation Bar එක සහ User Auth Area එක සඟවයි */
+            nav, .user-auth-area { 
+                display: none !important; 
+            }
+            /* Side Menu Open Button එක සෑම විටම පෙන්වයි */
+            .open-btn { 
+                display: block !important; 
+                position: absolute; /* Fixed වෙනුවට absolute දාන්නේ header එක ඇතුලට ඒම සඳහායි */
+            }
+            /* Header එකේ mobile responsive styles තහවුරු කරයි */
+            header { 
+                flex-direction: column; 
+                padding: 15px; 
+                text-align: center; 
+                /* Fixed button නිසා logo එකත් එක්ක ගැටීම වැළක්වීමට */
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+            .logo {
+                margin-right: auto;
+            }
+            /* Fixed Open Button එකට ඉඩ දීමට Header එකේ Padding එක වැඩි කරයි */
+            header {
+                padding-right: 80px; /* Open Button එකේ ප්‍රමාණයට ඉඩක් තබයි */
+            }
         }
 
+        /* 768px සහ ඊට අඩු තිර සඳහා තිබූ සැකසීම් එලෙසම තබයි. */
         @media (max-width: 768px) {
-            header { flex-direction: column; padding: 15px; text-align: center; }
-            nav, .user-auth-area { display: none; } 
-            .open-btn { display: block; } 
             .hero h1 { font-size: 3em; }
             .hero p { font-size: 1.2em; }
             .stat-box, .plan-card { width: 90%; }
             .stat-container, .plan-container { flex-direction: column; align-items: center; gap: 20px; }
-            .stats, .plans, .faq, .referral { padding: 40px 5%; } 
+            .stats, .plans, .faq, .referral { padding: 40px 5%; }
             .link-container { flex-direction: column; }
             .copy-btn { width: 100%; }
-            
-            /* Mobile එකේදී Header එකේ user-info පෙන්වන්න එපා */
             .user-info { display: none !important; } 
         }
     </style>
@@ -367,13 +387,11 @@
 
     <div id="mySideMenu" class="side-menu">
         <button class="close-btn" onclick="toggleNav()">&times;</button> 
-        <h2>Welcome, <span id="side-user-display-name">Loading...</span></h2> 
-        <a href="#dashboard"><i class="fas fa-chart-line"></i> Mining Stats</a>
+        <h2>Welcome, <span id="side-user-display-name">Loading...</span></h2> <a href="#dashboard"><i class="fas fa-chart-line"></i> Mining Stats</a>
         <a href="#plans"><i class="fas fa-shopping-cart"></i> Buy Hash Rate</a>
         <a href="#"><i class="fas fa-wallet"></i> Withdraw XRP</a>
         <a href="#"><i class="fas fa-history"></i> Transaction History</a>
-        <a href="#referral"><i class="fas fa-users"></i> Referral Program</a> 
-        <a href="#"><i class="fas fa-cog"></i> Settings & Security</a>
+        <a href="#referral"><i class="fas fa-users"></i> Referral Program</a> <a href="#"><i class="fas fa-cog"></i> Settings & Security</a>
         <button onclick="logout()" class="logout-btn-side"><i class="fas fa-sign-out-alt"></i> Log Out</button> 
     </div>
 
@@ -382,8 +400,7 @@
         <nav>
             <a href="#dashboard">Dashboard</a>
             <a href="#plans">Plans</a>
-            <a href="#referral">Referral</a> 
-            <a href="#faq">FAQ</a>
+            <a href="#referral">Referral</a> <a href="#faq">FAQ</a>
             <a href="#contact">Contact</a>
         </nav>
         <div class="user-auth-area">
@@ -393,8 +410,7 @@
     </header>
 
     <section class="hero">
-        <h1>Welcome Back, <span id="hero-user-display-name" style="color: var(--secondary-color);">Miner</span>!</h1> 
-        <p>Your personalized mining dashboard is ready.</p>
+        <h1>Welcome Back, <span id="hero-user-display-name" style="color: var(--secondary-color);">Miner</span>!</h1> <p>Your personalized mining dashboard is ready.</p>
     </section>
 
     <section id="dashboard" class="stats">
@@ -413,28 +429,11 @@
                 <p class="value" id="estimated-daily-income">$0.00</p>
             </div>
         </div>
-        
-        <div style="margin-top: 50px;">
-            <button id="start-free-mine-btn" class="copy-btn" style="background-color: var(--accent-color); padding: 15px 40px; font-size: 1.2em; border-radius: 10px; display: block; margin: 0 auto;">
-                <i class="fas fa-play-circle"></i> START FREE 10-DAY MINING 
-            </button>
-            <p id="mining-status" style="margin-top: 15px; font-size: 1.1em; font-weight: 600; color: #4CAF50; display: none;">
-                <i class="fas fa-spinner fa-spin"></i> Mining is Active! Expires in 10 days (Daily 1.00 XRP).
-            </p>
-        </div>
     </section>
 
     <section id="plans" class="plans">
         <h2>SELECT YOUR CONTRACT</h2>
         <div class="plan-container">
-            <div class="plan-card" style="border: 3px solid var(--accent-color); background: linear-gradient(145deg, #2c2c2c, #212121);">
-                <h3>FREE TRIAL (10 Days)</h3>
-                <p>Hash Rate: **50 MH/s**</p>
-                <p>Price: **FREE**</p>
-                <p>Duration: 10 Days (Total 10 XRP)</p>
-                <p style="color: var(--secondary-color); font-weight: 700;">Daily XRP: **1.00 XRP**</p>
-                <button id="activate-free-plan-btn" style="background-color: var(--accent-color); margin-top: 10px;">ACTIVATE FREE <i class="fas fa-hand-holding-usd"></i></button>
-            </div>
             <div class="plan-card">
                 <h3>BRONZE (6 Mo)</h3>
                 <p>Hash Rate: **10 MH/s**</p>
@@ -474,8 +473,7 @@
     <section id="referral" class="referral">
         <h2>REFERRAL PROGRAM</h2>
         <div class="referral-box">
-            <h3><i class="fas fa-handshake"></i> Invite & Earn (<span id="total-referrals">0</span> Total Referrals)</h3> 
-            <p>Share your unique link and earn **10% commission** on every plan purchase made by your referrals!</p>
+            <h3><i class="fas fa-handshake"></i> Invite & Earn (<span id="total-referrals">0</span> Total Referrals)</h3> <p>Share your unique link and earn **10% commission** on every plan purchase made by your referrals!</p>
             
             <div class="link-container">
                 <input type="text" id="referralLink" value="Loading your unique referral link..." readonly> 
@@ -488,7 +486,6 @@
             <div id="copy-feedback">Link Copied!</div>
         </div>
     </section>
-    
     <footer id="contact">
         <p>Contact Us: support@xrpminepro.com</p>
         <p>&copy; 2025 XRP Mine Pro. High-Contrast Solutions.</p>
@@ -514,67 +511,20 @@
         const db = firebase.firestore(); 
 
         // -----------------------------------------------------------
-        // 🟢 Free Mining Plan Constants
-        // -----------------------------------------------------------
-        const FREE_HASH_RATE = 50.00; // 50 MH/s
-        const FREE_XRP_PER_DAY = 1.00; // දින 10ක් සඳහා 10 XRP
-        const FREE_EST_DAILY_INCOME = 0.50; // 1.00 XRP හි දළ ඩොලර් අගය
-        
-        let isFreeMiningActive = false; 
-
-        // -----------------------------------------------------------
-        // Dashboard Metrics Update Function (දත්ත ගබඩාවෙන් දත්ත ලබාගෙන යාවත්කාලීන කරයි)
-        // -----------------------------------------------------------
-        function updateDashboardMetrics(data) {
-            const currentBalance = data.balance || 0.00;
-            let totalHashRate = data.totalHashRate || 0.00;
-            let estimatedDailyIncome = data.estimatedDailyIncome || 0.00;
-            let totalXRP = data.totalXRP || 0.00; 
-            
-            isFreeMiningActive = data.isFreeActive === true; 
-
-            if (isFreeMiningActive) {
-                // Free Plan එකේ Hash Rate එක සහ Estimated Income එක එකතු කිරීම
-                totalHashRate += FREE_HASH_RATE;
-                estimatedDailyIncome += FREE_EST_DAILY_INCOME; 
-                
-                // ඩෑෂ්බෝඩ් එකේ පෙන්වන දත්ත යාවත්කාලීන කිරීම
-                document.getElementById('current-balance').textContent = (currentBalance + totalXRP).toFixed(4) + ' XRP';
-                document.getElementById('total-hash-rate').textContent = (totalHashRate).toFixed(2) + ' MH/s';
-                document.getElementById('estimated-daily-income').textContent = '$' + (estimatedDailyIncome).toFixed(2);
-                
-                // බොත්තම සහ තත්ත්වය යාවත්කාලීන කිරීම
-                document.getElementById('start-free-mine-btn').style.display = 'none';
-                document.getElementById('mining-status').style.display = 'block';
-
-            } else {
-                // මූලික දත්ත පෙන්වීම
-                document.getElementById('current-balance').textContent = (currentBalance).toFixed(4) + ' XRP';
-                document.getElementById('total-hash-rate').textContent = (totalHashRate).toFixed(2) + ' MH/s';
-                document.getElementById('estimated-daily-income').textContent = '$' + (estimatedDailyIncome).toFixed(2);
-
-                // බොත්තම පෙන්වීම
-                document.getElementById('start-free-mine-btn').style.display = 'block';
-                document.getElementById('mining-status').style.display = 'none';
-            }
-            
-            // Referral count update
-            document.getElementById('total-referrals').textContent = data.referrals || 0;
-        }
-
-
-        // -----------------------------------------------------------
-        // 🔑 Auth State Listener (ලොග් වී ඇතිදැයි පරීක්ෂා කිරීම)
+        // 🔑 Auth State Listener: ආරක්ෂක පරීක්ෂාව සහ පුද්ගලික දත්ත ලබා ගැනීම
+        // ⚠️ මෙහිදී ඊමේල් සත්‍යාපන පරීක්ෂාව සහ reload() එක් කර ඇත.
         // -----------------------------------------------------------
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
+                console.log("User not logged in. Redirecting to login page.");
                 window.location.href = "register.html"; 
                 return;
             }
 
+            // 🟢 නව කේතය: Firebase වෙතින් නවතම තත්ත්වය නැවත ලබා ගනී
             try {
                 await user.reload(); 
-                user = auth.currentUser; 
+                user = auth.currentUser; // යාවත්කාලීන කළ user වස්තුව නැවත ලබා ගනී
             } catch (error) {
                 console.error("Failed to reload user state:", error);
                 await auth.signOut();
@@ -582,33 +532,43 @@
                 return;
             }
 
+            // 🟢 නව කේතය: ඊමේල් සත්‍යාපන තත්ත්වය පරීක්ෂා කිරීම
             if (!user.emailVerified) {
+                console.log("User email not verified after reload. Redirecting for verification.");
                 await auth.signOut();
                 window.location.href = "register.html";
                 return;
             }
 
-            // User Info යාවත්කාලීන කරන්න
+
+            // 1. HTML හි මූලික User Info යාවත්කාලීන කරන්න
             const userName = user.displayName || 'Miner';
             document.getElementById('header-user-display-name').textContent = userName;
             document.getElementById('hero-user-display-name').textContent = userName;
             document.getElementById('side-user-display-name').textContent = userName;
 
-            // Firestore වෙතින් පුද්ගලික දත්ත ලබා ගන්න
+            // 2. 🟢 Firestore වෙතින් පුද්ගලික දත්ත ලබා ගන්න (User ID = user.uid)
             try {
                 const userDoc = await db.collection("users").doc(user.uid).get();
                 
                 if (userDoc.exists) {
                     const data = userDoc.data();
-                    updateDashboardMetrics(data);
+
+                    // Dashboard හි දත්ත යාවත්කාලීන කිරීම (toFixed() මඟින් දශම ස්ථාන ගණන සකසයි)
+                    document.getElementById('current-balance').textContent = (data.balance || 0.00).toFixed(4) + ' XRP';
+                    document.getElementById('total-hash-rate').textContent = (data.totalHashRate || 0.00).toFixed(2) + ' MH/s';
+                    document.getElementById('estimated-daily-income').textContent = '$' + (data.estimatedDailyIncome || 0.00).toFixed(2);
                     
-                    // Referral Link එක සකස් කිරීම
+                    document.getElementById('total-referrals').textContent = data.referrals || 0;
+                    
+                    // Referral Link එක පුද්ගලීකරණය කිරීම
                     const referralLinkInput = document.getElementById("referralLink");
                     const referralCode = data.referralCode || user.uid.substring(0, 8); 
                     referralLinkInput.value = `https://suwahassathsarachandrasiri.github.io/suwahaswebsite.github.io/register.html?ref=${referralCode}`; 
                     
                 } else {
                     console.warn("User data not found in Firestore! Forcing logout.");
+                    alert("Account data is incomplete. Please log in again.");
                     auth.signOut(); 
                 }
 
@@ -617,63 +577,6 @@
                 auth.signOut();
             }
         });
-
-        // -----------------------------------------------------------
-        // 🟢 Free Mining Activation Logic (Backend Logic කැඳවීම)
-        // -----------------------------------------------------------
-        document.addEventListener('DOMContentLoaded', () => {
-            const activateBtn = document.getElementById('activate-free-plan-btn');
-            const startBtn = document.getElementById('start-free-mine-btn');
-
-            if (activateBtn) {
-                activateBtn.addEventListener('click', () => {
-                    startBtn.click();
-                });
-            }
-
-            // Start Mining බොත්තම එබූ විට
-            if (startBtn) {
-                startBtn.addEventListener('click', async () => {
-                    if (isFreeMiningActive) {
-                        alert("Free mining is already active!");
-                        return;
-                    }
-
-                    const user = auth.currentUser;
-                    if (!user) return;
-
-                    try {
-                        // 1. Firebase Firestore හි දත්ත යාවත්කාලීන කිරීම:
-                        // මෙය සැබෑ පසුබිම (Backend) ක්‍රියාවලියක් අනුකරණය කරයි.
-                        await db.collection("users").doc(user.uid).update({
-                            isFreeActive: true, 
-                            // දින 10කට පසුව කල් ඉකුත් වන දිනය සටහන් කිරීම
-                            freeMineExpiry: firebase.firestore.Timestamp.fromDate(new Date(Date.now() + 10 * 24 * 60 * 60 * 1000)), 
-                            // Hash Rate එකතු කිරීම (50 MH/s)
-                            totalHashRate: firebase.firestore.FieldValue.increment(FREE_HASH_RATE),
-                            // මයිනින් ආරම්භ කිරීමේදී දින 1ක XRP ශේෂයට එකතු කිරීම (1.00 XRP)
-                            totalXRP: firebase.firestore.FieldValue.increment(FREE_XRP_PER_DAY) 
-                        });
-
-                        // 2. දැනුම් දීම සහ දේශීය තත්ත්වය යාවත්කාලීන කිරීම
-                        alert(`FREE 10-DAY Mining Started! You will receive ${FREE_XRP_PER_DAY.toFixed(2)} XRP per day (Total 10 XRP).`);
-                        isFreeMiningActive = true; 
-                        
-                        // 3. ඩෑෂ්බෝඩ් එක නැවත යාවත්කාලීන කිරීම
-                        const userDoc = await db.collection("users").doc(user.uid).get();
-                        if (userDoc.exists) {
-                            const updatedData = userDoc.data();
-                            updateDashboardMetrics(updatedData); 
-                        }
-
-                    } catch (error) {
-                        console.error("Error activating free plan:", error);
-                        alert("Could not start free mining. Please check your connection and try again.");
-                    }
-                });
-            }
-        });
-
 
         // -----------------------------------------------------------
         // 🚪 Logout Functionality
@@ -694,6 +597,7 @@
             sideMenu.classList.toggle('open');
         }
 
+        // Referral System JavaScript Function (copyReferralLink) 
         function copyReferralLink() {
             const referralLinkInput = document.getElementById("referralLink");
             const feedback = document.getElementById("copy-feedback");
