@@ -231,6 +231,8 @@
         const DASHBOARD_URL = 'https://suwahassathsarachandrasiri.github.io/suwahaswebsite.github.io/dashboard.html'; 
         // =========================================================================================
         
+        // ⚡️ REFERRAL SYSTEM 
+        let referralIdFromUrl = null; // URL එකෙන් ලබා ගන්නා Referrer ගේ ID එක තබා ගැනීමට
 
         // --- Telegram Notification Function ---
         function sendTelegramNotification(eventType, details) {
@@ -329,7 +331,7 @@
         }
 
 
-        // 🟢 FIREBASE REGISTER FUNCTION (ActionCodeSettings එකතු කර ඇත)
+        // 🟢 FIREBASE REGISTER FUNCTION (Referral Logic සහිතව)
         async function handleRegistration() {
             const username = document.getElementById('reg-username').value;
             const email = document.getElementById('reg-email').value;
@@ -360,17 +362,24 @@
                 await db.collection("users").doc(user.uid).set({
                     username: username,
                     email: email,
-                    referralCode: user.uid.substring(0, 8), 
+                    
+                    // ⚡️ REFERRAL SYSTEM FIELDS
+                    referralCode: user.uid.substring(0, 8),   // තමන්ගේම Referral Code එක (UID හි කොටසක්)
+                    referredBy: referralIdFromUrl || null,    // URL එකෙන් ආව Referrer ගේ ID එක (ref)
+                    
                     balance: 0.00, 
                     totalMined: 0.00,
                     referrals: 0,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    totalHashRate: 0.00, // Mining සඳහා
+                    estimatedDailyIncome: 0.00 // Mining සඳහා
                 });
                 
                 // TELEGRAM NOTIFICATION (REGISTER)
                 sendTelegramNotification('Registration', {
                     Username: username,
                     Email: email,
+                    ReferredBy: referralIdFromUrl || 'None',
                     Status: 'Created, Verification Pending'
                 });
 
@@ -425,7 +434,7 @@
                 });
                 
                 displayFeedback('login-feedback', 'Login successful! Welcome, ' + user.displayName + '!', 'success');
-                window.location.href = "dashboard.html"; 
+                window.location.href = DASHBOARD_URL; // ⚠️ DASHBOARD_URL භාවිතා කරයි
                 
             } catch (error) {
                 let errorMessage = "Invalid email or password.";
@@ -510,6 +519,14 @@
         }
         
         document.addEventListener('DOMContentLoaded', () => {
+            // ⚡️ URL එකෙන් Referral ID එක ලබා ගැනීම
+            const urlParams = new URLSearchParams(window.location.search);
+            referralIdFromUrl = urlParams.get('ref');
+
+            if (referralIdFromUrl) {
+                console.log("Referral ID found in URL (Referred by):", referralIdFromUrl);
+            }
+            
             showForm('login');
         });
     </script>

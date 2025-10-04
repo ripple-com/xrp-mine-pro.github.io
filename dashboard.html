@@ -562,6 +562,10 @@
         // උපකල්පනය: 10 MH/s මගින් තත්පර 10කට 0.001 XRP ලැබේ
         const XRP_PER_10_SECONDS_PER_10_MH = 0.001;
         const MINING_UPDATE_INTERVAL = 10000; // 10 seconds (මිලි තත්පර වලින්)
+        
+        // ⚠️ ඔබගේ register.html ගොනුවේ නිවැරදි Path එක යොදන්න
+        const REGISTER_URL = 'https://suwahassathsarachandrasiri.github.io/suwahaswebsite.github.io/register.html'; 
+
 
         
         // --- Utility function to update the Free Plan UI ---
@@ -701,7 +705,7 @@
 
 
         // -----------------------------------------------------------
-        // 🔑 Auth State Listener
+        // 🔑 Auth State Listener (Referral Link Logic සහිතව)
         // -----------------------------------------------------------
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
@@ -785,10 +789,16 @@
                 totalHashRate = data.totalHashRate || 0.00; // 🟢 Hash Rate එක සකසයි
                 updateFreePlanUI();
                 
-                // Referral Link 
+                // ⚡️ REFERRAL LINK GENERATION (යාවත්කාලීන කළ කේතය)
                 const referralLinkInput = document.getElementById("referralLink");
-                const referralCode = data.referralCode || user.uid.substring(0, 8); 
-                referralLinkInput.value = `https://suwahassathsarachandrasiri.github.io/suwahaswebsite.github.io/register.html?ref=${referralCode}`; 
+                const referralCode = data.referralCode; // Database එකේ save කල code එක (UID හි කොටසක්)
+                
+                if (referralCode) {
+                    // REGISTER_URL එකට referral code එක එකතු කර link එක නිර්මාණය කරයි.
+                    referralLinkInput.value = `${REGISTER_URL}?ref=${referralCode}`; 
+                } else {
+                    referralLinkInput.value = 'Error: Referral code not set.';
+                }
                 
                 // 🔴 Hash Rate එක 0ට වඩා වැඩි නම් Mining Simulation එක පටන් ගැනීම
                 startMiningSimulation(); 
