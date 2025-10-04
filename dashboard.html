@@ -382,8 +382,8 @@
             }
             /* Side Menu Open Button එක සෑම විටම පෙන්වයි */
             .open-btn { 
+                position: absolute; /* Header එක ඇතුලට ඒම සඳහා */
                 display: block !important; 
-                position: absolute; /* Fixed වෙනුවට absolute දාන්නේ header එක ඇතුලට ඒම සඳහායි */
             }
             /* Header එකේ mobile responsive styles තහවුරු කරයි */
             header { 
@@ -472,7 +472,7 @@
             
             <div class="plan-card free-plan" id="free-plan-card">
                 <h3><i class="fas fa-gift"></i> FREE STARTER (Trial)</h3>
-                <p>Hash Rate: **1.00 MH/s**</p>
+                <p>Hash Rate: **50.00 MH/s**</p> 
                 <p>Price: **$0.00 (FREE)**</p>
                 <p>Duration: 30 Days Trial</p>
                 <button id="free-plan-btn" onclick="activateFreePlan()">ACTIVATE FREE PLAN <i class="fas fa-rocket"></i></button>
@@ -555,7 +555,8 @@
         
         // 🟢 Free Plan ගිණුම සක්‍රිය කර ඇත්දැයි පරීක්ෂා කිරීමට ගෝලීය විචල්‍යයකි.
         let isFreePlanActive = false;
-        const FREE_PLAN_HASH_RATE = 1.00; // MH/s
+        // 🔴 Hash Rate අගය 50.00 MH/s ලෙස යාවත්කාලීන කර ඇත.
+        const FREE_PLAN_HASH_RATE = 50.00; // MH/s 
 
         // --- Utility function to update the Free Plan UI ---
         function updateFreePlanUI() {
@@ -599,7 +600,7 @@
             }
 
             // Confirm action
-            if (!confirm("Are you sure you want to activate the Free Starter Plan (1.00 MH/s)?")) {
+            if (!confirm(`Are you sure you want to activate the Free Starter Plan (${FREE_PLAN_HASH_RATE.toFixed(2)} MH/s)?`)) {
                 return;
             }
 
