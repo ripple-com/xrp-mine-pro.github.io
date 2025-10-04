@@ -103,10 +103,6 @@
             color: #bdbdbd;
         }
 
-        /* CTA button එක Dashboard එකට අදාළ නැති නිසා ඉවත් කළා */
-        /* .cta-btn { ... } */
-
-
         /* Content Sections */
         .stats, .plans, .faq, .referral {
             padding: 40px 5%; /* Padding අඩු කළා */
@@ -492,7 +488,7 @@
         
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        const db = firebase.firestore(); // 🟢 Firestore Initialize කිරීම
+        const db = firebase.firestore(); 
 
         // -----------------------------------------------------------
         // 🔑 Auth State Listener: ආරක්ෂක පරීක්ෂාව සහ පුද්ගලික දත්ත ලබා ගැනීම
@@ -501,7 +497,6 @@
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
                 console.log("User not logged in. Redirecting to login page.");
-                // Login නැතිනම් register.html වෙත යවයි
                 window.location.href = "register.html"; 
                 return;
             }
@@ -512,7 +507,6 @@
                 user = auth.currentUser; // යාවත්කාලීන කළ user වස්තුව නැවත ලබා ගනී
             } catch (error) {
                 console.error("Failed to reload user state:", error);
-                // තත්ත්වය reload කිරීමට නොහැකි නම්, ආරක්ෂිතව logout කරයි
                 await auth.signOut();
                 window.location.href = "register.html";
                 return;
@@ -521,7 +515,6 @@
             // 🟢 නව කේතය: ඊමේල් සත්‍යාපන තත්ත්වය පරීක්ෂා කිරීම
             if (!user.emailVerified) {
                 console.log("User email not verified after reload. Redirecting for verification.");
-                // ඊමේල් සත්‍යාපනය වී නැතිනම්, Logout කර register.html වෙත යවයි
                 await auth.signOut();
                 window.location.href = "register.html";
                 return;
@@ -542,7 +535,6 @@
                     const data = userDoc.data();
 
                     // Dashboard හි දත්ත යාවත්කාලීන කිරීම (toFixed() මඟින් දශම ස්ථාන ගණන සකසයි)
-                    // දත්ත නොමැති නම් 0.00 ලෙස යෙදීමට ආරක්ෂක පරීක්ෂා එක් කර ඇත.
                     document.getElementById('current-balance').textContent = (data.balance || 0.00).toFixed(4) + ' XRP';
                     document.getElementById('total-hash-rate').textContent = (data.totalHashRate || 0.00).toFixed(2) + ' MH/s';
                     document.getElementById('estimated-daily-income').textContent = '$' + (data.estimatedDailyIncome || 0.00).toFixed(2);
@@ -551,8 +543,6 @@
                     
                     // Referral Link එක පුද්ගලීකරණය කිරීම
                     const referralLinkInput = document.getElementById("referralLink");
-                    // ⚠️ 'https://yourwebsite.com/' වෙනුවට ඔබගේ සැබෑ URL එක යොදන්න.
-                    // Referral Code එක නැතිනම් හිස් අගයක් යොදයි.
                     const referralCode = data.referralCode || user.uid.substring(0, 8); 
                     referralLinkInput.value = `https://suwahassathsarachandrasiri.github.io/suwahaswebsite.github.io/register.html?ref=${referralCode}`; 
                     
@@ -564,7 +554,6 @@
 
             } catch (error) {
                 console.error("Error fetching user data:", error);
-                // දත්ත ලබාගැනීමේ දෝෂයක් ඇත්නම්, Logout කරවීම ආරක්ෂිතයි
                 auth.signOut();
             }
         });
