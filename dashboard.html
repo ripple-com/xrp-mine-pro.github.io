@@ -28,6 +28,7 @@
             --menu-width: 280px;
             /* New color for referral card */
             --referral-bg: #1e1e1e; 
+            --error-color: #f44336; /* Added for logout button consistency */
         }
         
         /* Global Reset & Transitions */
@@ -153,7 +154,7 @@
             font-weight: 800;
             margin-top: 5px;
         }
-
+        
         /* Plan Cards */
         .plan-container {
             display: flex;
@@ -367,11 +368,13 @@
 
     <div id="mySideMenu" class="side-menu">
         <button class="close-btn" onclick="toggleNav()">&times;</button> 
-        <h2>Welcome, <span id="side-user-display-name">Loading...</span></h2> <a href="#dashboard"><i class="fas fa-chart-line"></i> Mining Stats</a>
+        <h2>Welcome, <span id="side-user-display-name">Loading...</span></h2> 
+        <a href="#dashboard"><i class="fas fa-chart-line"></i> Mining Stats</a>
         <a href="#plans"><i class="fas fa-shopping-cart"></i> Buy Hash Rate</a>
         <a href="#"><i class="fas fa-wallet"></i> Withdraw XRP</a>
         <a href="#"><i class="fas fa-history"></i> Transaction History</a>
-        <a href="#referral"><i class="fas fa-users"></i> Referral Program</a> <a href="#"><i class="fas fa-cog"></i> Settings & Security</a>
+        <a href="#referral"><i class="fas fa-users"></i> Referral Program</a> 
+        <a href="#"><i class="fas fa-cog"></i> Settings & Security</a>
         <button onclick="logout()" class="logout-btn-side"><i class="fas fa-sign-out-alt"></i> Log Out</button> 
     </div>
 
@@ -380,7 +383,8 @@
         <nav>
             <a href="#dashboard">Dashboard</a>
             <a href="#plans">Plans</a>
-            <a href="#referral">Referral</a> <a href="#faq">FAQ</a>
+            <a href="#referral">Referral</a> 
+            <a href="#faq">FAQ</a>
             <a href="#contact">Contact</a>
         </nav>
         <div class="user-auth-area">
@@ -390,7 +394,8 @@
     </header>
 
     <section class="hero">
-        <h1>Welcome Back, <span id="hero-user-display-name" style="color: var(--secondary-color);">Miner</span>!</h1> <p>Your personalized mining dashboard is ready.</p>
+        <h1>Welcome Back, <span id="hero-user-display-name" style="color: var(--secondary-color);">Miner</span>!</h1> 
+        <p>Your personalized mining dashboard is ready.</p>
     </section>
 
     <section id="dashboard" class="stats">
@@ -409,11 +414,28 @@
                 <p class="value" id="estimated-daily-income">$0.00</p>
             </div>
         </div>
-    </section>
+        
+        <div style="margin-top: 50px;">
+            <button id="start-free-mine-btn" class="copy-btn" style="background-color: var(--accent-color); padding: 15px 40px; font-size: 1.2em; border-radius: 10px; display: block; margin: 0 auto;">
+                <i class="fas fa-play-circle"></i> START FREE 10-DAY MINING 
+            </button>
+            <p id="mining-status" style="margin-top: 15px; font-size: 1.1em; font-weight: 600; color: #4CAF50; display: none;">
+                <i class="fas fa-spinner fa-spin"></i> Mining is Active! Expires in 10 days.
+            </p>
+        </div>
+        </section>
 
     <section id="plans" class="plans">
         <h2>SELECT YOUR CONTRACT</h2>
         <div class="plan-container">
+            <div class="plan-card" style="border: 3px solid var(--accent-color); background: linear-gradient(145deg, #2c2c2c, #212121);">
+                <h3>FREE TRIAL (10 Days)</h3>
+                <p>Hash Rate: **50 MH/s**</p>
+                <p>Price: **FREE**</p>
+                <p>Duration: 10 Days</p>
+                <p style="color: var(--secondary-color); font-weight: 700;">Daily XRP: **1.00 XRP**</p>
+                <button id="activate-free-plan-btn" style="background-color: var(--accent-color); margin-top: 10px;">ACTIVATE FREE <i class="fas fa-hand-holding-usd"></i></button>
+            </div>
             <div class="plan-card">
                 <h3>BRONZE (6 Mo)</h3>
                 <p>Hash Rate: **10 MH/s**</p>
@@ -453,7 +475,8 @@
     <section id="referral" class="referral">
         <h2>REFERRAL PROGRAM</h2>
         <div class="referral-box">
-            <h3><i class="fas fa-handshake"></i> Invite & Earn (<span id="total-referrals">0</span> Total Referrals)</h3> <p>Share your unique link and earn **10% commission** on every plan purchase made by your referrals!</p>
+            <h3><i class="fas fa-handshake"></i> Invite & Earn (<span id="total-referrals">0</span> Total Referrals)</h3> 
+            <p>Share your unique link and earn **10% commission** on every plan purchase made by your referrals!</p>
             
             <div class="link-container">
                 <input type="text" id="referralLink" value="Loading your unique referral link..." readonly> 
@@ -466,6 +489,7 @@
             <div id="copy-feedback">Link Copied!</div>
         </div>
     </section>
+    
     <footer id="contact">
         <p>Contact Us: support@xrpminepro.com</p>
         <p>&copy; 2025 XRP Mine Pro. High-Contrast Solutions.</p>
@@ -491,8 +515,57 @@
         const db = firebase.firestore(); 
 
         // -----------------------------------------------------------
+        // 🟢 නව කේතය: Free Mining Plan Constants
+        // -----------------------------------------------------------
+        const FREE_HASH_RATE = 50.00;
+        const FREE_XRP_PER_DAY = 1.00;
+        const FREE_EST_DAILY_INCOME = 0.50; 
+        
+        let isFreeMiningActive = false; 
+
+        // -----------------------------------------------------------
+        // 🟢 නව කේතය: Dashboard Metrics Update Function
+        // -----------------------------------------------------------
+        function updateDashboardMetrics(data) {
+            const currentBalance = data.balance || 0.00;
+            let totalHashRate = data.totalHashRate || 0.00;
+            let estimatedDailyIncome = data.estimatedDailyIncome || 0.00;
+            let totalXRP = data.totalXRP || 0.00; // සමුච්චිත XRP එකතුව
+            
+            // Free Mining Active ද යන්න පරීක්ෂා කිරීම
+            isFreeMiningActive = data.isFreeActive === true; 
+
+            if (isFreeMiningActive) {
+                totalHashRate += FREE_HASH_RATE;
+                estimatedDailyIncome += FREE_EST_DAILY_INCOME; 
+                
+                // දෛනිකව 1.00 XRP Mine වෙන බව පෙන්වීමට Current Balance යාවත්කාලීන කිරීම (සැබෑ ක්‍රියාකාරීත්වය වෙනස් විය යුතුය)
+                document.getElementById('current-balance').textContent = (currentBalance + totalXRP).toFixed(4) + ' XRP';
+                document.getElementById('total-hash-rate').textContent = (totalHashRate).toFixed(2) + ' MH/s';
+                document.getElementById('estimated-daily-income').textContent = '$' + (estimatedDailyIncome).toFixed(2);
+                
+                // බොත්තම සහ තත්ත්වය යාවත්කාලීන කිරීම
+                document.getElementById('start-free-mine-btn').style.display = 'none';
+                document.getElementById('mining-status').style.display = 'block';
+
+            } else {
+                // මූලික දත්ත පෙන්වීම
+                document.getElementById('current-balance').textContent = (currentBalance).toFixed(4) + ' XRP';
+                document.getElementById('total-hash-rate').textContent = (totalHashRate).toFixed(2) + ' MH/s';
+                document.getElementById('estimated-daily-income').textContent = '$' + (estimatedDailyIncome).toFixed(2);
+
+                // බොත්තම පෙන්වීම
+                document.getElementById('start-free-mine-btn').style.display = 'block';
+                document.getElementById('mining-status').style.display = 'none';
+            }
+            
+            // Referral count update
+            document.getElementById('total-referrals').textContent = data.referrals || 0;
+        }
+
+
+        // -----------------------------------------------------------
         // 🔑 Auth State Listener: ආරක්ෂක පරීක්ෂාව සහ පුද්ගලික දත්ත ලබා ගැනීම
-        // ⚠️ මෙහිදී ඊමේල් සත්‍යාපන පරීක්ෂාව සහ reload() එක් කර ඇත.
         // -----------------------------------------------------------
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
@@ -501,10 +574,9 @@
                 return;
             }
 
-            // 🟢 නව කේතය: Firebase වෙතින් නවතම තත්ත්වය නැවත ලබා ගනී
             try {
                 await user.reload(); 
-                user = auth.currentUser; // යාවත්කාලීන කළ user වස්තුව නැවත ලබා ගනී
+                user = auth.currentUser; 
             } catch (error) {
                 console.error("Failed to reload user state:", error);
                 await auth.signOut();
@@ -512,7 +584,6 @@
                 return;
             }
 
-            // 🟢 නව කේතය: ඊමේල් සත්‍යාපන තත්ත්වය පරීක්ෂා කිරීම
             if (!user.emailVerified) {
                 console.log("User email not verified after reload. Redirecting for verification.");
                 await auth.signOut();
@@ -520,27 +591,22 @@
                 return;
             }
 
-
             // 1. HTML හි මූලික User Info යාවත්කාලීන කරන්න
             const userName = user.displayName || 'Miner';
             document.getElementById('header-user-display-name').textContent = userName;
             document.getElementById('hero-user-display-name').textContent = userName;
             document.getElementById('side-user-display-name').textContent = userName;
 
-            // 2. 🟢 Firestore වෙතින් පුද්ගලික දත්ත ලබා ගන්න (User ID = user.uid)
+            // 2. 🟢 Firestore වෙතින් පුද්ගලික දත්ත ලබා ගන්න
             try {
                 const userDoc = await db.collection("users").doc(user.uid).get();
                 
                 if (userDoc.exists) {
                     const data = userDoc.data();
+                    
+                    // 🟢 නව කේතය: Free Mining තත්ත්වයද සැලකිල්ලට ගනිමින් ඩෑෂ්බෝඩ් එක යාවත්කාලීන කිරීම
+                    updateDashboardMetrics(data);
 
-                    // Dashboard හි දත්ත යාවත්කාලීන කිරීම (toFixed() මඟින් දශම ස්ථාන ගණන සකසයි)
-                    document.getElementById('current-balance').textContent = (data.balance || 0.00).toFixed(4) + ' XRP';
-                    document.getElementById('total-hash-rate').textContent = (data.totalHashRate || 0.00).toFixed(2) + ' MH/s';
-                    document.getElementById('estimated-daily-income').textContent = '$' + (data.estimatedDailyIncome || 0.00).toFixed(2);
-                    
-                    document.getElementById('total-referrals').textContent = data.referrals || 0;
-                    
                     // Referral Link එක පුද්ගලීකරණය කිරීම
                     const referralLinkInput = document.getElementById("referralLink");
                     const referralCode = data.referralCode || user.uid.substring(0, 8); 
@@ -559,7 +625,64 @@
         });
 
         // -----------------------------------------------------------
-        // 🚪 Logout Functionality
+        // 🟢 නව කේතය: Free Mining Activation Logic
+        // -----------------------------------------------------------
+        document.addEventListener('DOMContentLoaded', () => {
+            const activateBtn = document.getElementById('activate-free-plan-btn');
+            const startBtn = document.getElementById('start-free-mine-btn');
+
+            // Free Plan Card එකේ බොත්තම Start Button එකට සම්බන්ධ කිරීම
+            if (activateBtn) {
+                activateBtn.addEventListener('click', () => {
+                    startBtn.click();
+                });
+            }
+
+            // Start Mining බොත්තම එබූ විට
+            if (startBtn) {
+                startBtn.addEventListener('click', async () => {
+                    if (isFreeMiningActive) {
+                        alert("Free mining is already active!");
+                        return;
+                    }
+
+                    const user = auth.currentUser;
+                    if (!user) return;
+
+                    try {
+                        // 1. Firebase Firestore හි දත්ත යාවත්කාලීන කිරීම
+                        // 'totalXRP' සහ 'totalHashRate' එකතු කරන්නේ පවතින අගයන්ට ඉහලින්
+                        await db.collection("users").doc(user.uid).update({
+                            isFreeActive: true, 
+                            freeMineExpiry: firebase.firestore.Timestamp.fromDate(new Date(Date.now() + 10 * 24 * 60 * 60 * 1000)), // දින 10කට පසුව කල් ඉකුත් වන දිනය
+                            totalHashRate: firebase.firestore.FieldValue.increment(FREE_HASH_RATE),
+                            // නවතම XRP ප්‍රමාණය එකතු කිරීම: දින 1ක XRP ප්‍රමාණයෙන් ආරම්භ කිරීම
+                            totalXRP: firebase.firestore.FieldValue.increment(FREE_XRP_PER_DAY) 
+                        });
+
+                        // 2. දේශීයව දත්ත යාවත්කාලීන කිරීම
+                        alert(`FREE 10-DAY Mining Started! You will receive ${FREE_XRP_PER_DAY.toFixed(2)} XRP per day.`);
+                        isFreeMiningActive = true; 
+                        
+                        // 3. ඩෑෂ්බෝඩ් එක නැවත ලෝඩ් කර යාවත්කාලීන කිරීම (නව isFreeActive තත්ත්වය සමඟ)
+                        const userDoc = await db.collection("users").doc(user.uid).get();
+                        if (userDoc.exists) {
+                            const updatedData = userDoc.data();
+                            // බොත්තම එබූ විගස 'totalXRP' එකතු වූ අයුරින් යාවත්කාලීන කිරීමට, දත්ත නැවත ලබා ගනී.
+                            updateDashboardMetrics(updatedData); 
+                        }
+
+                    } catch (error) {
+                        console.error("Error activating free plan:", error);
+                        alert("Could not start free mining. Please check your connection and try again.");
+                    }
+                });
+            }
+        });
+
+
+        // -----------------------------------------------------------
+        // 🚪 Logout Functionality (පවතින කේතය)
         // -----------------------------------------------------------
         function logout() {
             auth.signOut().then(() => {
@@ -570,7 +693,7 @@
         }
 
         // -----------------------------------------------------------
-        // 🛠️ Utility Functions
+        // 🛠️ Utility Functions (පවතින කේතය)
         // -----------------------------------------------------------
         function toggleNav() {
             const sideMenu = document.getElementById("mySideMenu");
