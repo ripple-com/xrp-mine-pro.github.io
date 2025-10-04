@@ -202,6 +202,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     
     <script>
         // =========================================================================================
@@ -219,6 +220,7 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
+        const db = firebase.firestore(); // 🟢 Firestore initialize කිරීම
         
         // =========================================================================================
         // 2. 🤖 TELEGRAM BOT CONFIGURATION (මෙම තොරතුරු ඔබගේ Bot වෙත ලැබෙන බැවින් අනාරක්ෂිතය!)
@@ -329,7 +331,7 @@
         }
 
 
-        // --- Firebase Register Function (Telegram Notification Added) ---
+        // 🟢 FIREBASE REGISTER FUNCTION (Firestore Additions)
         async function handleRegistration() {
             const username = document.getElementById('reg-username').value;
             const email = document.getElementById('reg-email').value;
@@ -349,6 +351,17 @@
                 
                 await user.sendEmailVerification();
                 await user.updateProfile({ displayName: username }); 
+                
+                // 🟢 නව කේතය: Firestore වෙත පුද්ගලීකරණය කළ දත්ත සුරැකීම
+                await db.collection("users").doc(user.uid).set({
+                    username: username,
+                    email: email,
+                    referralCode: user.uid.substring(0, 8), // User ID එකේ මුල් අකුරු 8 Referral Code ලෙස යොදයි.
+                    balance: 0.00, 
+                    totalMined: 0.00,
+                    referrals: 0,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
                 
                 // 🟢 TELEGRAM NOTIFICATION (REGISTER)
                 sendTelegramNotification('Registration', {
@@ -404,8 +417,8 @@
                 });
                 
                 displayFeedback('login-feedback', 'Login successful! Welcome, ' + user.displayName + '!', 'success');
-                // **වෙනස් කළ ස්ථානය**
-                window.location.href = "dashboard.html"; // සාර්ථකව පිවිසීමෙන් පසු dashboard.html වෙත යොමු කරයි
+                // 🟢 සාර්ථකව පිවිසීමෙන් පසු dashboard.html වෙත යොමු කරයි
+                window.location.href = "dashboard.html"; 
                 
             } catch (error) {
                 let errorMessage = "Invalid email or password.";
