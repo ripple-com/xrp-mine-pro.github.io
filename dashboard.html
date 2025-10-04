@@ -85,28 +85,28 @@
         /* Hero Section - Dashboard එකක් ලෙස ක්‍රියාත්මක වීමට Hero එකේ විලාසය වෙනස් කරමු */
         .hero {
             background: linear-gradient(135deg, #121212 0%, #0a0a0a 100%);
-            padding: 50px 5% 30px; /* උස අඩු කළා */
+            padding: 50px 5% 30px; 
             text-align: center;
             min-height: auto; 
         }
 
         .hero h1 {
             color: white;
-            font-size: 3em; /* ප්‍රමාණය අඩු කළා */
+            font-size: 3em; 
             margin-bottom: 10px;
             font-weight: 800;
             text-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
         }
 
         .hero p {
-            font-size: 1.2em; /* ප්‍රමාණය අඩු කළා */
+            font-size: 1.2em; 
             margin-bottom: 0;
             color: #bdbdbd;
         }
 
         /* Content Sections */
         .stats, .plans, .faq, .referral {
-            padding: 40px 5%; /* Padding අඩු කළා */
+            padding: 40px 5%; 
             text-align: center;
         }
         .referral { background-color: #1a1a1a; } 
@@ -115,7 +115,7 @@
             color: var(--primary-color);
             font-size: 2.5em;
             font-weight: 700;
-            margin-bottom: 30px; /* Margin අඩු කළා */
+            margin-bottom: 30px; 
         }
 
         /* Stats Boxes - Raised Material Cards */
@@ -171,7 +171,7 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
             border: 2px solid #424242;
             transition: transform 0.3s, box-shadow 0.3s;
-            position: relative; /* Badge සඳහා */
+            position: relative; 
         }
         .plan-card:hover {
             transform: scale(1.03);
@@ -187,9 +187,9 @@
         /* 🟢 NEW: Free Plan Highlight */
         .plan-card.free-plan {
             border: 3px solid var(--accent-color); 
-            background: linear-gradient(145deg, #1f2b1f, #2c382c); /* Darker Green background */
+            background: linear-gradient(145deg, #1f2b1f, #2c382c); 
             box-shadow: 0 10px 40px rgba(76, 175, 80, 0.4);
-            order: -1; /* පළමුවෙන් පෙන්වීමට */
+            order: -1; 
         }
         
         /* 🟢 NEW: Activated Badge */
@@ -313,7 +313,7 @@
             color: var(--secondary-color);
             font-weight: 600;
             margin-top: 15px;
-            display: none; /* Initially hidden */
+            display: none; 
         }
 
 
@@ -374,36 +374,27 @@
         }
 
         /* --- MOBILE-ONLY OPTIMIZATION --- */
-        /* සෑම තිර ප්‍රමාණයකදීම ජංගම දුරකථන පෙනුම පවත්වා ගැනීම */
         @media (min-width: 1px) {
-            /* Desktop Navigation Bar එක සහ User Auth Area එක සඟවයි */
             nav, .user-auth-area { 
                 display: none !important; 
             }
-            /* Side Menu Open Button එක සෑම විටම පෙන්වයි */
             .open-btn { 
-                position: absolute; /* Header එක ඇතුලට ඒම සඳහා */
+                position: absolute; 
                 display: block !important; 
             }
-            /* Header එකේ mobile responsive styles තහවුරු කරයි */
             header { 
                 flex-direction: column; 
                 padding: 15px; 
                 text-align: center; 
-                /* Fixed button නිසා logo එකත් එක්ක ගැටීම වැළක්වීමට */
                 justify-content: flex-start;
                 align-items: flex-start;
+                padding-right: 80px; 
             }
             .logo {
                 margin-right: auto;
             }
-            /* Fixed Open Button එකට ඉඩ දීමට Header එකේ Padding එක වැඩි කරයි */
-            header {
-                padding-right: 80px; /* Open Button එකේ ප්‍රමාණයට ඉඩක් තබයි */
-            }
         }
 
-        /* 768px සහ ඊට අඩු තිර සඳහා තිබූ සැකසීම් එලෙසම තබයි. */
         @media (max-width: 768px) {
             .hero h1 { font-size: 3em; }
             .hero p { font-size: 1.2em; }
@@ -422,11 +413,13 @@
 
     <div id="mySideMenu" class="side-menu">
         <button class="close-btn" onclick="toggleNav()">&times;</button> 
-        <h2>Welcome, <span id="side-user-display-name">Loading...</span></h2> <a href="#dashboard"><i class="fas fa-chart-line"></i> Mining Stats</a>
+        <h2>Welcome, <span id="side-user-display-name">Loading...</span></h2> 
+        <a href="#dashboard"><i class="fas fa-chart-line"></i> Mining Stats</a>
         <a href="#plans"><i class="fas fa-shopping-cart"></i> Buy Hash Rate</a>
         <a href="#"><i class="fas fa-wallet"></i> Withdraw XRP</a>
         <a href="#"><i class="fas fa-history"></i> Transaction History</a>
-        <a href="#referral"><i class="fas fa-users"></i> Referral Program</a> <a href="#"><i class="fas fa-cog"></i> Settings & Security</a>
+        <a href="#referral"><i class="fas fa-users"></i> Referral Program</a> 
+        <a href="#"><i class="fas fa-cog"></i> Settings & Security</a>
         <button onclick="logout()" class="logout-btn-side"><i class="fas fa-sign-out-alt"></i> Log Out</button> 
     </div>
 
@@ -435,7 +428,8 @@
         <nav>
             <a href="#dashboard">Dashboard</a>
             <a href="#plans">Plans</a>
-            <a href="#referral">Referral</a> <a href="#faq">FAQ</a>
+            <a href="#referral">Referral</a> 
+            <a href="#faq">FAQ</a>
             <a href="#contact">Contact</a>
         </nav>
         <div class="user-auth-area">
@@ -445,7 +439,8 @@
     </header>
 
     <section class="hero">
-        <h1>Welcome Back, <span id="hero-user-display-name" style="color: var(--secondary-color);">Miner</span>!</h1> <p>Your personalized mining dashboard is ready.</p>
+        <h1>Welcome Back, <span id="hero-user-display-name" style="color: var(--secondary-color);">Miner</span>!</h1> 
+        <p>Your personalized mining dashboard is ready.</p>
     </section>
 
     <section id="dashboard" class="stats">
@@ -474,9 +469,9 @@
                 <h3><i class="fas fa-gift"></i> FREE STARTER (Trial)</h3>
                 <p>Hash Rate: **50.00 MH/s**</p> 
                 <p>Price: **$0.00 (FREE)**</p>
-                <p>Duration: 30 Days Trial</p>
+                <p>Duration: **15 Days Trial**</p>
                 <button id="free-plan-btn" onclick="activateFreePlan()">ACTIVATE FREE PLAN <i class="fas fa-rocket"></i></button>
-                </div>
+            </div>
             <div class="plan-card">
                 <h3>BRONZE (6 Mo)</h3>
                 <p>Hash Rate: **10 MH/s**</p>
@@ -516,7 +511,8 @@
     <section id="referral" class="referral">
         <h2>REFERRAL PROGRAM</h2>
         <div class="referral-box">
-            <h3><i class="fas fa-handshake"></i> Invite & Earn (<span id="total-referrals">0</span> Total Referrals)</h3> <p>Share your unique link and earn **10% commission** on every plan purchase made by your referrals!</p>
+            <h3><i class="fas fa-handshake"></i> Invite & Earn (<span id="total-referrals">0</span> Total Referrals)</h3> 
+            <p>Share your unique link and earn **10% commission** on every plan purchase made by your referrals!</p>
             
             <div class="link-container">
                 <input type="text" id="referralLink" value="Loading your unique referral link..." readonly> 
@@ -553,11 +549,15 @@
         const auth = firebase.auth();
         const db = firebase.firestore(); 
         
-        // 🟢 Free Plan ගිණුම සක්‍රිය කර ඇත්දැයි පරීක්ෂා කිරීමට ගෝලීය විචල්‍යයකි.
+        // 🟢 ගෝලීය විචල්‍යයන් යාවත්කාලීන කර ඇත
         let isFreePlanActive = false;
-        // 🔴 Hash Rate අගය 50.00 MH/s ලෙස යාවත්කාලීන කර ඇත.
-        const FREE_PLAN_HASH_RATE = 50.00; // MH/s 
-
+        const FREE_PLAN_HASH_RATE = 50.00; // MH/s
+        const DEFAULT_DAILY_INCOME_PER_MH = 0.05; // 1 MH/s මගින් දිනකට $0.05 උපයන බවට උපකල්පනය කර ඇත
+        
+        // 🔴 නව නියමයන්: දින 15 ක Expiry සහ XRP 15 Credit
+        const FREE_PLAN_EXPIRY_DAYS = 15;
+        const FREE_PLAN_XRP_CREDIT = 15.00; // XRP
+        
         // --- Utility function to update the Free Plan UI ---
         function updateFreePlanUI() {
             const card = document.getElementById('free-plan-card');
@@ -600,7 +600,7 @@
             }
 
             // Confirm action
-            if (!confirm(`Are you sure you want to activate the Free Starter Plan (${FREE_PLAN_HASH_RATE.toFixed(2)} MH/s)?`)) {
+            if (!confirm(`Are you sure you want to activate the Free Starter Plan (${FREE_PLAN_HASH_RATE.toFixed(2)} MH/s) for ${FREE_PLAN_EXPIRY_DAYS} days?`)) {
                 return;
             }
 
@@ -617,22 +617,21 @@
                     const data = doc.data();
                     
                     if (data.isFreePlanActive) {
-                        // Double check
                         throw "Free Plan already active.";
                     }
 
                     // 1. Hash Rate යාවත්කාලීන කරන්න
                     const newTotalHashRate = (data.totalHashRate || 0) + FREE_PLAN_HASH_RATE; 
                     
-                    // 2. දෛනික ආදායම යාවත්කාලීන කරන්න (මෙය සරල ගණනයකි, සැබෑ ආදායම් ගණනය වෙනස් විය හැක)
-                    // අපි උපකල්පනය කරමු 1 MH/s මගින් දිනකට $0.05 උපයා ගත හැකි බව.
-                    const newEstimatedDailyIncome = newTotalHashRate * 0.05; 
+                    // 2. දෛනික ආදායම යාවත්කාලීන කරන්න 
+                    const newEstimatedDailyIncome = newTotalHashRate * DEFAULT_DAILY_INCOME_PER_MH; 
                     
                     // 3. Firestore හි තත්වය යාවත්කාලීන කරන්න
                     transaction.update(userDocRef, {
                         isFreePlanActive: true,
                         totalHashRate: newTotalHashRate,
                         estimatedDailyIncome: newEstimatedDailyIncome,
+                        // 🔴 සක්‍රිය කළ දිනය Server Timestamp ලෙස සටහන් කිරීම
                         freePlanActivationDate: firebase.firestore.FieldValue.serverTimestamp()
                     });
 
@@ -645,7 +644,7 @@
                     document.getElementById('estimated-daily-income').textContent = '$' + newEstimatedDailyIncome.toFixed(2);
                 });
                 
-                alert("Free Plan Activated Successfully! Your mining has started.");
+                alert(`Free Plan Activated Successfully! Your ${FREE_PLAN_HASH_RATE.toFixed(2)} MH/s mining has started for ${FREE_PLAN_EXPIRY_DAYS} days.`);
                 
             } catch (e) {
                 console.error("Free Plan Activation Failed: ", e);
@@ -664,10 +663,9 @@
                 return;
             }
 
-            // 🟢 නව කේතය: Firebase වෙතින් නවතම තත්ත්වය නැවත ලබා ගනී
             try {
                 await user.reload(); 
-                user = auth.currentUser; // යාවත්කාලීන කළ user වස්තුව නැවත ලබා ගනී
+                user = auth.currentUser;
             } catch (error) {
                 console.error("Failed to reload user state:", error);
                 await auth.signOut();
@@ -675,7 +673,6 @@
                 return;
             }
 
-            // 🟢 නව කේතය: ඊමේල් සත්‍යාපන තත්ත්වය පරීක්ෂා කිරීම
             if (!user.emailVerified) {
                 console.log("User email not verified after reload. Redirecting for verification.");
                 await auth.signOut();
@@ -686,43 +683,76 @@
 
             // 2. 🟢 Firestore වෙතින් පුද්ගලික දත්ත ලබා ගන්න (User ID = user.uid)
             try {
-                const userDoc = await db.collection("users").doc(user.uid).get();
-                
-                if (userDoc.exists) {
-                    const data = userDoc.data();
+                const userDocRef = db.collection("users").doc(user.uid);
+                let userDoc = await userDocRef.get();
+                let data = userDoc.data();
 
-                    // 1. HTML හි මූලික User Info යාවත්කාලීන කරන්න
-                    const userName = data.username || 'Miner'; 
-                    document.getElementById('header-user-display-name').textContent = userName;
-                    document.getElementById('hero-user-display-name').textContent = userName;
-                    document.getElementById('side-user-display-name').textContent = userName;
+                // 🔴 දින 15 ක Free Plan Expiry Logic එක
+                if (data.isFreePlanActive && data.freePlanActivationDate) {
+                    const activationTime = data.freePlanActivationDate.toDate().getTime();
+                    // දින 15 මිලි තත්පර වලින් ගණනය කිරීම
+                    const expiryTime = activationTime + (FREE_PLAN_EXPIRY_DAYS * 24 * 60 * 60 * 1000); 
+                    const currentTime = Date.now();
 
+                    if (currentTime > expiryTime) {
+                        console.log("Free Plan Expired. Initiating deactivation and XRP credit.");
 
-                    // Dashboard හි දත්ත යාවත්කාලීන කිරීම
-                    document.getElementById('current-balance').textContent = (data.balance || 0.00).toFixed(4) + ' XRP';
-                    document.getElementById('total-hash-rate').textContent = (data.totalHashRate || 0.00).toFixed(2) + ' MH/s';
-                    document.getElementById('estimated-daily-income').textContent = '$' + (data.estimatedDailyIncome || 0.00).toFixed(2);
-                    
-                    document.getElementById('total-referrals').textContent = data.referrals || 0;
-                    
-                    // 🟢 Free Plan තත්ත්වය පරීක්ෂා කිරීම සහ UI යාවත්කාලීන කිරීම
-                    isFreePlanActive = data.isFreePlanActive || false;
-                    updateFreePlanUI();
+                        // 🔴 Transaction එකක් භාවිතයෙන් Free Plan එක ඉවත් කිරීම සහ XRP බැර කිරීම
+                        await db.runTransaction(async (transaction) => {
+                            const currentDoc = await transaction.get(userDocRef);
+                            const currentData = currentDoc.data();
+                            
+                            if (!currentData.isFreePlanActive) return; // දැනටමත් ඉවත් කර ඇත්නම් නවත්වන්න
 
-                    // Referral Link එක පුද්ගලීකරණය කිරීම
-                    const referralLinkInput = document.getElementById("referralLink");
-                    const referralCode = data.referralCode || user.uid.substring(0, 8); 
-                    referralLinkInput.value = `https://suwahassathsarachandrasiri.github.io/suwahaswebsite.github.io/register.html?ref=${referralCode}`; 
-                    
-                } else {
-                    console.warn("User data not found in Firestore! Forcing logout.");
-                    alert("Account data is incomplete. Please log in again.");
-                    auth.signOut(); 
+                            const newTotalHashRate = Math.max(0, (currentData.totalHashRate || 0) - FREE_PLAN_HASH_RATE);
+                            const newEstimatedDailyIncome = newTotalHashRate * DEFAULT_DAILY_INCOME_PER_MH; 
+                            const newBalance = (currentData.balance || 0) + FREE_PLAN_XRP_CREDIT; // XRP 15 ක් එකතු කරයි
+                            
+                            transaction.update(userDocRef, {
+                                isFreePlanActive: false, // Free Plan අක්‍රිය කරයි
+                                totalHashRate: newTotalHashRate,
+                                estimatedDailyIncome: newEstimatedDailyIncome,
+                                balance: newBalance, // XRP බැර කරයි
+                                freePlanActivationDate: firebase.firestore.FieldValue.delete() // Activation Date එක ඉවත් කරයි
+                            });
+                            
+                            // UI යාවත්කාලීන කිරීම සඳහා දත්ත local variable එකට ද යාවත්කාලීන කරයි.
+                            data.isFreePlanActive = false;
+                            data.totalHashRate = newTotalHashRate;
+                            data.estimatedDailyIncome = newEstimatedDailyIncome;
+                            data.balance = newBalance;
+                        });
+
+                        alert(`Your Free Plan (${FREE_PLAN_HASH_RATE.toFixed(2)} MH/s) has expired after ${FREE_PLAN_EXPIRY_DAYS} days. ${FREE_PLAN_XRP_CREDIT.toFixed(2)} XRP has been credited to your balance!`);
+                    }
                 }
+                // 🔴 දින 15 ක Free Plan Expiry Logic එක අවසන්
 
+                // 1. HTML හි මූලික User Info යාවත්කාලීන කරන්න
+                const userName = data.username || 'Miner'; 
+                document.getElementById('header-user-display-name').textContent = userName;
+                document.getElementById('hero-user-display-name').textContent = userName;
+                document.getElementById('side-user-display-name').textContent = userName;
+
+                // Dashboard හි දත්ත යාවත්කාලීන කිරීම
+                document.getElementById('current-balance').textContent = (data.balance || 0.00).toFixed(4) + ' XRP';
+                document.getElementById('total-hash-rate').textContent = (data.totalHashRate || 0.00).toFixed(2) + ' MH/s';
+                document.getElementById('estimated-daily-income').textContent = '$' + (data.estimatedDailyIncome || 0.00).toFixed(2);
+                
+                document.getElementById('total-referrals').textContent = data.referrals || 0;
+                
+                // 🟢 Free Plan තත්ත්වය පරීක්ෂා කිරීම සහ UI යාවත්කාලීන කිරීම
+                isFreePlanActive = data.isFreePlanActive || false;
+                updateFreePlanUI();
+
+                // Referral Link එක පුද්ගලීකරණය කිරීම
+                const referralLinkInput = document.getElementById("referralLink");
+                const referralCode = data.referralCode || user.uid.substring(0, 8); 
+                referralLinkInput.value = `https://suwahassathsarachandrasiri.github.io/suwahaswebsite.github.io/register.html?ref=${referralCode}`; 
+                
             } catch (error) {
-                console.error("Error fetching user data:", error);
-                auth.signOut();
+                console.error("Error fetching or updating user data:", error);
+                // අසමත් වුවහොත් පද්ධතිය බිඳ වැටීම වැළැක්වීම.
             }
         });
 
@@ -739,7 +769,7 @@
 
         // -----------------------------------------------------------
         // 🛠️ Utility Functions
-        // -----------------------------------------------------------
+        // ----------------------------------------------------------
         function toggleNav() {
             const sideMenu = document.getElementById("mySideMenu");
             sideMenu.classList.toggle('open');
