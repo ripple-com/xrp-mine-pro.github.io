@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium XRP Cloud Mining Platform - High Contrast Edition (Fixed Fullscreen)</title>    
+    <title>Premium XRP Cloud Mining Platform - User Dashboard</title>    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
@@ -58,62 +58,58 @@
         nav a { margin-left: 35px; font-weight: 600; font-size: 1em; color: #bbbbbb; }
         nav a:hover { color: var(--primary-color); }
 
-        .login-btn {
-            background-color: var(--primary-color);
+        /* 🟢 User Info & Logout Button Styles */
+        .user-auth-area {
+            display: flex;
+            align-items: center;
+        }
+        .user-info { 
+            font-size: 0.9em; 
+            margin-right: 20px;
+            font-weight: 600;
+        }
+        .logout-btn {
+            background-color: var(--error-color);
             padding: 10px 25px;
             border-radius: 8px;
             font-weight: 600;
-            box-shadow: 0 4px 10px rgba(3, 169, 244, 0.3);
+            box-shadow: 0 4px 10px rgba(244, 67, 54, 0.3);
         }
-        .login-btn:hover {
-            background-color: #0288d1;
+        .logout-btn:hover {
+            background-color: #d32f2f;
             transform: translateY(-1px);
         }
 
-        /* Hero Section - වෙනස් කළ ස්ථානය: min-height: 100vh; එකතු කරන ලදී */
+
+        /* Hero Section - Dashboard එකක් ලෙස ක්‍රියාත්මක වීමට Hero එකේ විලාසය වෙනස් කරමු */
         .hero {
             background: linear-gradient(135deg, #121212 0%, #0a0a0a 100%);
-            padding: 150px 5% 100px;
+            padding: 50px 5% 30px; /* උස අඩු කළා */
             text-align: center;
-            /* සම්පූර්ණ දර්ශන ප්‍රදේශයේ උස (viewport height) ලබා දෙයි */
-            min-height: 100vh; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center; /* අන්තර්ගතය සිරස් අතට මධ්‍යගත කරයි */
-            align-items: center;
+            min-height: auto; 
         }
 
         .hero h1 {
             color: white;
-            font-size: 4em;
-            margin-bottom: 20px;
+            font-size: 3em; /* ප්‍රමාණය අඩු කළා */
+            margin-bottom: 10px;
             font-weight: 800;
             text-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
         }
 
         .hero p {
-            font-size: 1.5em;
-            margin-bottom: 50px;
+            font-size: 1.2em; /* ප්‍රමාණය අඩු කළා */
+            margin-bottom: 0;
             color: #bdbdbd;
         }
 
-        .cta-btn {
-            background-color: var(--secondary-color); 
-            padding: 20px 60px;
-            border-radius: 50px;
-            font-size: 1.3em;
-            font-weight: 700;
-            box-shadow: 0 8px 20px rgba(255, 152, 0, 0.4);
-        }
-        .cta-btn:hover {
-            background-color: #fb8c00;
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(255, 152, 0, 0.6);
-        }
+        /* CTA button එක Dashboard එකට අදාළ නැති නිසා ඉවත් කළා */
+        /* .cta-btn { ... } */
+
 
         /* Content Sections */
         .stats, .plans, .faq, .referral {
-            padding: 90px 5%;
+            padding: 40px 5%; /* Padding අඩු කළා */
             text-align: center;
         }
         .referral { background-color: #1a1a1a; } 
@@ -122,7 +118,7 @@
             color: var(--primary-color);
             font-size: 2.5em;
             font-weight: 700;
-            margin-bottom: 60px;
+            margin-bottom: 30px; /* Margin අඩු කළා */
         }
 
         /* Stats Boxes - Raised Material Cards */
@@ -319,6 +315,17 @@
         .side-menu a i { margin-right: 15px; color: var(--secondary-color); } 
         .side-menu .close-btn { position: absolute; top: 15px; right: 25px; font-size: 36px; color: #eeeeee; cursor: pointer; background: none; border: none; }
         
+        /* 🟢 Side Menu Logout Button */
+        .side-menu .logout-btn-side {
+            background-color: var(--error-color); 
+            margin: 20px 25px; 
+            display: block; 
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 8px;
+        }
+
+
         .open-btn { 
             position: fixed; 
             top: 20px; 
@@ -343,15 +350,18 @@
 
         @media (max-width: 768px) {
             header { flex-direction: column; padding: 15px; text-align: center; }
-            nav, .login-btn { display: none; }
+            nav, .user-auth-area { display: none; } /* User auth area එකත් නැති කරනවා */
             .open-btn { display: block; } 
             .hero h1 { font-size: 3em; }
             .hero p { font-size: 1.2em; }
             .stat-box, .plan-card { width: 90%; }
             .stat-container, .plan-container { flex-direction: column; align-items: center; gap: 20px; }
-            .stats, .plans, .faq, .referral { padding: 60px 5%; }
+            .stats, .plans, .faq, .referral { padding: 40px 5%; } /* Padding අඩු කළා */
             .link-container { flex-direction: column; }
             .copy-btn { width: 100%; }
+            
+            /* Mobile එකේදී Header එකේ user-info පෙන්වන්න එපා */
+            .user-info { display: none !important; } 
         }
     </style>
 </head>
@@ -361,13 +371,12 @@
 
     <div id="mySideMenu" class="side-menu">
         <button class="close-btn" onclick="toggleNav()">&times;</button> 
-        <h2>DASHBOARD MENU</h2>
-        <a href="#dashboard"><i class="fas fa-chart-line"></i> Mining Stats</a>
+        <h2>Welcome, <span id="side-user-display-name">Loading...</span></h2> <a href="#dashboard"><i class="fas fa-chart-line"></i> Mining Stats</a>
         <a href="#plans"><i class="fas fa-shopping-cart"></i> Buy Hash Rate</a>
         <a href="#"><i class="fas fa-wallet"></i> Withdraw XRP</a>
         <a href="#"><i class="fas fa-history"></i> Transaction History</a>
         <a href="#referral"><i class="fas fa-users"></i> Referral Program</a> <a href="#"><i class="fas fa-cog"></i> Settings & Security</a>
-        <a href="#" class="login-btn" style="background-color: var(--accent-color); margin: 20px 25px; display: block; text-align: center;"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+        <button onclick="logout()" class="logout-btn-side"><i class="fas fa-sign-out-alt"></i> Log Out</button> 
     </div>
 
     <header>
@@ -378,29 +387,30 @@
             <a href="#referral">Referral</a> <a href="#faq">FAQ</a>
             <a href="#contact">Contact</a>
         </nav>
-        <button class="login-btn" onclick="toggleNav()">Secure Log In</button>
+        <div class="user-auth-area">
+            <span class="user-info">Welcome, <span id="header-user-display-name" style="color: var(--primary-color);">Loading...</span></span>
+            <button class="logout-btn" onclick="logout()">Log Out</button>
+        </div>
     </header>
 
     <section class="hero">
-        <h1>HIGH-PERFORMANCE XRP MINING</h1>
-        <p>Reliable cloud infrastructure with maximum security and transparent returns.</p>
-        <a href="#plans" class="cta-btn">VIEW PLANS <i class="fas fa-arrow-right"></i></a>
+        <h1>Welcome Back, <span id="hero-user-display-name" style="color: var(--secondary-color);">Miner</span>!</h1> <p>Your personalized mining dashboard is ready.</p>
     </section>
 
     <section id="dashboard" class="stats">
-        <h2>PLATFORM METRICS</h2>
+        <h2>YOUR MINING METRICS</h2>
         <div class="stat-container">
             <div class="stat-box">
                 <h3><i class="fas fa-coins"></i> Current XRP Balance</h3>
-                <p class="value">0.0000 XRP</p>
+                <p class="value" id="current-balance">0.0000 XRP</p> 
             </div>
             <div class="stat-box">
                 <h3><i class="fas fa-tachometer-alt"></i> Total Hash Rate</h3>
-                <p class="value">0.00 MH/s</p>
+                <p class="value" id="total-hash-rate">0.00 MH/s</p>
             </div>
             <div class="stat-box">
                 <h3><i class="fas fa-dollar-sign"></i> Estimated Daily Income</h3>
-                <p class="value">$0.00</p>
+                <p class="value" id="estimated-daily-income">$0.00</p>
             </div>
         </div>
     </section>
@@ -447,11 +457,10 @@
     <section id="referral" class="referral">
         <h2>REFERRAL PROGRAM</h2>
         <div class="referral-box">
-            <h3><i class="fas fa-handshake"></i> Invite & Earn</h3>
-            <p>Share your unique link and earn **10% commission** on every plan purchase made by your referrals!</p>
+            <h3><i class="fas fa-handshake"></i> Invite & Earn (<span id="total-referrals">0</span> Total Referrals)</h3> <p>Share your unique link and earn **10% commission** on every plan purchase made by your referrals!</p>
             
             <div class="link-container">
-                <input type="text" id="referralLink" value="https://xrpminepro.com/r?id=USER_XRP83547" readonly>
+                <input type="text" id="referralLink" value="Loading your unique referral link..." readonly> 
                 
                 <button class="copy-btn" onclick="copyReferralLink()">
                     <i class="fas fa-copy"></i> Copy Link
@@ -466,31 +475,108 @@
         <p>&copy; 2025 XRP Mine Pro. High-Contrast Solutions.</p>
     </footer>
 
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
     <script>
+        // ⚠️ ඔබේ සැබෑ Firebase Config තොරතුරු මෙහිද තිබිය යුතුයි.
+        const firebaseConfig = {
+            apiKey: "AIzaSyBsTIzaJtaGiAfv4a69o80f0QvKiq6lFj4", 
+            authDomain: "xrp-mine-pro.firebaseapp.com",
+            projectId: "xrp-mine-pro",
+            storageBucket: "xrp-mine-pro.appspot.com",
+            messagingSenderId: "1234567890",
+            appId: "1:1234567890:web:abcdef123456"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore(); // 🟢 Firestore Initialize කිරීම
+
+        // -----------------------------------------------------------
+        // 🔑 Auth State Listener: ආරක්ෂක පරීක්ෂාව සහ පුද්ගලික දත්ත ලබා ගැනීම
+        // -----------------------------------------------------------
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                console.log("User not logged in. Redirecting to login page.");
+                // Login නැතිනම් register.html වෙත යවයි
+                window.location.href = "register.html"; 
+                return;
+            }
+
+            // 1. HTML හි මූලික User Info යාවත්කාලීන කරන්න
+            const userName = user.displayName || 'Miner';
+            document.getElementById('header-user-display-name').textContent = userName;
+            document.getElementById('hero-user-display-name').textContent = userName;
+            document.getElementById('side-user-display-name').textContent = userName;
+
+            // 2. 🟢 Firestore වෙතින් පුද්ගලික දත්ත ලබා ගන්න (User ID = user.uid)
+            try {
+                const userDoc = await db.collection("users").doc(user.uid).get();
+                
+                if (userDoc.exists) {
+                    const data = userDoc.data();
+
+                    // Dashboard හි දත්ත යාවත්කාලීන කිරීම (toFixed() මඟින් දශම ස්ථාන ගණන සකසයි)
+                    document.getElementById('current-balance').textContent = data.balance.toFixed(4) + ' XRP';
+                    document.getElementById('total-hash-rate').textContent = data.totalHashRate.toFixed(2) + ' MH/s';
+                    document.getElementById('estimated-daily-income').textContent = '$' + data.estimatedDailyIncome.toFixed(2);
+                    
+                    document.getElementById('total-referrals').textContent = data.referrals;
+                    
+                    // Referral Link එක පුද්ගලීකරණය කිරීම
+                    const referralLinkInput = document.getElementById("referralLink");
+                    // ⚠️ 'https://yourwebsite.com/' වෙනුවට ඔබගේ සැබෑ URL එක යොදන්න.
+                    referralLinkInput.value = `https://yourwebsite.com/register.html?ref=${data.referralCode}`; 
+                    
+                } else {
+                    console.warn("User data not found in Firestore! Forcing logout.");
+                    alert("Account data is incomplete. Please log in again.");
+                    auth.signOut(); 
+                }
+
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                // දත්ත ලබාගැනීමේ දෝෂයක් ඇත්නම්, Logout කරවීම ආරක්ෂිතයි
+                auth.signOut();
+            }
+        });
+
+        // -----------------------------------------------------------
+        // 🚪 Logout Functionality
+        // -----------------------------------------------------------
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.href = "register.html";
+            }).catch((error) => {
+                console.error("Logout Error:", error);
+            });
+        }
+
+        // -----------------------------------------------------------
+        // 🛠️ Utility Functions
+        // -----------------------------------------------------------
         function toggleNav() {
             const sideMenu = document.getElementById("mySideMenu");
             sideMenu.classList.toggle('open');
         }
 
-        // Referral System JavaScript Function (New)
+        // Referral System JavaScript Function (copyReferralLink) 
         function copyReferralLink() {
-            // Get the input field
             const referralLinkInput = document.getElementById("referralLink");
             const feedback = document.getElementById("copy-feedback");
 
-            // Select the text field's content
             referralLinkInput.select();
-            referralLinkInput.setSelectionRange(0, 99999); // For mobile devices
+            referralLinkInput.setSelectionRange(0, 99999); 
 
-            // Copy the text inside the text field
             try {
                 navigator.clipboard.writeText(referralLinkInput.value);
                 
-                // Show feedback message
                 feedback.style.display = 'block';
                 setTimeout(() => {
                     feedback.style.display = 'none';
-                }, 2000); // Hide after 2 seconds
+                }, 2000); 
 
             } catch (err) {
                 console.error('Could not copy text: ', err);
