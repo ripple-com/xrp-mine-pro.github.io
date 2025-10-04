@@ -28,7 +28,7 @@
             --menu-width: 280px;
             /* New color for referral card */
             --referral-bg: #1e1e1e; 
-            --error-color: #f44336; /* Added for logout button consistency */
+            --error-color: #f44336; 
         }
         
         /* Global Reset & Transitions */
@@ -59,7 +59,7 @@
         nav a { margin-left: 35px; font-weight: 600; font-size: 1em; color: #bbbbbb; }
         nav a:hover { color: var(--primary-color); }
 
-        /* 🟢 User Info & Logout Button Styles */
+        /* User Info & Logout Button Styles */
         .user-auth-area {
             display: flex;
             align-items: center;
@@ -82,31 +82,31 @@
         }
 
 
-        /* Hero Section - Dashboard එකක් ලෙස ක්‍රියාත්මක වීමට Hero එකේ විලාසය වෙනස් කරමු */
+        /* Hero Section */
         .hero {
             background: linear-gradient(135deg, #121212 0%, #0a0a0a 100%);
-            padding: 50px 5% 30px; /* උස අඩු කළා */
+            padding: 50px 5% 30px; 
             text-align: center;
             min-height: auto; 
         }
 
         .hero h1 {
             color: white;
-            font-size: 3em; /* ප්‍රමාණය අඩු කළා */
+            font-size: 3em; 
             margin-bottom: 10px;
             font-weight: 800;
             text-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
         }
 
         .hero p {
-            font-size: 1.2em; /* ප්‍රමාණය අඩු කළා */
+            font-size: 1.2em; 
             margin-bottom: 0;
             color: #bdbdbd;
         }
 
         /* Content Sections */
         .stats, .plans, .faq, .referral {
-            padding: 40px 5%; /* Padding අඩු කළා */
+            padding: 40px 5%; 
             text-align: center;
         }
         .referral { background-color: #1a1a1a; } 
@@ -115,7 +115,7 @@
             color: var(--primary-color);
             font-size: 2.5em;
             font-weight: 700;
-            margin-bottom: 30px; /* Margin අඩු කළා */
+            margin-bottom: 30px; 
         }
 
         /* Stats Boxes - Raised Material Cards */
@@ -215,8 +215,8 @@
             padding: 25px;
             border-radius: 8px;
             text-align: left;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
             border-left: 4px solid var(--accent-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
         .qa-item h4 {
             color: var(--primary-color);
@@ -224,7 +224,7 @@
             font-weight: 600;
         }
 
-        /* Referral System Styles (New) */
+        /* Referral System Styles */
         .referral-box {
             background-color: var(--referral-bg);
             max-width: 700px;
@@ -278,7 +278,7 @@
             color: var(--secondary-color);
             font-weight: 600;
             margin-top: 15px;
-            display: none; /* Initially hidden */
+            display: none; 
         }
 
 
@@ -312,7 +312,7 @@
         .side-menu a i { margin-right: 15px; color: var(--secondary-color); } 
         .side-menu .close-btn { position: absolute; top: 15px; right: 25px; font-size: 36px; color: #eeeeee; cursor: pointer; background: none; border: none; }
         
-        /* 🟢 Side Menu Logout Button */
+        /* Side Menu Logout Button */
         .side-menu .logout-btn-side {
             background-color: var(--error-color); 
             margin: 20px 25px; 
@@ -347,13 +347,13 @@
 
         @media (max-width: 768px) {
             header { flex-direction: column; padding: 15px; text-align: center; }
-            nav, .user-auth-area { display: none; } /* User auth area එකත් නැති කරනවා */
+            nav, .user-auth-area { display: none; } 
             .open-btn { display: block; } 
             .hero h1 { font-size: 3em; }
             .hero p { font-size: 1.2em; }
             .stat-box, .plan-card { width: 90%; }
             .stat-container, .plan-container { flex-direction: column; align-items: center; gap: 20px; }
-            .stats, .plans, .faq, .referral { padding: 40px 5%; } /* Padding අඩු කළා */
+            .stats, .plans, .faq, .referral { padding: 40px 5%; } 
             .link-container { flex-direction: column; }
             .copy-btn { width: 100%; }
             
@@ -420,7 +420,7 @@
                 <i class="fas fa-play-circle"></i> START FREE 10-DAY MINING 
             </button>
             <p id="mining-status" style="margin-top: 15px; font-size: 1.1em; font-weight: 600; color: #4CAF50; display: none;">
-                <i class="fas fa-spinner fa-spin"></i> Mining is Active! Expires in 10 days.
+                <i class="fas fa-spinner fa-spin"></i> Mining is Active! Expires in 10 days (Daily 1.00 XRP).
             </p>
         </div>
         </section>
@@ -432,7 +432,7 @@
                 <h3>FREE TRIAL (10 Days)</h3>
                 <p>Hash Rate: **50 MH/s**</p>
                 <p>Price: **FREE**</p>
-                <p>Duration: 10 Days</p>
+                <p>Duration: 10 Days (Total 10 XRP)</p>
                 <p style="color: var(--secondary-color); font-weight: 700;">Daily XRP: **1.00 XRP**</p>
                 <button id="activate-free-plan-btn" style="background-color: var(--accent-color); margin-top: 10px;">ACTIVATE FREE <i class="fas fa-hand-holding-usd"></i></button>
             </div>
@@ -515,27 +515,27 @@
         const db = firebase.firestore(); 
 
         // -----------------------------------------------------------
-        // 🟢 නව කේතය: Free Mining Plan Constants
+        // 🟢 යාවත්කාලීන කරන ලද Free Mining Plan Constants
         // -----------------------------------------------------------
         const FREE_HASH_RATE = 50.00;
-        const FREE_XRP_PER_DAY = 1.00;
-        const FREE_EST_DAILY_INCOME = 0.50; 
+        const FREE_XRP_PER_DAY = 1.00; // දින 10ක් සඳහා 10 XRP
+        const FREE_EST_DAILY_INCOME = 0.50; // 1.00 XRP හි දළ අගය
         
         let isFreeMiningActive = false; 
 
         // -----------------------------------------------------------
-        // 🟢 නව කේතය: Dashboard Metrics Update Function
+        // Dashboard Metrics Update Function
         // -----------------------------------------------------------
         function updateDashboardMetrics(data) {
             const currentBalance = data.balance || 0.00;
             let totalHashRate = data.totalHashRate || 0.00;
             let estimatedDailyIncome = data.estimatedDailyIncome || 0.00;
-            let totalXRP = data.totalXRP || 0.00; // සමුච්චිත XRP එකතුව
+            let totalXRP = data.totalXRP || 0.00; 
             
-            // Free Mining Active ද යන්න පරීක්ෂා කිරීම
             isFreeMiningActive = data.isFreeActive === true; 
 
             if (isFreeMiningActive) {
+                // Free Plan එකේ Hash Rate එක එකතු කිරීම
                 totalHashRate += FREE_HASH_RATE;
                 estimatedDailyIncome += FREE_EST_DAILY_INCOME; 
                 
@@ -565,7 +565,7 @@
 
 
         // -----------------------------------------------------------
-        // 🔑 Auth State Listener: ආරක්ෂක පරීක්ෂාව සහ පුද්ගලික දත්ත ලබා ගැනීම
+        // 🔑 Auth State Listener
         // -----------------------------------------------------------
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
@@ -597,14 +597,14 @@
             document.getElementById('hero-user-display-name').textContent = userName;
             document.getElementById('side-user-display-name').textContent = userName;
 
-            // 2. 🟢 Firestore වෙතින් පුද්ගලික දත්ත ලබා ගන්න
+            // 2. Firestore වෙතින් පුද්ගලික දත්ත ලබා ගන්න
             try {
                 const userDoc = await db.collection("users").doc(user.uid).get();
                 
                 if (userDoc.exists) {
                     const data = userDoc.data();
                     
-                    // 🟢 නව කේතය: Free Mining තත්ත්වයද සැලකිල්ලට ගනිමින් ඩෑෂ්බෝඩ් එක යාවත්කාලීන කිරීම
+                    // Dashboard Metrics යාවත්කාලීන කිරීම
                     updateDashboardMetrics(data);
 
                     // Referral Link එක පුද්ගලීකරණය කිරීම
@@ -625,7 +625,7 @@
         });
 
         // -----------------------------------------------------------
-        // 🟢 නව කේතය: Free Mining Activation Logic
+        // 🟢 Free Mining Activation Logic
         // -----------------------------------------------------------
         document.addEventListener('DOMContentLoaded', () => {
             const activateBtn = document.getElementById('activate-free-plan-btn');
@@ -651,24 +651,24 @@
 
                     try {
                         // 1. Firebase Firestore හි දත්ත යාවත්කාලීන කිරීම
-                        // 'totalXRP' සහ 'totalHashRate' එකතු කරන්නේ පවතින අගයන්ට ඉහලින්
                         await db.collection("users").doc(user.uid).update({
                             isFreeActive: true, 
-                            freeMineExpiry: firebase.firestore.Timestamp.fromDate(new Date(Date.now() + 10 * 24 * 60 * 60 * 1000)), // දින 10කට පසුව කල් ඉකුත් වන දිනය
+                            // දින 10කට පසුව කල් ඉකුත් වන දිනය
+                            freeMineExpiry: firebase.firestore.Timestamp.fromDate(new Date(Date.now() + 10 * 24 * 60 * 60 * 1000)), 
+                            // Hash Rate එකතු කිරීම (50 MH/s)
                             totalHashRate: firebase.firestore.FieldValue.increment(FREE_HASH_RATE),
-                            // නවතම XRP ප්‍රමාණය එකතු කිරීම: දින 1ක XRP ප්‍රමාණයෙන් ආරම්භ කිරීම
+                            // නවතම XRP ප්‍රමාණය එකතු කිරීම: දින 1ක XRP ප්‍රමාණයෙන් ආරම්භ කිරීම (1.00 XRP)
                             totalXRP: firebase.firestore.FieldValue.increment(FREE_XRP_PER_DAY) 
                         });
 
                         // 2. දේශීයව දත්ත යාවත්කාලීන කිරීම
-                        alert(`FREE 10-DAY Mining Started! You will receive ${FREE_XRP_PER_DAY.toFixed(2)} XRP per day.`);
+                        alert(`FREE 10-DAY Mining Started! You will receive ${FREE_XRP_PER_DAY.toFixed(2)} XRP per day (Total 10 XRP).`);
                         isFreeMiningActive = true; 
                         
-                        // 3. ඩෑෂ්බෝඩ් එක නැවත ලෝඩ් කර යාවත්කාලීන කිරීම (නව isFreeActive තත්ත්වය සමඟ)
+                        // 3. ඩෑෂ්බෝඩ් එක නැවත යාවත්කාලීන කිරීම
                         const userDoc = await db.collection("users").doc(user.uid).get();
                         if (userDoc.exists) {
                             const updatedData = userDoc.data();
-                            // බොත්තම එබූ විගස 'totalXRP' එකතු වූ අයුරින් යාවත්කාලීන කිරීමට, දත්ත නැවත ලබා ගනී.
                             updateDashboardMetrics(updatedData); 
                         }
 
@@ -682,7 +682,7 @@
 
 
         // -----------------------------------------------------------
-        // 🚪 Logout Functionality (පවතින කේතය)
+        // 🚪 Logout Functionality
         // -----------------------------------------------------------
         function logout() {
             auth.signOut().then(() => {
@@ -693,7 +693,7 @@
         }
 
         // -----------------------------------------------------------
-        // 🛠️ Utility Functions (පවතින කේතය)
+        // 🛠️ Utility Functions
         // -----------------------------------------------------------
         function toggleNav() {
             const sideMenu = document.getElementById("mySideMenu");
