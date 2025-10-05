@@ -26,7 +26,7 @@
             --card-bg: #212121; 
             --border-color: #333333;
             --menu-width: 280px;
-            --referral-bg: #1e1e1e; 
+            --referral-bg: #1a1a1a; 
         }
         
         /* Global Reset & Transitions */
@@ -247,8 +247,8 @@
             padding: 25px;
             border-radius: 8px;
             text-align: left;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
             border-left: 4px solid var(--accent-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
         .qa-item h4 {
             color: var(--primary-color);
@@ -592,24 +592,116 @@
         const auth = firebase.auth();
         const db = firebase.firestore(); 
         
-        // 🟢 ගෝලීය විචල්‍යයන්
+        // ----------------------------------------------------
+        // 🟢 ගෝලීය නියතයන් සහ විචල්‍යයන්
+        // ----------------------------------------------------
+        
         let isFreePlanActive = false;
-        let totalHashRate = 0.00; // Mining Logic එකට අවශ්‍ය වේ
-        let miningInterval; // Interval එක නැවැත්වීමට
+        let totalHashRate = 0.00; 
+        let miningInterval; 
         
         const FREE_PLAN_HASH_RATE = 50.00; // MH/s
         const DEFAULT_DAILY_INCOME_PER_MH = 0.05; // 1 MH/s මගින් දිනකට $0.05 උපයන බවට උපකල්පනය කර ඇත
         
-        // 🔴 නව නියමයන්: දින 15 ක Expiry සහ XRP 15 Credit
         const FREE_PLAN_EXPIRY_DAYS = 15;
-        const FREE_PLAN_XRP_CREDIT = 15.00; // XRP
+        // 🔴 XRP 15.00 බෝනස් එක ඉවත් කර ඇත - දැන් මෙම නියතය අවශ්‍ය නොවේ
         
-        // 🔴 නව: Hash Rate එකට සාපේක්ෂව XRP ලැබෙන අනුපාතය
-        // උපකල්පනය: 10 MH/s මගින් තත්පර 10කට 0.001 XRP ලැබේ
-        const XRP_PER_10_SECONDS_PER_10_MH = 0.001;
-        const MINING_UPDATE_INTERVAL = 10000; // 10 seconds (මිලි තත්පර වලින්)
+        // ⚡️ XRP උපයන අනුපාතය: 1 MH/s මගින් තත්පරයකට උපයන XRP ප්‍රමාණය (පැරණි Logic එකෙන් ගත් නියතයට සමානයි)
+        const XRP_RATE_PER_SECOND_PER_MH = 0.00001; 
+        const MINING_UPDATE_INTERVAL = 10000; // 10 seconds (UI update සඳහා)
+        
+        // 🟢 නව Variables: Hybrid Logic සඳහා
+        let currentLocalBalance = 0.00; 
+        let isMiningOnline = false;     
 
-        
+
+        // ----------------------------------------------------
+        // 🟢 1. Offline Mining Calculation Logic (පිටතදී mine වීම)
+        // ----------------------------------------------------
+
+        /**
+         * පරිශීලකයා වෙබ් අඩවියෙන් පිටව සිටි කාලය ගණනය කර XRP ශේෂයට එකතු කරයි.
+         */
+        async function calculateAndApplyMining(userDocRef, userData) {
+            const totalHashRate = userData.totalHashRate || 0.00;
+            const lastMiningUpdate = userData.lastMiningUpdate ? userData.lastMiningUpdate.toDate() : null;
+
+            if (totalHashRate <= 0 || !lastMiningUpdate) {
+                return; 
+            }
+            
+            const currentTime = new Date();
+            const timeElapsedMs = currentTime.getTime() - lastMiningUpdate.getTime(); 
+            const timeElapsedSeconds = timeElapsedMs / 1000; 
+            
+            // 🧮 Offline දී උපයා ගත් XRP ප්‍රමාණය ගණනය කිරීම
+            const xrpEarnedOffline = totalHashRate * timeElapsedSeconds * XRP_RATE_PER_SECOND_PER_MH;
+
+            if (xrpEarnedOffline > 0.000001) { 
+                try {
+                    await db.runTransaction(async (transaction) => {
+                        const doc = await transaction.get(userDocRef);
+                        if (!doc.exists) return;
+
+                        const currentBalance = doc.data().balance || 0;
+                        const newBalance = currentBalance + xrpEarnedOffline;
+                        
+                        transaction.update(userDocRef, {
+                            balance: newBalance,
+                            // නව යාවත්කාලීන කාලය වත්මන් සර්වර් වේලාවට සකසන්න
+                            lastMiningUpdate: firebase.firestore.FieldValue.serverTimestamp() 
+                        });
+                        
+                        userData.balance = newBalance; // දේශීයව දත්ත යාවත්කාලීන කිරීම
+
+                        // UI යාවත්කාලීන කිරීම
+                        document.getElementById('current-balance').textContent = newBalance.toFixed(4) + ' XRP';
+                        console.log(`✅ Offline Mining Applied. +${xrpEarnedOffline.toFixed(4)} XRP earned over ${timeElapsedSeconds.toFixed(0)} seconds.`);
+                    });
+
+                } catch (e) {
+                    console.error("Offline Mining Calculation Failed:", e);
+                }
+            } 
+        }
+
+        // ----------------------------------------------------
+        // 🟢 2. Real-time UI Simulation Logic (සජීවීව පෙන්වීම)
+        // ----------------------------------------------------
+
+        function startRealTimeSimulation() {
+            if (isMiningOnline || totalHashRate <= 0) {
+                return;
+            }
+            
+            const xrpPerSecond = totalHashRate * XRP_RATE_PER_SECOND_PER_MH;
+            const xrpPerUpdate = xrpPerSecond * (MINING_UPDATE_INTERVAL / 1000); 
+
+            if (miningInterval) {
+                clearInterval(miningInterval); 
+            }
+            
+            isMiningOnline = true; 
+            
+            miningInterval = setInterval(() => {
+                // 1. දේශීය ශේෂය යාවත්කාලීන කරන්න
+                currentLocalBalance += xrpPerUpdate;
+                
+                // 2. Dashboard UI යාවත්කාලීන කරන්න
+                document.getElementById('current-balance').textContent = currentLocalBalance.toFixed(4) + ' XRP';
+                
+            }, MINING_UPDATE_INTERVAL); // සෑම තත්පර 10කට වරක්ම යාවත්කාලීන කරන්න
+        }
+
+        function stopRealTimeSimulation() {
+            if (miningInterval) {
+                clearInterval(miningInterval);
+                miningInterval = null;
+            }
+            isMiningOnline = false;
+        }
+
+
         // --- Utility function to update the Free Plan UI ---
         function updateFreePlanUI() {
             const card = document.getElementById('free-plan-card');
@@ -634,56 +726,8 @@
                 button.style.boxShadow = '0 4px 10px rgba(76, 175, 80, 0.4)';
             }
         }
-
-        // 🔴 Mining Simulation Logic
-        function startMiningSimulation() {
-            if (miningInterval) {
-                clearInterval(miningInterval); // දැනටමත් ක්‍රියාත්මක වන interval එක නවත්වයි
-            }
-            
-            // Hash Rate එක 0 ට වඩා වැඩි නම් පමණක් Mining පටන් ගනී
-            if (totalHashRate > 0) {
-                
-                miningInterval = setInterval(async () => {
-                    const user = auth.currentUser;
-                    if (!user) {
-                        clearInterval(miningInterval);
-                        return;
-                    }
-
-                    // ලැබිය යුතු XRP ප්‍රමාණය ගණනය කිරීම
-                    const xrpEarned = (totalHashRate / 10) * XRP_PER_10_SECONDS_PER_10_MH;
-                    
-                    if (xrpEarned > 0) {
-                        try {
-                            const userDocRef = db.collection("users").doc(user.uid);
-                            
-                            // Transaction භාවිතයෙන් ශේෂය යාවත්කාලීන කිරීම
-                            await db.runTransaction(async (transaction) => {
-                                const doc = await transaction.get(userDocRef);
-                                if (!doc.exists) return;
-
-                                const currentBalance = doc.data().balance || 0;
-                                const newBalance = currentBalance + xrpEarned;
-                                
-                                transaction.update(userDocRef, {
-                                    balance: newBalance,
-                                    lastMiningUpdate: firebase.firestore.FieldValue.serverTimestamp()
-                                });
-
-                                // Dashboard UI හි ශේෂය යාවත්කාලීන කිරීම
-                                document.getElementById('current-balance').textContent = newBalance.toFixed(4) + ' XRP';
-                                console.log(`+${xrpEarned.toFixed(4)} XRP mined. New Balance: ${newBalance.toFixed(4)} XRP`);
-                            });
-                            
-                        } catch (e) {
-                            console.error("Mining Balance Update Failed:", e);
-                        }
-                    }
-                }, MINING_UPDATE_INTERVAL); // 10 seconds
-            }
-        }
-
+        
+        // 🔴 පැරණි startMiningSimulation() ඉවත් කර ඇත.
 
         // 🟢 Function to handle Free Plan activation
         async function activateFreePlan() {
@@ -723,17 +767,20 @@
                         isFreePlanActive: true,
                         totalHashRate: newTotalHashRate,
                         estimatedDailyIncome: newEstimatedDailyIncome,
-                        freePlanActivationDate: firebase.firestore.FieldValue.serverTimestamp()
+                        freePlanActivationDate: firebase.firestore.FieldValue.serverTimestamp(),
+                        // 🟢 lastMiningUpdate එක සකසයි
+                        lastMiningUpdate: firebase.firestore.FieldValue.serverTimestamp()
                     });
 
                     isFreePlanActive = true;
-                    totalHashRate = newTotalHashRate; // ගෝලීය විචල්‍යය යාවත්කාලීන කිරීම
+                    totalHashRate = newTotalHashRate; 
                     updateFreePlanUI();
                     
                     document.getElementById('total-hash-rate').textContent = newTotalHashRate.toFixed(2) + ' MH/s';
                     document.getElementById('estimated-daily-income').textContent = '$' + newEstimatedDailyIncome.toFixed(2);
                     
-                    startMiningSimulation(); // 🔴 Activation පසු Mining පටන් ගැනීම
+                    currentLocalBalance = data.balance || 0.00; // 🟢 නව: Simulation එක පටන් ගැනීමට පෙර ශේෂය සකසයි
+                    startRealTimeSimulation(); // 🔴 Activation පසු Mining Simulation එක පටන් ගැනීම
 
                 });
                 
@@ -751,7 +798,7 @@
         // -----------------------------------------------------------
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
-                clearInterval(miningInterval); 
+                stopRealTimeSimulation(); // 🟢 නව: Logout වන විට Simulation නවත්වයි
                 window.location.href = "register.html"; 
                 return;
             }
@@ -784,7 +831,10 @@
                     const currentTime = Date.now();
 
                     if (currentTime > expiryTime) {
-                        console.log("Free Plan Expired. Initiating deactivation and XRP credit.");
+                        console.log("Free Plan Expired. Initiating deactivation and credit.");
+
+                        // 1. 🟢 Plan එක අවසන් වීමට පෙර Mine වූ සියලු XRP ශේෂයට එක් කිරීමට
+                        await calculateAndApplyMining(userDocRef, data); 
 
                         await db.runTransaction(async (transaction) => {
                             const currentDoc = await transaction.get(userDocRef);
@@ -794,29 +844,50 @@
 
                             const newTotalHashRate = Math.max(0, (currentData.totalHashRate || 0) - FREE_PLAN_HASH_RATE);
                             const newEstimatedDailyIncome = newTotalHashRate * DEFAULT_DAILY_INCOME_PER_MH; 
-                            const newBalance = (currentData.balance || 0) + FREE_PLAN_XRP_CREDIT; 
+                            // 🔴 නව: බෝනස් එක එකතු කිරීමේ පියවර ඉවත් කර ඇත
+                            // const newBalance = (currentData.balance || 0) + FREE_PLAN_XRP_CREDIT; 
                             
                             transaction.update(userDocRef, {
                                 isFreePlanActive: false, 
                                 totalHashRate: newTotalHashRate,
                                 estimatedDailyIncome: newEstimatedDailyIncome,
-                                balance: newBalance, 
-                                freePlanActivationDate: firebase.firestore.FieldValue.delete() 
+                                // balance: newBalance, // 🔴 මෙය calculateAndApplyMining මගින් සිදු වී ඇත
+                                freePlanActivationDate: firebase.firestore.FieldValue.delete(),
+                                lastMiningUpdate: firebase.firestore.FieldValue.serverTimestamp() // 🟢 අවසන් යාවත්කාලීනය සකසයි
                             });
                             
                             // Local variables යාවත්කාලීන කිරීම
                             data.isFreePlanActive = false;
                             data.totalHashRate = newTotalHashRate;
                             data.estimatedDailyIncome = newEstimatedDailyIncome;
-                            data.balance = newBalance;
+                            // data.balance යාවත්කාලීන වී ඇත්තේ calculateAndApplyMining() ඇතුළතදීය
                         });
 
-                        alert(`Your Free Plan (${FREE_PLAN_HASH_RATE.toFixed(2)} MH/s) has expired after ${FREE_PLAN_EXPIRY_DAYS} days. ${FREE_PLAN_XRP_CREDIT.toFixed(2)} XRP has been credited to your balance!`);
+                        alert(`Your Free Plan (${FREE_PLAN_HASH_RATE.toFixed(2)} MH/s) has expired after ${FREE_PLAN_EXPIRY_DAYS} days. Your total earnings have been credited to your balance.`);
+                        window.location.reload(); // යාවත්කාලීන කළ දත්ත සමග පිටුව නැවත Load කරන්න.
+                        return;
                     }
                 }
                 // 🔴 දින 15 ක Free Plan Expiry Logic අවසන්
                 
-                // 🟢 UI යාවත්කාලීන කිරීම
+                // ----------------------------------------------------
+                // 🟢 Mining Activation Logic - Hybrid Logic එක ක්‍රියාත්මක කිරීම
+                // ----------------------------------------------------
+
+                // 1. 🔴 පළමු වරට ලොග් වන විට lastMiningUpdate සකසයි. (Offline Logic සඳහා අත්‍යවශ්‍යයි)
+                if (!data.lastMiningUpdate) {
+                    await userDocRef.update({
+                        lastMiningUpdate: firebase.firestore.FieldValue.serverTimestamp() 
+                    });
+                    userDoc = await userDocRef.get(); 
+                    data = userDoc.data();
+                }
+
+                // 2. 🟢 Offline Mining ගණනය කිරීම සහ ශේෂයට එකතු කිරීම
+                await calculateAndApplyMining(userDocRef, data);
+
+                
+                // 3. 🖥️ UI යාවත්කාලීන කිරීම
                 const userName = data.username || 'Miner'; 
                 document.getElementById('header-user-display-name').textContent = userName;
                 document.getElementById('hero-user-display-name').textContent = userName;
@@ -832,20 +903,26 @@
                 updateFreePlanUI();
                 
                 // 🟢 Referral Link එක නිවැරදිව ජනනය කිරීම
-const referralLinkInput = document.getElementById("referralLink");
-// දත්තවල ඇති referralCode එක භාවිතා කරන්න. එය නැතිනම් UID කොටස භාවිතා කරන්න.
-const referralCode = data.referralCode || user.uid.substring(0, 8); 
-// ⚠️ ඔබගේ සැබෑ වෙබ් අඩවියේ URL එක යොදන්න.
-const BASE_REGISTER_URL = 'https://suwahassathsarachandrasiri.github.io/suwahaswebsite.github.io/register.html'; 
-referralLinkInput.value = `${BASE_REGISTER_URL}?ref=${referralCode}`; 
+                const referralLinkInput = document.getElementById("referralLink");
+                const referralCode = data.referralCode || user.uid.substring(0, 8); 
+                const BASE_REGISTER_URL = 'https://suwahassathsarachandrasiri.github.io/suwahaswebsite.github.io/register.html'; 
+                referralLinkInput.value = `${BASE_REGISTER_URL}?ref=${referralCode}`; 
  
                 
-                // 🔴 Hash Rate එක 0ට වඩා වැඩි නම් Mining Simulation එක පටන් ගැනීම
-                startMiningSimulation(); 
+                // 4. 🚀 Real-time Simulation එක ආරම්භ කිරීම
+                if (totalHashRate > 0) {
+                    // 🟢 දේශීය ශේෂය දත්ත සමුදායේ නව ශේෂයට සකසන්න
+                    currentLocalBalance = data.balance || 0.00;
+                    
+                    // 🟢 Real-time Simulation එක පටන් ගන්න
+                    startRealTimeSimulation(); 
+                } else {
+                    stopRealTimeSimulation();
+                }
+
 
             } catch (error) {
                 console.error("Error during authentication or data fetch:", error);
-                // Auth දෝෂයක් නොමැති නම් logout නොකරන්න.
             }
         });
 
@@ -854,7 +931,7 @@ referralLinkInput.value = `${BASE_REGISTER_URL}?ref=${referralCode}`;
         // -----------------------------------------------------------
         function logout() {
             auth.signOut().then(() => {
-                clearInterval(miningInterval); // Logout විට Mining නවත්වයි
+                stopRealTimeSimulation(); // 🟢 නව: Logout විට Simulation නවත්වයි
                 window.location.href = "register.html";
             }).catch((error) => {
                 console.error("Logout Error:", error);
