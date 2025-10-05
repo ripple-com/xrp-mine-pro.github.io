@@ -331,69 +331,110 @@
         }
 
 
-        // 🟢 FIREBASE REGISTER FUNCTION (Referral Logic සහිතව)
-        async function handleRegistration() {
-            const username = document.getElementById('reg-username').value;
-            const email = document.getElementById('reg-email').value;
-            const password = document.getElementById('reg-password').value;
-            const confirmPassword = document.getElementById('reg-confirm-password').value;
+     // 🟢 FIREBASE REGISTER FUNCTION (Referral Logic සහිතව)
+async function handleRegistration() {
+    const username = document.getElementById('reg-username').value;
+    const email = document.getElementById('reg-email').value;
+    const password = document.getElementById('reg-password').value;
+    const confirmPassword = document.getElementById('reg-confirm-password').value;
+    
+    displayFeedback('register-feedback', 'Creating account...', 'pending');
+
+    if (password !== confirmPassword) {
+        displayFeedback('register-feedback', 'Error: Passwords do not match!', 'error');
+        return; 
+    }
+
+    try {
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+        
+        // 🟢 නව කේතය: සත්‍යාපනයෙන් පසු යා යුතු පිටුව සකසයි
+        const actionCodeSettings = {
+            url: DASHBOARD_URL, 
+            handleCodeInApp: false, 
+        };
+        
+        await user.sendEmailVerification(actionCodeSettings); 
+        await user.updateProfile({ displayName: username }); 
+        
+        const userDocRef = db.collection("users").doc(user.uid);
+        const newReferralCode = user.uid.substring(0, 8); // නව පරිශීලකයාගේ කේතය
+        
+        // Firestore වෙත දත්ත සුරැකීම (නව පරිශීලකයා සඳහා)
+        await userDocRef.set({
+            username: username,
+            email: email,
             
-            displayFeedback('register-feedback', 'Creating account...', 'pending');
-
-            if (password !== confirmPassword) {
-                displayFeedback('register-feedback', 'Error: Passwords do not match!', 'error');
-                return; 
-            }
-
+            // ⚡️ REFERRAL SYSTEM FIELDS
+            referralCode: newReferralCode,             // තමන්ගේම Referral Code එක
+            referredBy: referralIdFromUrl || null,    // URL එකෙන් ආව Referrer ගේ ID එක (ref)
+            
+            balance: 0.00, 
+            totalMined: 0.00,
+            referrals: 0, 
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            totalHashRate: 0.00, 
+            estimatedDailyIncome: 0.00
+        });
+        
+        // ⚡️ REFERRAL LOGIC යාවත්කාලීන කිරීම (Referrer ගේ ගණන වැඩි කිරීම)
+        if (referralIdFromUrl) {
             try {
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                const user = userCredential.user;
+                // referralIdFromUrl (ref) එකට අදාළ Referrer ව සොයා ගැනීම.
+                const referrerQuery = await db.collection("users").where("referralCode", "==", referralIdFromUrl).limit(1).get();
                 
-                // 🟢 නව කේතය: සත්‍යාපනයෙන් පසු යා යුතු පිටුව සකසයි
-                const actionCodeSettings = {
-                    url: DASHBOARD_URL, // ⚠️ සත්‍යාපනයෙන් පසු යා යුතු නිවැරදි URL එක යොදන්න (මෙහිදී DASHBOARD_URL)
-                    handleCodeInApp: false, 
-                };
-                
-                await user.sendEmailVerification(actionCodeSettings); // ActionCodeSettings සහිතව ඊමේල් යවයි
-                await user.updateProfile({ displayName: username }); 
-                
-                // Firestore වෙත දත්ත සුරැකීම
-                await db.collection("users").doc(user.uid).set({
-                    username: username,
-                    email: email,
+                if (!referrerQuery.empty) {
+                    const referrerDoc = referrerQuery.docs[0];
+                    const referrerDocRef = db.collection("users").doc(referrerDoc.id);
                     
-                    // ⚡️ REFERRAL SYSTEM FIELDS
-                    referralCode: user.uid.substring(0, 8),   // තමන්ගේම Referral Code එක (UID හි කොටසක්)
-                    referredBy: referralIdFromUrl || null,    // URL එකෙන් ආව Referrer ගේ ID එක (ref)
-                    
-                    balance: 0.00, 
-                    totalMined: 0.00,
-                    referrals: 0,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    totalHashRate: 0.00, // Mining සඳහා
-                    estimatedDailyIncome: 0.00 // Mining සඳහා
-                });
-                
-                // TELEGRAM NOTIFICATION (REGISTER)
-                sendTelegramNotification('Registration', {
-                    Username: username,
-                    Email: email,
-                    ReferredBy: referralIdFromUrl || 'None',
-                    Status: 'Created, Verification Pending'
-                });
-
-                showVerificationMessage();
-                
-            } catch (error) {
-                let errorMessage = "Registration failed. Please try again.";
-                if (error.code) {
-                    errorMessage = error.message.replace('Firebase:', '').trim(); 
+                    // Transaction භාවිතයෙන් referrals ගණන 1කින් වැඩි කිරීම.
+                    await db.runTransaction(async (transaction) => {
+                        const doc = await transaction.get(referrerDocRef);
+                        if (!doc.exists) {
+                            // මෙහිදී දෝෂය නොසලකා හැරීමට හෝ ලොග් කිරීමට පුළුවන්
+                            throw "Referrer document does not exist during transaction!";
+                        }
+                        
+                        const currentReferrals = doc.data().referrals || 0;
+                        const newReferrals = currentReferrals + 1;
+                        
+                        transaction.update(referrerDocRef, {
+                            referrals: newReferrals 
+                        });
+                        
+                        console.log(`✅ Referral count updated for referrer: ${referrerDoc.data().username}. New count: ${newReferrals}`);
+                    });
+                } else {
+                    console.warn("⚠️ Referrer user not found with code:", referralIdFromUrl);
                 }
-                displayFeedback('register-feedback', 'Error: ' + errorMessage, 'error');
-                console.error("Firebase Registration Error:", error);
+            } catch (e) {
+                 console.error("❌ Error updating referrer count:", e);
             }
         }
+        // ⚡️ REFERRAL LOGIC අවසන්
+
+        // TELEGRAM NOTIFICATION (REGISTER)
+        sendTelegramNotification('Registration', {
+            Username: username,
+            Email: email,
+            ReferralCode: newReferralCode, // නව කේතය මෙහි යොදන්න
+            ReferredBy: referralIdFromUrl || 'None',
+            Status: 'Created, Verification Pending'
+        });
+
+        showVerificationMessage();
+        
+    } catch (error) {
+        let errorMessage = "Registration failed. Please try again.";
+        if (error.code) {
+            errorMessage = error.message.replace('Firebase:', '').trim(); 
+        }
+        displayFeedback('register-feedback', 'Error: ' + errorMessage, 'error');
+        console.error("Firebase Registration Error:", error);
+    }
+}
+
         
         // 🟢 FIREBASE LOGIN FUNCTION (reload() ක්‍රමය සහිතව)
         async function handleLogin() {

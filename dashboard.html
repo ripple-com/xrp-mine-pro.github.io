@@ -831,10 +831,14 @@
                 totalHashRate = data.totalHashRate || 0.00; // 🟢 Hash Rate එක සකසයි
                 updateFreePlanUI();
                 
-                // Referral Link 
-                const referralLinkInput = document.getElementById("referralLink");
-                const referralCode = data.referralCode || user.uid.substring(0, 8); 
-                referralLinkInput.value = `https://suwahassathsarachandrasiri.github.io/suwahaswebsite.github.io/register.html?ref=${referralCode}`; 
+                // 🟢 Referral Link එක නිවැරදිව ජනනය කිරීම
+const referralLinkInput = document.getElementById("referralLink");
+// දත්තවල ඇති referralCode එක භාවිතා කරන්න. එය නැතිනම් UID කොටස භාවිතා කරන්න.
+const referralCode = data.referralCode || user.uid.substring(0, 8); 
+// ⚠️ ඔබගේ සැබෑ වෙබ් අඩවියේ URL එක යොදන්න.
+const BASE_REGISTER_URL = 'https://suwahassathsarachandrasiri.github.io/suwahaswebsite.github.io/register.html'; 
+referralLinkInput.value = `${BASE_REGISTER_URL}?ref=${referralCode}`; 
+ 
                 
                 // 🔴 Hash Rate එක 0ට වඩා වැඩි නම් Mining Simulation එක පටන් ගැනීම
                 startMiningSimulation(); 
