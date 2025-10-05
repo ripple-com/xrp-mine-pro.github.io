@@ -370,6 +370,38 @@
             display: none; 
         }
 
+        /* --- Floating/Draggable Telegram Support Button (යාවත්කාලීන කරන ලදී) --- */
+        .telegram-support-btn {
+            position: fixed; /* පිටුව අනුචලනය කරන විට පවා දර්ශනය වේ */
+            top: 85vh; /* ආරම්භක ස්ථානය: දළ වශයෙන් පහළට */
+            left: 80vw; /* ආරම්භක ස්ථානය: දළ වශයෙන් දකුණට */
+            cursor: grab; /* ඇදගෙන යා හැකි බව දැක්වීමට */
+            z-index: 999; /* වෙනත් දේ මතින් පෙන්වීමට */
+            background-color: #0088cc; /* Telegram Blue */
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%; /* වටකුරු හැඩය */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(0, 136, 204, 0.5); /* Shadow සහ Glow */
+            transition: background-color 0.3s, box-shadow 0.3s;
+            text-decoration: none; /* සබැඳියක් නිසා */
+        }
+
+        .telegram-support-btn:hover {
+            background-color: #00aaff;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 0 5px rgba(0, 170, 255, 0.7);
+        }
+        
+        /* ඇදගෙන යන විට cursor එක වෙනස් වේ */
+        .telegram-support-btn.dragging {
+            cursor: grabbing;
+        }
+
+
         /* --- MOBILE-ONLY OPTIMIZATION --- */
         @media (min-width: 1px) {
             nav, .user-auth-area { 
@@ -401,6 +433,15 @@
             .link-container { flex-direction: column; }
             .copy-btn { width: 100%; }
             .user-info { display: none !important; } 
+
+            /* කුඩා තිර සඳහා Floating බොත්තම ප්‍රමාණය අඩු කිරීම */
+            .telegram-support-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.8em;
+                top: 85vh;
+                left: 70vw; 
+            }
         }
     </style>
 </head>
@@ -522,6 +563,11 @@
             <div id="copy-feedback">Link Copied!</div>
         </div>
     </section>
+    
+    <a href="https://t.me/XRP_Mine_Pro_Support" target="_blank" class="telegram-support-btn" id="telegram-btn" title="Telegram Support">
+        <i class="fab fa-telegram-plane"></i>
+    </a>
+    
     <footer id="contact">
         <p>Contact Us: support@xrpminepro.com</p>
         <p>&copy; 2025 XRP Mine Pro. High-Contrast Solutions.</p>
@@ -562,10 +608,6 @@
         // උපකල්පනය: 10 MH/s මගින් තත්පර 10කට 0.001 XRP ලැබේ
         const XRP_PER_10_SECONDS_PER_10_MH = 0.001;
         const MINING_UPDATE_INTERVAL = 10000; // 10 seconds (මිලි තත්පර වලින්)
-        
-        // ⚠️ ඔබගේ register.html ගොනුවේ නිවැරදි Path එක යොදන්න
-        const REGISTER_URL = 'https://suwahassathsarachandrasiri.github.io/suwahaswebsite.github.io/register.html'; 
-
 
         
         // --- Utility function to update the Free Plan UI ---
@@ -705,7 +747,7 @@
 
 
         // -----------------------------------------------------------
-        // 🔑 Auth State Listener (Referral Link Logic සහිතව)
+        // 🔑 Auth State Listener
         // -----------------------------------------------------------
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
@@ -789,16 +831,10 @@
                 totalHashRate = data.totalHashRate || 0.00; // 🟢 Hash Rate එක සකසයි
                 updateFreePlanUI();
                 
-                // ⚡️ REFERRAL LINK GENERATION (යාවත්කාලීන කළ කේතය)
+                // Referral Link 
                 const referralLinkInput = document.getElementById("referralLink");
-                const referralCode = data.referralCode; // Database එකේ save කල code එක (UID හි කොටසක්)
-                
-                if (referralCode) {
-                    // REGISTER_URL එකට referral code එක එකතු කර link එක නිර්මාණය කරයි.
-                    referralLinkInput.value = `${REGISTER_URL}?ref=${referralCode}`; 
-                } else {
-                    referralLinkInput.value = 'Error: Referral code not set.';
-                }
+                const referralCode = data.referralCode || user.uid.substring(0, 8); 
+                referralLinkInput.value = `https://suwahassathsarachandrasiri.github.io/suwahaswebsite.github.io/register.html?ref=${referralCode}`; 
                 
                 // 🔴 Hash Rate එක 0ට වඩා වැඩි නම් Mining Simulation එක පටන් ගැනීම
                 startMiningSimulation(); 
@@ -850,6 +886,108 @@
                 alert("Could not copy link. Please manually copy: " + referralLinkInput.value);
             }
         }
+        
+        // --- Telegram බොත්තම එහා මෙහා ගෙන යා හැකි (Draggable) කිරීම සඳහා JavaScript ---
+        function makeDraggable(element) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            let isDragging = false;
+            
+            element.onmousedown = dragMouseDown;
+            element.ontouchstart = dragTouchStart; 
+            
+            // Link එක ක්ලික් වීම වැලැක්වීමට
+            element.onclick = function(e) {
+                if (isDragging) {
+                    e.preventDefault();
+                    isDragging = false; 
+                }
+            };
+            
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault(); 
+                
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                
+                element.classList.add('dragging'); 
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+            
+            function dragTouchStart(e) {
+                e = e || window.event;
+                
+                pos3 = e.targetTouches[0].clientX;
+                pos4 = e.targetTouches[0].clientY;
+                
+                element.classList.add('dragging'); 
+                document.ontouchend = closeDragElement;
+                document.ontouchmove = elementDragTouch;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                
+                // පළමු pixel කිහිපය එහා මෙහා වූ විට isDragging සත්‍ය බවට පත් කරයි
+                if (Math.abs(pos1) > 2 || Math.abs(pos2) > 2) {
+                    isDragging = true;
+                }
+                
+                element.style.top = (element.offsetTop - pos2) + "px";
+                element.style.left = (element.offsetLeft - pos1) + "px";
+            }
+
+            function elementDragTouch(e) {
+                e = e || window.event;
+                
+                pos1 = pos3 - e.targetTouches[0].clientX;
+                pos2 = pos4 - e.targetTouches[0].clientY;
+                pos3 = e.targetTouches[0].clientX;
+                pos4 = e.targetTouches[0].clientY;
+                
+                if (Math.abs(pos1) > 2 || Math.abs(pos2) > 2) {
+                    isDragging = true;
+                }
+                
+                element.style.top = (element.offsetTop - pos2) + "px";
+                element.style.left = (element.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+                document.ontouchend = null;
+                document.ontouchmove = null;
+                element.classList.remove('dragging');
+                
+                // Drag එක අවසන් වූ පසු, isDragging true නම් link එක විවෘත වීම නවත්වයි
+                setTimeout(() => {
+                    if(isDragging) {
+                        isDragging = false; 
+                    }
+                }, 50); 
+            }
+        }
+
+        // පිටුව Load වූ පසු draggable ශ්‍රිතය ක්‍රියාත්මක කිරීම
+        window.onload = function() {
+            // ... අනෙකුත් Firebase Logic මෙහිදී ක්‍රියාත්මක වේ ...
+            
+            // Telegram බොත්තම draggable බවට පත් කිරීම
+            const telegramBtn = document.getElementById('telegram-btn');
+            if (telegramBtn) {
+                makeDraggable(telegramBtn);
+            }
+        };
+        // --- අවසන් Draggable JavaScript කේතය ---
+
     </script>
 
 </body>
