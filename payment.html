@@ -1,0 +1,19 @@
+// payment.html ගොනුව තුළ
+document.addEventListener('DOMContentLoaded', () => {
+    // URL එකෙන් තොරතුරු ලබා ගැනීම
+    const params = new URLSearchParams(window.location.search);
+    const planId = params.get('planId');
+    const price = params.get('price');
+    const name = params.get('name');
+
+    if (planId && price && name) {
+        // Modal එකේ කළා වගේ, දැන් payment.html එකේදී UI එක යාවත්කාලීන කරන්න.
+        console.log(`User wants to buy: ${name} ($${price})`);
+        // document.getElementById('plan-name-display').textContent = name;
+        // document.getElementById('plan-price-display').textContent = `$${price} USDT`;
+        
+        // ... මෙතැනට USDT ලිපිනය, Telegram උපදෙස් සහ බොත්තම් HTML එක් කරන්න ...
+    } else {
+        alert("සැලසුම් තොරතුරු අතුරුදහන් වී ඇත. නැවත උත්සාහ කරන්න.");
+    }
+});
