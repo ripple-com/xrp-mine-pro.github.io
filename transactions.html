@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History - XRP MINE PRO</title>    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Base Styles - High-Contrast Material Dark Theme */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212; 
+            color: #eeeeee; 
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Material Dark Themed Colors */
+        :root {
+            --primary-color: #03a9f4; 
+            --secondary-color: #ff9800; 
+            --accent-color: #4CAF50; /* Green - Success */
+            --card-bg: #212121; 
+            --border-color: #333333;
+            --danger-color: #f44336; /* Red - Failed/Cancelled */
+        }
+        
+        a { color: var(--primary-color); text-decoration: none; transition: color 0.3s; }
+        a:hover { color: #81d4fa; }
+
+        /* Header & Back Link */
+        header {
+            background-color: #121212; 
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--primary-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: var(--secondary-color);
+        }
+        
+        .nav-back a {
+            font-weight: 600; 
+            font-size: 1em; 
+            color: #bbbbbb; 
+            padding: 10px 20px;
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .nav-back a:hover {
+            background-color: rgba(3, 169, 244, 0.1);
+            color: var(--primary-color);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            padding: 50px 5% 40px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .history-container {
+            width: 100%;
+            max-width: 1000px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .history-container h2 {
+            color: var(--primary-color);
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 30px; 
+            text-align: center;
+        }
+
+        /* Loading and Empty State */
+        #loading-message, #empty-history {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: #9e9e9e;
+        }
+
+        /* Table Styles */
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.95em;
+        }
+
+        .transaction-table th, .transaction-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .transaction-table th {
+            background-color: #2c2c2c;
+            color: var(--secondary-color);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .transaction-table tr:hover {
+            background-color: #2a2a2a;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: 700;
+            font-size: 0.85em;
+        }
+
+        .status-Pending {
+            background-color: #ff980030;
+            color: var(--secondary-color);
+        }
+        .status-Completed {
+            background-color: #4CAF5030;
+            color: var(--accent-color);
+        }
+        .status-Failed, .status-Cancelled {
+            background-color: #f4433630;
+            color: var(--danger-color);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #000000;
+            color: #9e9e9e;
+            padding: 20px 0;
+            font-size: 0.9em;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .history-container {
+                padding: 20px 15px;
+            }
+            .transaction-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            .transaction-table thead, .transaction-table tbody, .transaction-table th, .transaction-table td, .transaction-table tr {
+                display: block;
+            }
+            .transaction-table thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            .transaction-table tr {
+                margin-bottom: 10px;
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+            }
+            .transaction-table td {
+                border-bottom: 1px solid var(--border-color);
+                text-align: right;
+                position: relative;
+                padding-left: 50%;
+            }
+            .transaction-table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                font-weight: 600;
+                color: var(--secondary-color);
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <div class="logo">XRP MINE PRO</div>
+        <div class="nav-back">
+            <a href="dashboard.html"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="history-container">
+            <h2><i class="fas fa-history"></i> TRANSACTION HISTORY</h2>
+            
+            <div id="loading-message">
+                <i class="fas fa-spinner fa-spin"></i> Loading transactions...
+            </div>
+            
+            <div id="empty-history" style="display: none;">
+                <i class="fas fa-info-circle"></i> No withdrawal transactions found yet.
+            </div>
+
+            <table class="transaction-table" id="transaction-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Amount (XRP)</th>
+                        <th>Address</th>
+                        <th>Tag</th>
+                        <th>Fee</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="transaction-list">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 XRP Mine Pro. High-Contrast Solutions.</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // ⚠️ ඔබගේ සැබෑ Firebase Config තොරතුරු මෙහි තිබිය යුතුය
+        const firebaseConfig = {
+            apiKey: "AIzaSyBsTIzaJtaGiAfv4a69o80f0QvKiq6lFj4", 
+            authDomain: "xrp-mine-pro.firebaseapp.com",
+            projectId: "xrp-mine-pro",
+            storageBucket: "xrp-mine-pro.appspot.com",
+            messagingSenderId: "1234567890",
+            appId: "1:1234567890:web:abcdef123456"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore(); 
+
+        const transactionList = document.getElementById('transaction-list');
+        const loadingMessage = document.getElementById('loading-message');
+        const emptyHistory = document.getElementById('empty-history');
+        const transactionTable = document.getElementById('transaction-table');
+
+        // -----------------------------------------------------------
+        // 🔑 Auth State Listener
+        // -----------------------------------------------------------
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                // පරිශීලකයා ලොග් වී නොමැති නම් ලියාපදිංචි පිටුවට යොමු කිරීම
+                window.location.href = "register.html"; 
+                return;
+            }
+            
+            // ගනුදෙනු ඉතිහාසය Load කිරීම
+            await loadTransactionHistory(user.uid);
+        });
+
+        // -----------------------------------------------------------
+        // 🔄 Transaction History Loader
+        // -----------------------------------------------------------
+
+        async function loadTransactionHistory(uid) {
+            loadingMessage.style.display = 'block';
+            emptyHistory.style.display = 'none';
+            transactionTable.style.display = 'none';
+            transactionList.innerHTML = ''; // පැරණි දත්ත ඉවත් කිරීම
+
+            try {
+                // 1. Transaction Data එක Firestore වෙතින් කියවීම
+                // ⚠️ Rules වලට අනුව, 'uid' එක current user ගේ uid එකට සමාන ඒවා පමණක් ලැබේ.
+                const snapshot = await db.collection("transactions")
+                    .where("uid", "==", uid) // වත්මන් පරිශීලකයාගේ වාර්තා පමණක්
+                    .orderBy("timestamp", "desc") // අලුත්ම ඒවා මුලින්
+                    .get();
+
+                if (snapshot.empty) {
+                    emptyHistory.style.display = 'block';
+                    return;
+                }
+
+                // 2. Data එක Table එකට ඇතුළු කිරීම
+                snapshot.forEach(doc => {
+                    const transaction = doc.data();
+                    const date = transaction.timestamp ? transaction.timestamp.toDate().toLocaleString() : 'N/A';
+                    
+                    const row = transactionList.insertRow();
+                    row.innerHTML = `
+                        <td data-label="Date">${date}</td>
+                        <td data-label="Type">${transaction.type || 'N/A'}</td>
+                        <td data-label="Amount">${(transaction.amount || 0).toFixed(4)} XRP</td>
+                        <td data-label="Address">${transaction.address ? transaction.address.substring(0, 8) + '...' : 'N/A'}</td>
+                        <td data-label="Tag">${transaction.tag || 'N/A'}</td>
+                        <td data-label="Fee">${(transaction.fee || 0.00).toFixed(4)} XRP</td>
+                        <td data-label="Status">
+                            <span class="status-badge status-${transaction.status || 'Pending'}">
+                                ${transaction.status || 'Pending'}
+                            </span>
+                        </td>
+                    `;
+                });
+
+                transactionTable.style.display = 'table'; // Table එක පෙන්වීම
+
+            } catch (error) {
+                console.error("Error loading transaction history:", error);
+                alert("Error loading history: " + error.message);
+                emptyHistory.textContent = "Error loading history. Please check console.";
+                emptyHistory.style.display = 'block';
+            } finally {
+                loadingMessage.style.display = 'none'; // Loading පණිවිඩය ඉවත් කිරීම
+            }
+        }
+    </script>
+
+</body>
+</html>
