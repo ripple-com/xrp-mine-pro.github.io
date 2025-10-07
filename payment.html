@@ -159,6 +159,8 @@
             <form id="payment-proof-form" onsubmit="handleProofSubmission(event)">
                 
                 <label for="proof-screenshot">2. Payment Screenshot (Required)</label>
+                <input type="file" id="proof-screenshot" accept="image/*" required>
+
                 <label for="telegram-username">3. Your Telegram Username (@username) & Phone Number</label>
                 <input type="text" id="telegram-username" placeholder="@YourUsername, +94XXXXXXXXX" required>
 
@@ -166,7 +168,7 @@
                 <input type="email" id="account-email" placeholder="YourAccountEmail@gmail.com" required>
 
                 <p style="color: #ff9800; font-weight: 600; margin-top: 20px;">
-                    *After submitting this form, please ensure you send the **Payment Screenshot** directly to the Telegram bot to finalize your order.
+                    *Your payment details and screenshot will be sent directly to our Telegram admin for quick activation.
                 </p>
 
                 <p class="error-message" id="error-msg">Please fill out all required fields.</p>
@@ -181,8 +183,8 @@
 
     <script>
         // ⚠️ CONFIGURATION - REPLACE WITH YOUR ACTUAL DATA
-        const TELEGRAM_BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"; // Example: 123456:ABC-DEF1234
-        const ADMIN_CHAT_ID = "YOUR_ADMIN_CHAT_ID";   // Example: -1001234567890 (for channel/group) OR 12345678 (for user)
+        const TELEGRAM_BOT_TOKEN = "8075478739:AAG--5tk65gjXGyDZlbquiORvKU8-IF5Snw"; // Example: 123456:ABC-DEF1234
+        const ADMIN_CHAT_ID = "8344580966";   // Example: -1001234567890 (for channel/group) OR 12345678 (for user)
         const USDT_ADDRESS = "YOUR_BINANCE_USDT_ADDRESS_HERE";
 
         let selectedPlan = {}; // To hold plan details from URL
@@ -221,61 +223,77 @@
                 .catch(err => console.error('Could not copy text: ', err));
         }
 
-        // --- Telegram Submission Function ---
+        // --- Telegram Submission Function (UPDATED TO HANDLE FILE UPLOAD) ---
 
         async function handleProofSubmission(event) {
             event.preventDefault();
 
             const telegramUsername = document.getElementById('telegram-username').value.trim();
             const accountEmail = document.getElementById('account-email').value.trim();
+            const proofFileInput = document.getElementById('proof-screenshot');
+            const proofFile = proofFileInput.files[0];
+            
             const submitButton = document.getElementById('submit-button');
             const errorMsg = document.getElementById('error-msg');
             
             errorMsg.style.display = 'none';
 
-            if (!telegramUsername || !accountEmail) {
-                errorMsg.textContent = "Please fill out all required fields.";
+            if (!telegramUsername || !accountEmail || !proofFile) {
+                errorMsg.textContent = "Please fill out all required fields and upload the payment screenshot.";
+                errorMsg.style.display = 'block';
+                return;
+            }
+            
+            // Check file type (Telegram sendPhoto is for JPEG, GIF, PNG)
+            if (!proofFile.type.startsWith('image/')) {
+                errorMsg.textContent = "Please upload a valid image file (JPEG, PNG, GIF).";
                 errorMsg.style.display = 'block';
                 return;
             }
 
-            submitButton.disabled = true;
-            submitButton.textContent = 'Sending... Please wait.';
 
-            // Construct the message to send to Telegram
-            const message = `
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending proof...';
+
+            // 1. Create the photo caption (the text message)
+            const caption = `
 *--- NEW PAYMENT PROOF SUBMISSION ---*
 *Plan Purchased:* ${selectedPlan.name} (${selectedPlan.planId})
 *Amount:* $${selectedPlan.price.toFixed(2)} USDT
 *----------------------------------------*
 *Account Email:* ${accountEmail}
 *Telegram/Contact:* ${telegramUsername}
-*Manual Action Required:* Please check for the corresponding payment in the Binance USDT address: \`${USDT_ADDRESS}\`
-*REMINDER:* The user must still send the screenshot directly to the bot/admin chat.
+*Manual Check:* Please verify payment to USDT address: \`${USDT_ADDRESS}\`
 `;
+            
+            // 2. Create FormData object for file upload
+            const formData = new FormData();
+            formData.append('chat_id', ADMIN_CHAT_ID);
+            // 'photo' is the required field name for Telegram sendPhoto
+            formData.append('photo', proofFile); 
+            formData.append('caption', caption);
+            formData.append('parse_mode', 'Markdown');
+
 
             try {
-                const telegramApiUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+                // Use sendPhoto endpoint for file and text combined
+                const telegramApiUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`;
                 
                 const response = await fetch(telegramApiUrl, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        chat_id: ADMIN_CHAT_ID,
-                        text: message,
-                        parse_mode: 'Markdown'
-                    }),
+                    // Note: No 'Content-Type' header is set here. The browser handles it 
+                    // automatically and correctly when sending FormData.
+                    body: formData,
                 });
 
                 if (response.ok) {
-                    alert("Submission Successful! Your details have been sent. Please send the payment screenshot directly to our Telegram chat now to complete the activation.");
+                    alert("Submission Successful! Your details and screenshot have been sent to the admin. We will activate your account shortly.");
                     document.getElementById('payment-proof-form').reset();
-                    submitButton.textContent = 'Details Sent';
+                    submitButton.textContent = 'Details Sent!';
                 } else {
                     const errorData = await response.json();
-                    throw new Error(`Telegram API Error: ${errorData.description || response.statusText}`);
+                    console.error('Telegram API Error Data:', errorData);
+                    throw new Error(`Telegram API Error: ${errorData.description || response.statusText}. Check your Bot Token and Chat ID.`);
                 }
 
             } catch (error) {
