@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw XRP - Premium XRP Cloud Mining</title>    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Base Styles - High-Contrast Material Dark Theme */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212; 
+            color: #eeeeee; 
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Material Dark Themed Colors (Same as dashboard.html) */
+        :root {
+            --primary-color: #03a9f4; 
+            --secondary-color: #ff9800; 
+            --accent-color: #4CAF50; 
+            --card-bg: #212121; 
+            --border-color: #333333;
+            --button-bg: #03a9f4; 
+            --button-hover: #0288d1;
+        }
+        
+        a { color: var(--primary-color); text-decoration: none; transition: color 0.3s; }
+        a:hover { color: #81d4fa; }
+
+        /* Main Content Styling */
+        .main-content {
+            flex-grow: 1;
+            padding: 60px 5% 40px; 
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .withdrawal-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--primary-color);
+            text-align: center;
+        }
+
+        .withdrawal-card h2 {
+            color: var(--secondary-color);
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 30px; 
+        }
+
+        .info-box {
+            background-color: #333333;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 1.1em;
+            text-align: left;
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .info-box strong {
+            color: var(--accent-color);
+        }
+
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #bbbbbb;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: #333333;
+            color: white;
+            font-size: 1em;
+            box-sizing: border-box; /* Padding inside the width */
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(3, 169, 244, 0.5);
+            outline: none;
+        }
+        
+        /* Error Message Styling */
+        #balance-display {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .error-message {
+            color: #ff5252;
+            margin-top: 10px;
+            font-weight: 600;
+            text-align: left;
+            display: none;
+        }
+
+        /* Button Styling */
+        .submit-btn {
+            background-color: var(--button-bg); 
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-top: 20px;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(3, 169, 244, 0.4);
+            border: none;
+            cursor: pointer;
+            color: white;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--button-hover);
+            transform: translateY(-1px);
+        }
+        
+        .submit-btn:disabled {
+            background-color: #555555;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* Back Button */
+        .back-link {
+            display: block;
+            margin-top: 30px;
+            font-size: 1em;
+            font-weight: 600;
+        }
+        
+        /* --- Header & Footer Styles (Simplified for standalone page) --- */
+        header {
+            background-color: #121212; 
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--secondary-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: var(--secondary-color);
+        }
+        
+        .nav-back a {
+            font-weight: 600; 
+            font-size: 1em; 
+            color: #bbbbbb; 
+            padding: 10px 20px;
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .nav-back a:hover {
+            background-color: rgba(3, 169, 244, 0.1);
+            color: var(--primary-color);
+        }
+        
+        footer {
+            background-color: #000000;
+            color: #9e9e9e;
+            padding: 20px 0;
+            font-size: 0.9em;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .withdrawal-card {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    
+    <header>
+        <div class="logo">XRP MINE PRO</div>
+        <div class="nav-back">
+            <a href="dashboard.html"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="withdrawal-card">
+            <h2><i class="fas fa-wallet"></i> WITHDRAW XRP</h2>
+            
+            <div id="balance-display">
+                Your Current Balance: <span id="current-balance-xrp">0.0000 XRP</span>
+            </div>
+
+            <div class="info-box">
+                <p><strong>Minimum Withdrawal:</strong> 15.00 XRP</p>
+                <p><strong>Withdrawal Fee:</strong> 0.05 XRP (Network Fee)</p>
+                <p style="margin: 0; font-size: 0.9em; color: #ff9800;">Note: Always double-check your XRP Address and Destination Tag.</p>
+            </div>
+
+            <form id="withdrawal-form">
+                
+                <div class="form-group">
+                    <label for="xrp-address"><i class="fas fa-at"></i> XRP Destination Address</label>
+                    <input type="text" id="xrp-address" placeholder="r..." required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="destination-tag"><i class="fas fa-tag"></i> Destination Tag (Mandatory for most exchanges)</label>
+                    <input type="number" id="destination-tag" placeholder="12345678" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="amount"><i class="fas fa-coins"></i> Amount to Withdraw (XRP)</label>
+                    <input type="number" id="amount" step="0.01" min="15.00" placeholder="e.g., 15.50" required>
+                    <div id="amount-error" class="error-message"></div>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="withdraw-button">
+                    PROCESS WITHDRAWAL <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 XRP Mine Pro. High-Contrast Solutions.</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // ⚠️ ඔබගේ සැබෑ Firebase Config තොරතුරු මෙහි තිබිය යුතුය
+        const firebaseConfig = {
+            apiKey: "AIzaSyBsTIzaJtaGiAfv4a69o80f0QvKiq6lFj4", 
+            authDomain: "xrp-mine-pro.firebaseapp.com",
+            projectId: "xrp-mine-pro",
+            storageBucket: "xrp-mine-pro.appspot.com",
+            messagingSenderId: "1234567890",
+            appId: "1:1234567890:web:abcdef123456"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore(); 
+        
+        const MIN_WITHDRAWAL_XRP = 15.00;
+        const WITHDRAWAL_FEE = 0.05;
+        let currentBalance = 0.00;
+        let userEmail = 'N/A'; // පරිශීලකයාගේ විද්‍යුත් තැපෑල ගබඩා කිරීමට
+        
+        // 🔑 ⚠️ TELEGRAM BOT තොරතුරු මෙහි යොදන්න! ⚠️
+        const BOT_TOKEN = "8403269264:AAHvE3hKLaiJ3cG1edsMedkbjJVckPIaKhI"; // ඔබේ Bot Token එක
+        const CHAT_ID = "8344580966";   // ඔබේ Chat ID එක (Group ID නම් සෘණ අගයක් වේ)
+        const TELEGRAM_API_URL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+
+        // -----------------------------------------------------------
+        // 🔑 Auth State Listener (ශේෂය සහ Email එක ලබා ගැනීම)
+        // -----------------------------------------------------------
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                window.location.href = "register.html"; 
+                return;
+            }
+            
+            // පරිශීලකයාගේ Email එක ගබඩා කිරීම
+            userEmail = user.email || 'Email Not Set'; 
+            
+            try {
+                const userDocRef = db.collection("users").doc(user.uid);
+                const userDoc = await userDocRef.get();
+                
+                if (!userDoc.exists) {
+                    alert("User data not found.");
+                    await auth.signOut();
+                    return;
+                }
+
+                const data = userDoc.data();
+                currentBalance = data.balance || 0.00;
+                
+                // UI යාවත්කාලීන කිරීම
+                document.getElementById('current-balance-xrp').textContent = currentBalance.toFixed(4) + ' XRP';
+                document.getElementById('amount').min = MIN_WITHDRAWAL_XRP.toFixed(2);
+
+            } catch (error) {
+                console.error("Error during authentication or data fetch:", error);
+                alert("An error occurred while loading your data.");
+            }
+        });
+
+
+        // -----------------------------------------------------------
+        // 💸 Withdrawal Logic (Firebase Transaction + Telegram Notification)
+        // -----------------------------------------------------------
+        document.getElementById('withdrawal-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const user = auth.currentUser;
+            if (!user) return; 
+
+            const address = document.getElementById('xrp-address').value.trim();
+            const tag = document.getElementById('destination-tag').value.trim();
+            const amountInput = document.getElementById('amount');
+            const amount = parseFloat(amountInput.value);
+            
+            const errorElement = document.getElementById('amount-error');
+            const withdrawButton = document.getElementById('withdraw-button');
+            
+            errorElement.style.display = 'none';
+            
+            const totalDeduction = amount + WITHDRAWAL_FEE;
+            
+            if (amount < MIN_WITHDRAWAL_XRP) {
+                errorElement.textContent = `Minimum withdrawal amount is ${MIN_WITHDRAWAL_XRP.toFixed(2)} XRP.`;
+                errorElement.style.display = 'block';
+                return;
+            }
+
+            if (currentBalance < totalDeduction) {
+                errorElement.textContent = `Insufficient Balance! (You need ${totalDeduction.toFixed(4)} XRP).`;
+                errorElement.style.display = 'block';
+                return;
+            }
+
+            if (!address.startsWith('r') || address.length < 20) {
+                 errorElement.textContent = 'Invalid XRP Address format.';
+                 errorElement.style.display = 'block';
+                 return;
+            }
+
+            if (!confirm(`Are you sure you want to withdraw ${amount.toFixed(4)} XRP to Address: ${address} with Tag: ${tag}? (Fee: ${WITHDRAWAL_FEE} XRP)`)) {
+                return;
+            }
+
+            withdrawButton.disabled = true;
+            withdrawButton.textContent = 'Processing...';
+
+            try {
+                const userDocRef = db.collection("users").doc(user.uid);
+
+                // 1. Firebase Transaction (Balance Update & History Record)
+                await db.runTransaction(async (transaction) => {
+                    const doc = await transaction.get(userDocRef);
+                    if (!doc.exists) throw new Error("User data not found.");
+                    
+                    const data = doc.data();
+                    const currentBal = data.balance || 0.00;
+
+                    if (currentBal < totalDeduction) {
+                        throw new Error("Balance check failed during transaction. Try again.");
+                    }
+                    
+                    const newBalance = currentBal - totalDeduction;
+                    
+                    transaction.update(userDocRef, { balance: newBalance });
+                    
+                    const withdrawalHistoryRef = db.collection("transactions"); 
+                    transaction.set(withdrawalHistoryRef.doc(), {
+                        uid: user.uid,
+                        type: "withdrawal",
+                        amount: amount,
+                        fee: WITHDRAWAL_FEE,
+                        totalDeducted: totalDeduction,
+                        address: address,
+                        tag: tag,
+                        status: "Pending", 
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    currentBalance = newBalance; 
+                });
+                
+                // 2. TELEGRAM NOTIFICATION (සෘජු API ඇමතුම)
+                const messageText = 
+                    `💰 **NEW XRP WITHDRAWAL REQUEST** 💰\n\n` +
+                    `👤 **User Email**: \`${userEmail}\`\n` +
+                    `💸 **Amount**: ${amount.toFixed(4)} XRP\n` +
+                    `📍 **Address**: \`${address}\`\n` +
+                    `🏷 **Tag**: ${tag || 'N/A'}\n` +
+                    `🔗 **Fee**: ${WITHDRAWAL_FEE.toFixed(4)} XRP\n` +
+                    `⏱ **Status**: Pending`;
+                
+                await fetch(TELEGRAM_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: messageText,
+                        parse_mode: 'Markdown'
+                    })
+                });
+                
+                
+                alert(`Withdrawal of ${amount.toFixed(4)} XRP submitted successfully! Notification sent to Telegram.`);
+                
+                // UI යාවත්කාලීන කිරීම
+                document.getElementById('current-balance-xrp').textContent = currentBalance.toFixed(4) + ' XRP';
+                document.getElementById('withdrawal-form').reset();
+                
+            } catch (error) {
+                console.error("Withdrawal Failed:", error.message);
+                alert("Withdrawal failed: " + error.message);
+            } finally {
+                withdrawButton.disabled = false;
+                withdrawButton.textContent = 'PROCESS WITHDRAWAL';
+            }
+        });
+
+    </script>
+
+</body>
+</html>
