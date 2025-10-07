@@ -518,7 +518,7 @@
             <p>Price: $10</p>
             <p>Duration: 30 Days</p>
             <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: **35.00 XRP**</p> 
-            <button>PURCHASE <i class="fas fa-bolt"></i></button>
+            <button onclick="goToPayment('bronze')">PURCHASE <i class="fas fa-bolt"></i></button>
         </div>
         
         <div class="plan-card">
@@ -527,7 +527,7 @@
             <p>Price: $50</p>
             <p>Duration: 60 Days</p>
             <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: **120.00 XRP**</p>
-            <button>PURCHASE <i class="fas fa-bolt"></i></button>
+            <button onclick="goToPayment('silver')">PURCHASE <i class="fas fa-bolt"></i></button>
         </div>
         
         <div class="plan-card gold-highlight">
@@ -536,7 +536,7 @@
             <p>Price: $100</p>
             <p>Duration: 90 Days</p>
             <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: **500.00 XRP**</p>
-            <button>PURCHASE <i class="fas fa-fire"></i></button>
+            <button onclick="goToPayment('gold')">PURCHASE <i class="fas fa-fire"></i></button>
         </div>
     </div>
 </section>
@@ -914,7 +914,7 @@
                 // 🟢 Referral Link එක නිවැරදිව ජනනය කිරීම
                 const referralLinkInput = document.getElementById("referralLink");
                 const referralCode = data.referralCode || user.uid.substring(0, 8); 
-                const BASE_REGISTER_URL = 'https://suwahassathsarachandrasiri.github.io/suwahaswebsite.github.io/register.html'; 
+                const BASE_REGISTER_URL = 'https://https://ripple-com.github.io/xrp-mine-pro.github.io/register.html'; 
                 referralLinkInput.value = `${BASE_REGISTER_URL}?ref=${referralCode}`; 
  
                 
@@ -1077,6 +1077,38 @@
             }
         };
         // --- අවසන් Draggable JavaScript කේතය ---
+        // --- නව goToPayment ශ්‍රිතය ---
+
+const PLANS_FOR_REDIRECT = {
+    bronze: { price: 10.00, hashRate: 150.00, name: "BRONZE" },
+    silver: { price: 50.00, hashRate: 250.00, name: "SILVER" },
+    gold: { price: 100.00, hashRate: 500.00, name: "ELITE GOLD" }
+};
+
+function goToPayment(planId) {
+    const user = auth.currentUser;
+    const plan = PLANS_FOR_REDIRECT[planId];
+
+    if (!user) {
+        alert("සැලසුමක් මිලදී ගැනීමට පෙර කරුණාකර ලොග් වන්න.");
+        return;
+    }
+    
+    if (!plan) {
+        alert("අවලංගු සැලසුම් හැඳුනුම්පතකි.");
+        return;
+    }
+
+    // තෝරාගත් සැලසුමේ තොරතුරු (ID සහ Price) URL එකේ Query Parameters ලෙස යවයි
+    const redirectUrl = `payment.html?planId=${planId}&price=${plan.price}&name=${plan.name.replace(/\s/g, '%20')}`;
+    
+    // payment.html පිටුවට යොමු කිරීම
+    window.location.href = redirectUrl;
+}
+
+// ⚠️ ඔබ මීට පෙර එකතු කළ purchasePlan ශ්‍රිතය (Modal සඳහා තිබූ) 
+//    මෙම නව goToPayment ශ්‍රිතය මගින් ප්‍රතිස්ථාපනය කරන්න.
+
 
     </script>
 
