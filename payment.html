@@ -1,19 +1,292 @@
-// payment.html ගොනුව තුළ
-document.addEventListener('DOMContentLoaded', () => {
-    // URL එකෙන් තොරතුරු ලබා ගැනීම
-    const params = new URLSearchParams(window.location.search);
-    const planId = params.get('planId');
-    const price = params.get('price');
-    const name = params.get('name');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Purchase - Payment</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Base Styles - High-Contrast Material Dark Theme */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212; 
+            color: #eeeeee; 
+            line-height: 1.6;
+        }
 
-    if (planId && price && name) {
-        // Modal එකේ කළා වගේ, දැන් payment.html එකේදී UI එක යාවත්කාලීන කරන්න.
-        console.log(`User wants to buy: ${name} ($${price})`);
-        // document.getElementById('plan-name-display').textContent = name;
-        // document.getElementById('plan-price-display').textContent = `$${price} USDT`;
+        /* Material Dark Themed Colors */
+        :root {
+            --primary-color: #03a9f4; 
+            --secondary-color: #ff9800; 
+            --card-bg: #212121; 
+            --border-color: #333333;
+        }
+
+        /* Payment Specific Styles */
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 25px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-color);
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            text-align: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .plan-summary {
+            background-color: #333333;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .plan-summary h3 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.8em;
+        }
+
+        .plan-summary p {
+            margin: 5px 0 0;
+            font-size: 1.5em;
+            color: #fff;
+        }
+
+        .address-box, .proof-form {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px dashed var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input[type="text"], input[type="file"], input[type="email"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background-color: #212121;
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
         
-        // ... මෙතැනට USDT ලිපිනය, Telegram උපදෙස් සහ බොත්තම් HTML එක් කරන්න ...
-    } else {
-        alert("සැලසුම් තොරතුරු අතුරුදහන් වී ඇත. නැවත උත්සාහ කරන්න.");
-    }
-});
+        input[type="file"] {
+            padding: 10px 10px 10px 0; /* Adjust padding for file input */
+        }
+
+        .copy-btn, .submit-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 700;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        .copy-btn {
+            background-color: var(--primary-color);
+            color: #121212;
+            margin-bottom: 25px;
+        }
+
+        .copy-btn:hover {
+            background-color: #007bb6;
+        }
+
+        .submit-btn {
+            background-color: #4CAF50; /* Green submit button */
+            color: #fff;
+            margin-top: 15px;
+        }
+
+        .submit-btn:hover {
+            background-color: #387c3b;
+        }
+
+        .error-message {
+            color: #f44336;
+            margin-top: 10px;
+            font-weight: 600;
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2><i class="fas fa-money-check-alt"></i> Complete Your Payment</h2>
+
+        <div class="plan-summary">
+            <h3>Selected Plan: <span id="plan-name-display">...</span></h3>
+            <p>Amount to Pay: <span id="plan-price-display">...</span></p>
+        </div>
+
+        <div class="address-box">
+            <label>1. Send USDT (BEP20) to this Address</label>
+            <input type="text" id="usdt-address" value="YOUR_BINANCE_USDT_ADDRESS_HERE" readonly>
+            <button class="copy-btn" onclick="copyAddress()"><i class="fas fa-copy"></i> Copy Address</button>
+            <p style="color: #ffcc00; font-size: 0.9em;">**Payment Network:** Use Binance Smart Chain (BEP20) ONLY.</p>
+        </div>
+
+        <div class="proof-form">
+            <h3 style="color: var(--primary-color); margin-bottom: 20px;"><i class="fas fa-paper-plane"></i> Submit Payment Proof</h3>
+            
+            <form id="payment-proof-form" onsubmit="handleProofSubmission(event)">
+                
+                <label for="proof-screenshot">2. Payment Screenshot (Required)</label>
+                <label for="telegram-username">3. Your Telegram Username (@username) & Phone Number</label>
+                <input type="text" id="telegram-username" placeholder="@YourUsername, +94XXXXXXXXX" required>
+
+                <label for="account-email">4. xrp-mine-pro Account Gmail</label>
+                <input type="email" id="account-email" placeholder="YourAccountEmail@gmail.com" required>
+
+                <p style="color: #ff9800; font-weight: 600; margin-top: 20px;">
+                    *After submitting this form, please ensure you send the **Payment Screenshot** directly to the Telegram bot to finalize your order.
+                </p>
+
+                <p class="error-message" id="error-msg">Please fill out all required fields.</p>
+                <button type="submit" class="submit-btn" id="submit-button"><i class="fab fa-telegram-plane"></i> Submit Details</button>
+            </form>
+        </div>
+
+        <a href="dashboard.html" style="display: block; text-align: center; margin-top: 25px; color: #aaa;">
+            <i class="fas fa-arrow-left"></i> Return to Dashboard
+        </a>
+    </div>
+
+    <script>
+        // ⚠️ CONFIGURATION - REPLACE WITH YOUR ACTUAL DATA
+        const TELEGRAM_BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"; // Example: 123456:ABC-DEF1234
+        const ADMIN_CHAT_ID = "YOUR_ADMIN_CHAT_ID";   // Example: -1001234567890 (for channel/group) OR 12345678 (for user)
+        const USDT_ADDRESS = "YOUR_BINANCE_USDT_ADDRESS_HERE";
+
+        let selectedPlan = {}; // To hold plan details from URL
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            selectedPlan.planId = params.get('planId');
+            selectedPlan.price = parseFloat(params.get('price'));
+            selectedPlan.name = params.get('name');
+            
+            const planNameDisplay = document.getElementById('plan-name-display');
+            const planPriceDisplay = document.getElementById('plan-price-display');
+            const usdtAddressInput = document.getElementById('usdt-address');
+
+            if (selectedPlan.planId && selectedPlan.price && selectedPlan.name && !isNaN(selectedPlan.price)) {
+                // Update UI
+                planNameDisplay.textContent = selectedPlan.name.toUpperCase();
+                planPriceDisplay.textContent = `$${selectedPlan.price.toFixed(2)} USDT`;
+                usdtAddressInput.value = USDT_ADDRESS;
+            } else {
+                // Error handling if data is missing
+                alert("Plan information is missing. Redirecting to Dashboard.");
+                window.location.href = 'dashboard.html';
+            }
+        });
+
+        // --- Utility Functions ---
+
+        function copyAddress() {
+            const addressInput = document.getElementById("usdt-address");
+            addressInput.select();
+            addressInput.setSelectionRange(0, 99999);
+            
+            navigator.clipboard.writeText(addressInput.value)
+                .then(() => alert("USDT Address Copied!"))
+                .catch(err => console.error('Could not copy text: ', err));
+        }
+
+        // --- Telegram Submission Function ---
+
+        async function handleProofSubmission(event) {
+            event.preventDefault();
+
+            const telegramUsername = document.getElementById('telegram-username').value.trim();
+            const accountEmail = document.getElementById('account-email').value.trim();
+            const submitButton = document.getElementById('submit-button');
+            const errorMsg = document.getElementById('error-msg');
+            
+            errorMsg.style.display = 'none';
+
+            if (!telegramUsername || !accountEmail) {
+                errorMsg.textContent = "Please fill out all required fields.";
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending... Please wait.';
+
+            // Construct the message to send to Telegram
+            const message = `
+*--- NEW PAYMENT PROOF SUBMISSION ---*
+*Plan Purchased:* ${selectedPlan.name} (${selectedPlan.planId})
+*Amount:* $${selectedPlan.price.toFixed(2)} USDT
+*----------------------------------------*
+*Account Email:* ${accountEmail}
+*Telegram/Contact:* ${telegramUsername}
+*Manual Action Required:* Please check for the corresponding payment in the Binance USDT address: \`${USDT_ADDRESS}\`
+*REMINDER:* The user must still send the screenshot directly to the bot/admin chat.
+`;
+
+            try {
+                const telegramApiUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+                
+                const response = await fetch(telegramApiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: ADMIN_CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    }),
+                });
+
+                if (response.ok) {
+                    alert("Submission Successful! Your details have been sent. Please send the payment screenshot directly to our Telegram chat now to complete the activation.");
+                    document.getElementById('payment-proof-form').reset();
+                    submitButton.textContent = 'Details Sent';
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(`Telegram API Error: ${errorData.description || response.statusText}`);
+                }
+
+            } catch (error) {
+                console.error('Submission Error:', error);
+                errorMsg.textContent = "Submission failed. Please try again or contact support directly via Telegram.";
+                errorMsg.style.display = 'block';
+                submitButton.textContent = 'Try Again';
+            } finally {
+                submitButton.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
