@@ -136,11 +136,11 @@
             background-color: #ff980030;
             color: var(--secondary-color);
         }
-        .status-Completed {
+        .status-Completed { /* Approved ගනුදෙනු සඳහා */
             background-color: #4CAF5030;
             color: var(--accent-color);
         }
-        .status-Failed, .status-Cancelled {
+        .status-Failed, .status-Cancelled { /* Rejected ගනුදෙනු සඳහා */
             background-color: #f4433630;
             color: var(--danger-color);
         }
@@ -305,6 +305,9 @@
                     const transaction = doc.data();
                     const date = transaction.timestamp ? transaction.timestamp.toDate().toLocaleString() : 'N/A';
                     
+                    // 'Completed' හෝ 'Cancelled' status එක නිවැරදිව පෙන්වනු ඇත
+                    const statusText = transaction.status === 'Completed' ? 'Paid' : (transaction.status === 'Cancelled' ? 'Rejected' : transaction.status);
+                    
                     const row = transactionList.insertRow();
                     row.innerHTML = `
                         <td data-label="Date">${date}</td>
@@ -315,7 +318,7 @@
                         <td data-label="Fee">${(transaction.fee || 0.00).toFixed(4)} XRP</td>
                         <td data-label="Status">
                             <span class="status-badge status-${transaction.status || 'Pending'}">
-                                ${transaction.status || 'Pending'}
+                                ${statusText || 'Pending'}
                             </span>
                         </td>
                     `;
