@@ -27,7 +27,7 @@
             --border-color: #333333;
             --menu-width: 280px;
             --referral-bg: #1a1a1a; 
-            /* 💡 නව වර්ණ එකතු කිරීම 💡 */
+            /* 💡 නව වර්ණ: Bronze නිල්, Silver රතු 💡 */
             --bronze-color: #03a9f4; /* Primary Blue for Bronze */
             --silver-color: #f44336; /* Red for Silver */
         }
@@ -178,24 +178,25 @@
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
         }
 
+        /* Gold Highlight */
         .plan-card.gold-highlight {
             border: 3px solid var(--secondary-color); 
             background: linear-gradient(145deg, #2c2c2c, #3a3a3a);
             box-shadow: 0 10px 40px rgba(255, 152, 0, 0.4);
         }
         
-        /* 💡 නව Bronze Highlight 💡 */
+        /* Bronze Highlight (නිල්) */
         .plan-card.bronze-highlight {
-            border: 3px solid var(--bronze-color); /* නිල් වටරවුම */
-            background: linear-gradient(145deg, #2c2c2c, #263238); /* සැහැල්ලු අඳුරු නිල් පසුබිම */
-            box-shadow: 0 10px 40px rgba(3, 169, 244, 0.4); /* නිල් සෙවනැල්ල */
+            border: 3px solid var(--bronze-color); 
+            background: linear-gradient(145deg, #2c2c2c, #263238); 
+            box-shadow: 0 10px 40px rgba(3, 169, 244, 0.4); 
         }
 
-        /* 💡 නව Silver Highlight 💡 */
+        /* Silver Highlight (රතු) */
         .plan-card.silver-highlight {
-            border: 3px solid var(--silver-color); /* රතු වටරවුම */
-            background: linear-gradient(145deg, #2c2c2c, #3e2723); /* සැහැල්ලු අඳුරු රතු පසුබිම */
-            box-shadow: 0 10px 40px rgba(244, 67, 54, 0.4); /* රතු සෙවනැල්ල */
+            border: 3px solid var(--silver-color); 
+            background: linear-gradient(145deg, #2c2c2c, #3e2723); 
+            box-shadow: 0 10px 40px rgba(244, 67, 54, 0.4); 
         }
         
         /* Free Plan Highlight */
@@ -206,18 +207,32 @@
             order: -1; 
         }
         
-        /* Activated Badge */
+        /* Activated Badge (සියලුම සැලසුම් සඳහා) */
         .activated-badge {
             position: absolute;
             top: 15px;
             right: 15px;
-            background-color: var(--accent-color);
             color: white;
             padding: 5px 12px;
             border-radius: 5px;
             font-weight: 700;
             font-size: 0.9em;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            z-index: 10; 
+            
+            /* පෙරනිමි වර්ණය Free Plan සඳහා */
+            background-color: var(--accent-color); 
+        }
+        
+        /* 💡 නව: ගෙවන සැලසුම් සඳහා Activated Badge වර්ණ 💡 */
+        .plan-card.gold-highlight .activated-badge {
+            background-color: var(--secondary-color); /* Orange/Gold */
+        }
+        .plan-card.silver-highlight .activated-badge {
+            background-color: var(--silver-color); /* Red */
+        }
+        .plan-card.bronze-highlight .activated-badge {
+            background-color: var(--bronze-color); /* Blue */
         }
 
 
@@ -389,23 +404,23 @@
 
         /* --- Floating/Draggable Telegram Support Button (යාවත්කාලීන කරන ලදී) --- */
         .telegram-support-btn {
-            position: fixed; /* පිටුව අනුචලනය කරන විට පවා දර්ශනය වේ */
-            top: 85vh; /* ආරම්භක ස්ථානය: දළ වශයෙන් පහළට */
-            left: 80vw; /* ආරම්භක ස්ථානය: දළ වශයෙන් දකුණට */
-            cursor: grab; /* ඇදගෙන යා හැකි බව දැක්වීමට */
-            z-index: 999; /* වෙනත් දේ මතින් පෙන්වීමට */
-            background-color: #0088cc; /* Telegram Blue */
+            position: fixed; 
+            top: 85vh; 
+            left: 80vw; 
+            cursor: grab; 
+            z-index: 999; 
+            background-color: #0088cc; 
             color: white;
             width: 60px;
             height: 60px;
-            border-radius: 50%; /* වටකුරු හැඩය */
+            border-radius: 50%; 
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2em;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(0, 136, 204, 0.5); /* Shadow සහ Glow */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(0, 136, 204, 0.5); 
             transition: background-color 0.3s, box-shadow 0.3s;
-            text-decoration: none; /* සබැඳියක් නිසා */
+            text-decoration: none; 
         }
 
         .telegram-support-btn:hover {
@@ -630,9 +645,8 @@
         const DEFAULT_DAILY_INCOME_PER_MH = 0.05; // 1 MH/s මගින් දිනකට $0.05 උපයන බවට උපකල්පනය කර ඇත
         
         const FREE_PLAN_EXPIRY_DAYS = 15;
-        // 🔴 XRP 15.00 බෝනස් එක ඉවත් කර ඇත - දැන් මෙම නියතය අවශ්‍ය නොවේ
         
-        // ⚡️ XRP උපයන අනුපාතය: 1 MH/s මගින් තත්පරයකට උපයන XRP ප්‍රමාණය (පැරණි Logic එකෙන් ගත් නියතයට සමානයි)
+        // ⚡️ XRP උපයන අනුපාතය: 1 MH/s මගින් තත්පරයකට උපයන XRP ප්‍රමාණය
         const XRP_RATE_PER_SECOND_PER_MH = 0.00001; 
         const MINING_UPDATE_INTERVAL = 10000; // 10 seconds (UI update සඳහා)
         
@@ -733,14 +747,9 @@
             const card = document.getElementById('free-plan-card');
             const button = document.getElementById('free-plan-btn');
             
-            card.querySelector('.activated-badge')?.remove();
-
+            // Note: Activated Badge එක පෙන්වීම දැන් onAuthStateChanged තුළින් සිදු කරයි.
+            
             if (isFreePlanActive) {
-                const badge = document.createElement('span');
-                badge.className = 'activated-badge';
-                badge.textContent = 'Activated';
-                card.appendChild(badge);
-                
                 button.disabled = true;
                 button.textContent = 'PLAN ACTIVATED';
                 button.style.backgroundColor = '#555';
@@ -753,8 +762,6 @@
             }
         }
         
-        // 🔴 පැරණි startMiningSimulation() ඉවත් කර ඇත.
-
         // 🟢 Function to handle Free Plan activation
         async function activateFreePlan() {
             const user = auth.currentUser;
@@ -794,7 +801,6 @@
                         totalHashRate: newTotalHashRate,
                         estimatedDailyIncome: newEstimatedDailyIncome,
                         freePlanActivationDate: firebase.firestore.FieldValue.serverTimestamp(),
-                        // 🟢 lastMiningUpdate එක සකසයි
                         lastMiningUpdate: firebase.firestore.FieldValue.serverTimestamp()
                     });
 
@@ -805,12 +811,21 @@
                     document.getElementById('total-hash-rate').textContent = newTotalHashRate.toFixed(2) + ' MH/s';
                     document.getElementById('estimated-daily-income').textContent = '$' + newEstimatedDailyIncome.toFixed(2);
                     
-                    currentLocalBalance = data.balance || 0.00; // 🟢 නව: Simulation එක පටන් ගැනීමට පෙර ශේෂය සකසයි
-                    startRealTimeSimulation(); // 🔴 Activation පසු Mining Simulation එක පටන් ගැනීම
+                    currentLocalBalance = data.balance || 0.00; 
+                    startRealTimeSimulation(); 
 
                 });
                 
                 alert(`Free Plan Activated Successfully! Your ${FREE_PLAN_HASH_RATE.toFixed(2)} MH/s mining has started for ${FREE_PLAN_EXPIRY_DAYS} days.`);
+                
+                // Active Badge එක අතින් එකතු කරන්න
+                const card = document.getElementById('free-plan-card');
+                card.querySelector('.activated-badge')?.remove(); 
+                const badge = document.createElement('span');
+                badge.className = 'activated-badge';
+                badge.textContent = 'Activated';
+                card.appendChild(badge);
+
                 
             } catch (e) {
                 console.error("Free Plan Activation Failed: ", e);
@@ -820,11 +835,11 @@
 
 
         // -----------------------------------------------------------
-        // 🔑 Auth State Listener
+        // 🔑 Auth State Listener (දත්ත කියවීම හා UI යාවත්කාලීන කිරීම)
         // -----------------------------------------------------------
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
-                stopRealTimeSimulation(); // 🟢 නව: Logout වන විට Simulation නවත්වයි
+                stopRealTimeSimulation(); 
                 window.location.href = "register.html"; 
                 return;
             }
@@ -859,7 +874,6 @@
                     if (currentTime > expiryTime) {
                         console.log("Free Plan Expired. Initiating deactivation and credit.");
 
-                        // 1. 🟢 Plan එක අවසන් වීමට පෙර Mine වූ සියලු XRP ශේෂයට එක් කිරීමට
                         await calculateAndApplyMining(userDocRef, data); 
 
                         await db.runTransaction(async (transaction) => {
@@ -870,37 +884,27 @@
 
                             const newTotalHashRate = Math.max(0, (currentData.totalHashRate || 0) - FREE_PLAN_HASH_RATE);
                             const newEstimatedDailyIncome = newTotalHashRate * DEFAULT_DAILY_INCOME_PER_MH; 
-                            // 🔴 නව: බෝනස් එක එකතු කිරීමේ පියවර ඉවත් කර ඇත
-                            // const newBalance = (currentData.balance || 0) + FREE_PLAN_XRP_CREDIT; 
                             
                             transaction.update(userDocRef, {
                                 isFreePlanActive: false, 
                                 totalHashRate: newTotalHashRate,
                                 estimatedDailyIncome: newEstimatedDailyIncome,
-                                // balance: newBalance, // 🔴 මෙය calculateAndApplyMining මගින් සිදු වී ඇත
                                 freePlanActivationDate: firebase.firestore.FieldValue.delete(),
-                                lastMiningUpdate: firebase.firestore.FieldValue.serverTimestamp() // 🟢 අවසන් යාවත්කාලීනය සකසයි
+                                lastMiningUpdate: firebase.firestore.FieldValue.serverTimestamp() 
                             });
                             
-                            // Local variables යාවත්කාලීන කිරීම
                             data.isFreePlanActive = false;
                             data.totalHashRate = newTotalHashRate;
                             data.estimatedDailyIncome = newEstimatedDailyIncome;
-                            // data.balance යාවත්කාලීන වී ඇත්තේ calculateAndApplyMining() ඇතුළතදීය
                         });
 
                         alert(`Your Free Plan (${FREE_PLAN_HASH_RATE.toFixed(2)} MH/s) has expired after ${FREE_PLAN_EXPIRY_DAYS} days. Your total earnings have been credited to your balance.`);
-                        window.location.reload(); // යාවත්කාලීන කළ දත්ත සමග පිටුව නැවත Load කරන්න.
+                        window.location.reload(); 
                         return;
                     }
                 }
-                // 🔴 දින 15 ක Free Plan Expiry Logic අවසන්
                 
-                // ----------------------------------------------------
-                // 🟢 Mining Activation Logic - Hybrid Logic එක ක්‍රියාත්මක කිරීම
-                // ----------------------------------------------------
-
-                // 1. 🔴 පළමු වරට ලොග් වන විට lastMiningUpdate සකසයි. (Offline Logic සඳහා අත්‍යවශ්‍යයි)
+                // 1. 🔴 පළමු වරට ලොග් වන විට lastMiningUpdate සකසයි.
                 if (!data.lastMiningUpdate) {
                     await userDocRef.update({
                         lastMiningUpdate: firebase.firestore.FieldValue.serverTimestamp() 
@@ -913,7 +917,7 @@
                 await calculateAndApplyMining(userDocRef, data);
 
                 
-                // 3. 🖥️ UI යාවත්කාලීන කිරීම
+                // 3. 🖥️ UI යාවත්කාලීන කිරීම සහ Activated Badge එකතු කිරීම (නව Logic)
                 const userName = data.username || 'Miner'; 
                 document.getElementById('header-user-display-name').textContent = userName;
                 document.getElementById('hero-user-display-name').textContent = userName;
@@ -925,8 +929,45 @@
                 document.getElementById('total-referrals').textContent = data.referrals || 0;
                 
                 isFreePlanActive = data.isFreePlanActive || false;
-                totalHashRate = data.totalHashRate || 0.00; // 🟢 Hash Rate එක සකසයි
-                updateFreePlanUI();
+                totalHashRate = data.totalHashRate || 0.00; 
+                
+                
+                // 💡 නව: සියලුම සැලසුම් සඳහා 'Activated' Badge එකතු කිරීම 💡
+                const activePlans = data.activePlans || []; // ගෙවන සැලසුම් Array එක (උදා: ['bronze', 'silver'])
+                const planCards = document.querySelectorAll('.plan-container .plan-card'); 
+
+                planCards.forEach(card => {
+                    const planTypeElement = card.querySelector('h3');
+                    if (!planTypeElement) return;
+
+                    // 'BRONZE (1 Month)' => 'bronze'
+                    const planType = planTypeElement.textContent.toLowerCase().split('(')[0].trim().replace('elite ', ''); 
+                    
+                    card.querySelector('.activated-badge')?.remove(); // පවතින badge ඉවත් කිරීම
+                    
+                    let shouldActivate = false;
+                    
+                    // 1. Free Plan එක සක්‍රියදැයි පරීක්ෂා කිරීම
+                    if (planType.includes('free') && isFreePlanActive) {
+                        shouldActivate = true;
+                    } 
+                    // 2. ගෙවන සැලසුම් සක්‍රියදැයි පරීක්ෂා කිරීම (Firebase Array එක භාවිතයෙන්)
+                    else if (activePlans.includes(planType)) {
+                        shouldActivate = true;
+                    }
+
+                    if (shouldActivate) {
+                        const badge = document.createElement('span');
+                        badge.className = 'activated-badge';
+                        badge.textContent = 'Activated';
+                        card.appendChild(badge);
+                    }
+                    
+                    // Free Plan Button එක යාවත්කාලීන කිරීම (Activation තත්ත්වය අනුව)
+                    if (planType.includes('free')) {
+                         updateFreePlanUI();
+                    }
+                });
                 
                 // 🟢 Referral Link එක නිවැරදිව ජනනය කිරීම
                 const referralLinkInput = document.getElementById("referralLink");
@@ -937,10 +978,7 @@
                 
                 // 4. 🚀 Real-time Simulation එක ආරම්භ කිරීම
                 if (totalHashRate > 0) {
-                    // 🟢 දේශීය ශේෂය දත්ත සමුදායේ නව ශේෂයට සකසන්න
                     currentLocalBalance = data.balance || 0.00;
-                    
-                    // 🟢 Real-time Simulation එක පටන් ගන්න
                     startRealTimeSimulation(); 
                 } else {
                     stopRealTimeSimulation();
@@ -957,7 +995,7 @@
         // -----------------------------------------------------------
         function logout() {
             auth.signOut().then(() => {
-                stopRealTimeSimulation(); // 🟢 නව: Logout විට Simulation නවත්වයි
+                stopRealTimeSimulation(); 
                 window.location.href = "register.html";
             }).catch((error) => {
                 console.error("Logout Error:", error);
@@ -1094,7 +1132,8 @@
             }
         };
         // --- අවසන් Draggable JavaScript කේතය ---
-        // --- නව goToPayment ශ්‍රිතය ---
+        
+        // --- goToPayment ශ්‍රිතය ---
 
 const PLANS_FOR_REDIRECT = {
     bronze: { price: 10.00, hashRate: 150.00, name: "BRONZE" },
@@ -1122,11 +1161,6 @@ function goToPayment(planId) {
     // payment.html පිටුවට යොමු කිරීම
     window.location.href = redirectUrl;
 }
-
-// ⚠️ ඔබ මීට පෙර එකතු කළ purchasePlan ශ්‍රිතය (Modal සඳහා තිබූ) 
-//    මෙම නව goToPayment ශ්‍රිතය මගින් ප්‍රතිස්ථාපනය කරන්න.
-
-
     </script>
 
 </body>
