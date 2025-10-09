@@ -27,6 +27,9 @@
             --border-color: #333333;
             --menu-width: 280px;
             --referral-bg: #1a1a1a; 
+            /* 💡 නව වර්ණ එකතු කිරීම 💡 */
+            --bronze-color: #03a9f4; /* Primary Blue for Bronze */
+            --silver-color: #f44336; /* Red for Silver */
         }
         
         /* Global Reset & Transitions */
@@ -179,6 +182,20 @@
             border: 3px solid var(--secondary-color); 
             background: linear-gradient(145deg, #2c2c2c, #3a3a3a);
             box-shadow: 0 10px 40px rgba(255, 152, 0, 0.4);
+        }
+        
+        /* 💡 නව Bronze Highlight 💡 */
+        .plan-card.bronze-highlight {
+            border: 3px solid var(--bronze-color); /* නිල් වටරවුම */
+            background: linear-gradient(145deg, #2c2c2c, #263238); /* සැහැල්ලු අඳුරු නිල් පසුබිම */
+            box-shadow: 0 10px 40px rgba(3, 169, 244, 0.4); /* නිල් සෙවනැල්ල */
+        }
+
+        /* 💡 නව Silver Highlight 💡 */
+        .plan-card.silver-highlight {
+            border: 3px solid var(--silver-color); /* රතු වටරවුම */
+            background: linear-gradient(145deg, #2c2c2c, #3e2723); /* සැහැල්ලු අඳුරු රතු පසුබිම */
+            box-shadow: 0 10px 40px rgba(244, 67, 54, 0.4); /* රතු සෙවනැල්ල */
         }
         
         /* Free Plan Highlight */
@@ -512,7 +529,7 @@
             <button id="free-plan-btn" onclick="activateFreePlan()">ACTIVATE FREE PLAN <i class="fas fa-rocket"></i></button>
         </div>
         
-        <div class="plan-card">
+        <div class="plan-card bronze-highlight"> 
             <h3>BRONZE (1 Month)</h3>
             <p>Hash Rate: **150 MH/s**</p>
             <p>Price: $10</p>
@@ -521,7 +538,7 @@
             <button onclick="goToPayment('bronze')">PURCHASE <i class="fas fa-bolt"></i></button>
         </div>
         
-        <div class="plan-card">
+        <div class="plan-card silver-highlight">
             <h3>SILVER (2 Months)</h3>
             <p>Hash Rate: **250 MH/s**</p>
             <p>Price: $50</p>
