@@ -631,7 +631,7 @@
         const db = firebase.firestore(); 
         
         // ----------------------------------------------------
-        // 🟢 ගෝලීය නියතයන් සහ විචල්‍යයන්
+        // 🟢 ගෝලීය නියතයන් සහ විචල්‍යයන් (යාවත්කාලීන කර ඇත)
         // ----------------------------------------------------
         
         let isFreePlanActive = false;
@@ -640,7 +640,7 @@
         
         // 💡 සැලසුම් දත්ත ගතිකව ගබඩා කිරීමට නව විචල්‍යය
         let ALL_PLANS_DATA = {}; 
-
+        
         // 💡 පෙරනිමි අගයන් (Firebase දත්ත පූරණය වීමට පෙර අවශ්‍ය නම්)
         const FREE_PLAN_HASH_RATE_DEFAULT = 50.00; 
         const FREE_PLAN_EXPIRY_DAYS_DEFAULT = 15;
@@ -835,9 +835,8 @@
             }
         }
 
-
         // ----------------------------------------------------
-        // 🟢 3. Firebase වෙතින් සැලසුම් දත්ත කියවා Dashboard UI යාවත්කාලීන කිරීම
+        // 🟢 3. Firebase වෙතින් සැලසුම් දත්ත කියවා Dashboard UI යාවත්කාලීන කිරීම (නව ශ්‍රිතය)
         // ----------------------------------------------------
         async function fetchAndRenderPlans() {
             try {
@@ -898,7 +897,10 @@
             } catch (e) {
                 console.error("Error fetching and rendering plans:", e);
                 // දත්ත කියවීමේ දෝෂයක් ඇති වුවහොත් පණිවිඩයක් පෙන්වන්න
-                document.getElementById('plans').querySelector('h2').textContent = '⚠️ Failed to Load Plans. Check Admin Config.';
+                const plansSection = document.getElementById('plans');
+                if(plansSection) {
+                   plansSection.innerHTML = '<h2 class="section-title error-message" style="color: #d32f2f;">⚠️ Failed to load plans. Please check Firebase config and security rules.</h2>';
+                }
             }
         }
 
@@ -1018,7 +1020,7 @@
                     if (!planTypeElement) return;
 
                     // 'BRONZE (1 Month)' => 'bronze'
-                    const planType = planTypeElement.textContent.toLowerCase().split('(')[0].trim().replace('elite ', ''); 
+                    const planType = planTypeElement.textContent.toLowerCase().split('(')[0].trim().replace('elite ', '').replace('<i class="fas fa-gift"></i>', '').trim();
                     
                     card.querySelector('.activated-badge')?.remove(); // පවතින badge ඉවත් කිරීම
                     
@@ -1133,8 +1135,8 @@
                 hashRate: plan.hashRate,
                 durationDays: plan.durationDays
             };
-            
-            // Firebase වෙත දත්ත යැවීමට (පරිශීලකයා payment.html වෙත යොමු කිරීමට පෙර)
+
+            // Firebase වෙත දත්ත යැවීමට (payment.html වෙත ගෙන යාමට පෙර)
             db.collection("payment_redirects").doc(user.uid).set(planDetails)
                 .then(() => {
                     // ගෙවීම් පිටුවට යොමු කිරීම
@@ -1244,6 +1246,7 @@
             }
         };
         // --- අවසන් Draggable JavaScript කේතය ---
+        
     </script>
 
 </body>
