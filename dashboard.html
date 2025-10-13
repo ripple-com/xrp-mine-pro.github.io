@@ -531,50 +531,47 @@
         </div>
     </section>
 
-   <section id="plans" class="plans">
-    <h2>SELECT YOUR CONTRACT</h2>
-    <div class="plan-container">
-        
-        <div class="plan-card free-plan" id="free-plan-card">
-            <h3><i class="fas fa-gift"></i> FREE STARTER (Trial)</h3>
-            <p>Hash Rate: **50.00 MH/s**</p> 
-            <p>Price: **$0.00 (FREE)**</p>
-            <p>Duration: **15 Days Trial**</p>
-            <p style="font-size: 0.9em; color: #ff9800; font-weight: 600;">Full Earning: **15.00 XRP**</p> 
-            <button id="free-plan-btn" onclick="activateFreePlan()">ACTIVATE FREE PLAN <i class="fas fa-rocket"></i></button>
+    <section id="plans" class="plans">
+        <h2>SELECT YOUR CONTRACT</h2>
+        <div class="plan-container">
+            
+            <div class="plan-card free-plan" id="free-plan-card">
+                <h3><i class="fas fa-gift"></i> FREE STARTER (Trial)</h3>
+                <p id="free-hash-rate">Loading Hash Rate...</p> 
+                <p id="free-price">Loading Price...</p>
+                <p id="free-duration">Loading Duration...</p>
+                <p id="free-earning" style="font-size: 0.9em; color: #ff9800; font-weight: 600;">Loading Earning...</p> 
+                <button id="free-plan-btn" onclick="activateFreePlan()">ACTIVATE FREE PLAN <i class="fas fa-rocket"></i></button>
+            </div>
+            
+            <div class="plan-card bronze-highlight"> 
+                <h3>BRONZE (1 Month)</h3>
+                <p id="bronze-hash-rate">Loading Hash Rate...</p>
+                <p id="bronze-price">Loading Price...</p>
+                <p id="bronze-duration">Loading Duration...</p>
+                <p id="bronze-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Loading Earning...</p> 
+                <button onclick="goToPayment('bronze')">PURCHASE <i class="fas fa-bolt"></i></button>
+            </div>
+            
+            <div class="plan-card silver-highlight">
+                <h3>SILVER (2 Months)</h3>
+                <p id="silver-hash-rate">Loading Hash Rate...</p>
+                <p id="silver-price">Loading Price...</p>
+                <p id="silver-duration">Loading Duration...</p>
+                <p id="silver-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Loading Earning...</p>
+                <button onclick="goToPayment('silver')">PURCHASE <i class="fas fa-bolt"></i></button>
+            </div>
+            
+            <div class="plan-card gold-highlight">
+                <h3>ELITE GOLD (3 Months)</h3>
+                <p id="gold-hash-rate">Loading Hash Rate...</p> 
+                <p id="gold-price">Loading Price...</p>
+                <p id="gold-duration">Loading Duration...</p>
+                <p id="gold-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Loading Earning...</p>
+                <button onclick="goToPayment('gold')">PURCHASE <i class="fas fa-fire"></i></button>
+            </div>
         </div>
-        
-        <div class="plan-card bronze-highlight"> 
-            <h3>BRONZE (1 Month)</h3>
-            <p>Hash Rate: **150 MH/s**</p>
-            <p>Price: $10</p>
-            <p>Duration: 30 Days</p>
-            <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: **35.00 XRP**</p> 
-            <button onclick="goToPayment('bronze')">PURCHASE <i class="fas fa-bolt"></i></button>
-        </div>
-        
-        <div class="plan-card silver-highlight">
-            <h3>SILVER (2 Months)</h3>
-            <p>Hash Rate: **250 MH/s**</p>
-            <p>Price: $50</p>
-            <p>Duration: 60 Days</p>
-            <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: **120.00 XRP**</p>
-            <button onclick="goToPayment('silver')">PURCHASE <i class="fas fa-bolt"></i></button>
-        </div>
-        
-        <div class="plan-card gold-highlight">
-            <h3>ELITE GOLD (3 Months)</h3>
-            <p>Hash Rate: **500 MH/s**</p> 
-            <p>Price: $100</p>
-            <p>Duration: 90 Days</p>
-            <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: **500.00 XRP**</p>
-            <button onclick="goToPayment('gold')">PURCHASE <i class="fas fa-fire"></i></button>
-        </div>
-    </div>
-</section>
-
-
-
+    </section>
     <section id="faq" class="faq">
         <h2>SECURITY AND FAQ</h2>
         <div class="qa-item">
@@ -641,16 +638,17 @@
         let totalHashRate = 0.00; 
         let miningInterval; 
         
-        const FREE_PLAN_HASH_RATE = 50.00; // MH/s
-        const DEFAULT_DAILY_INCOME_PER_MH = 0.05; // 1 MH/s මගින් දිනකට $0.05 උපයන බවට උපකල්පනය කර ඇත
-        
-        const FREE_PLAN_EXPIRY_DAYS = 15;
-        
-        // ⚡️ XRP උපයන අනුපාතය: 1 MH/s මගින් තත්පරයකට උපයන XRP ප්‍රමාණය
+        // 💡 සැලසුම් දත්ත ගතිකව ගබඩා කිරීමට නව විචල්‍යය
+        let ALL_PLANS_DATA = {}; 
+
+        // 💡 පෙරනිමි අගයන් (Firebase දත්ත පූරණය වීමට පෙර අවශ්‍ය නම්)
+        const FREE_PLAN_HASH_RATE_DEFAULT = 50.00; 
+        const FREE_PLAN_EXPIRY_DAYS_DEFAULT = 15;
+
+        const DEFAULT_DAILY_INCOME_PER_MH = 0.05; 
         const XRP_RATE_PER_SECOND_PER_MH = 0.00001; 
         const MINING_UPDATE_INTERVAL = 10000; // 10 seconds (UI update සඳහා)
         
-        // 🟢 නව Variables: Hybrid Logic සඳහා
         let currentLocalBalance = 0.00; 
         let isMiningOnline = false;     
 
@@ -747,8 +745,6 @@
             const card = document.getElementById('free-plan-card');
             const button = document.getElementById('free-plan-btn');
             
-            // Note: Activated Badge එක පෙන්වීම දැන් onAuthStateChanged තුළින් සිදු කරයි.
-            
             if (isFreePlanActive) {
                 button.disabled = true;
                 button.textContent = 'PLAN ACTIVATED';
@@ -773,8 +769,14 @@
                 alert("The Free Plan is already active.");
                 return;
             }
+            
+            // 💡 ALL_PLANS_DATA වෙතින් Free Plan දත්ත ලබා ගැනීම
+            const freePlanData = ALL_PLANS_DATA.free;
+            const freePlanHashRate = freePlanData ? freePlanData.hashRate : FREE_PLAN_HASH_RATE_DEFAULT;
+            const freePlanExpiryDays = freePlanData ? freePlanData.durationDays : FREE_PLAN_EXPIRY_DAYS_DEFAULT;
 
-            if (!confirm(`Are you sure you want to activate the Free Starter Plan (${FREE_PLAN_HASH_RATE.toFixed(2)} MH/s) for ${FREE_PLAN_EXPIRY_DAYS} days?`)) {
+
+            if (!confirm(`Are you sure you want to activate the Free Starter Plan (${freePlanHashRate.toFixed(2)} MH/s) for ${freePlanExpiryDays} days?`)) {
                 return;
             }
 
@@ -793,7 +795,7 @@
                         throw "Free Plan already active.";
                     }
 
-                    const newTotalHashRate = (data.totalHashRate || 0) + FREE_PLAN_HASH_RATE; 
+                    const newTotalHashRate = (data.totalHashRate || 0) + freePlanHashRate; 
                     const newEstimatedDailyIncome = newTotalHashRate * DEFAULT_DAILY_INCOME_PER_MH; 
                     
                     transaction.update(userDocRef, {
@@ -816,7 +818,7 @@
 
                 });
                 
-                alert(`Free Plan Activated Successfully! Your ${FREE_PLAN_HASH_RATE.toFixed(2)} MH/s mining has started for ${FREE_PLAN_EXPIRY_DAYS} days.`);
+                alert(`Free Plan Activated Successfully! Your ${freePlanHashRate.toFixed(2)} MH/s mining has started for ${freePlanExpiryDays} days.`);
                 
                 // Active Badge එක අතින් එකතු කරන්න
                 const card = document.getElementById('free-plan-card');
@@ -830,6 +832,73 @@
             } catch (e) {
                 console.error("Free Plan Activation Failed: ", e);
                 alert("Error activating Free Plan. Please try again. Reason: " + (e.message || e));
+            }
+        }
+
+
+        // ----------------------------------------------------
+        // 🟢 3. Firebase වෙතින් සැලසුම් දත්ත කියවා Dashboard UI යාවත්කාලීන කිරීම
+        // ----------------------------------------------------
+        async function fetchAndRenderPlans() {
+            try {
+                const plansSnapshot = await db.collection("plans").get();
+                const plansData = {};
+                plansSnapshot.forEach(doc => {
+                    plansData[doc.id] = doc.data(); 
+                });
+                
+                // ගෝලීය විචල්‍යය යාවත්කාලීන කිරීම
+                ALL_PLANS_DATA = plansData;
+
+                // සැලසුම් ID සහ ඒවායේ UI ID සිතියම්ගත කිරීම
+                const planMap = {
+                    free: {
+                        hashRate: 'free-hash-rate',
+                        price: 'free-price',
+                        duration: 'free-duration',
+                        earning: 'free-earning'
+                    },
+                    bronze: {
+                        hashRate: 'bronze-hash-rate',
+                        price: 'bronze-price',
+                        duration: 'bronze-duration',
+                        earning: 'bronze-earning'
+                    },
+                    silver: {
+                        hashRate: 'silver-hash-rate',
+                        price: 'silver-price',
+                        duration: 'silver-duration',
+                        earning: 'silver-earning'
+                    },
+                    gold: {
+                        hashRate: 'gold-hash-rate',
+                        price: 'gold-price',
+                        duration: 'gold-duration',
+                        earning: 'gold-earning'
+                    }
+                };
+
+                // UI යාවත්කාලීන කිරීම
+                for (const planId in planMap) {
+                    const plan = plansData[planId];
+                    const uiIds = planMap[planId];
+                    
+                    if (plan && uiIds) {
+                        const priceText = planId === 'free' ? `$${plan.price.toFixed(2)} (FREE)` : `$${plan.price.toFixed(2)}`;
+                        const durationText = `${plan.durationDays} Days${planId === 'free' ? ' Trial' : ''}`;
+                        
+                        // දත්ත පූරණය
+                        document.getElementById(uiIds.hashRate).innerHTML = `Hash Rate: **${plan.hashRate.toFixed(2)} MH/s**`;
+                        document.getElementById(uiIds.price).innerHTML = `Price: **${priceText}**`;
+                        document.getElementById(uiIds.duration).innerHTML = `Duration: **${durationText}**`;
+                        document.getElementById(uiIds.earning).innerHTML = `Full Earning: **${plan.fullEarningXRP.toFixed(2)} XRP**`;
+                    }
+                }
+                
+            } catch (e) {
+                console.error("Error fetching and rendering plans:", e);
+                // දත්ත කියවීමේ දෝෂයක් ඇති වුවහොත් පණිවිඩයක් පෙන්වන්න
+                document.getElementById('plans').querySelector('h2').textContent = '⚠️ Failed to Load Plans. Check Admin Config.';
             }
         }
 
@@ -853,6 +922,9 @@
                     window.location.href = "register.html";
                     return;
                 }
+                
+                // 🟢 5. Plan Configurations Firebase වෙතින් කියවා UI යාවත්කාලීන කිරීම (Auth එකට පෙර Load කිරීමට)
+                await fetchAndRenderPlans();
 
 
                 const userDocRef = db.collection("users").doc(user.uid);
@@ -867,8 +939,13 @@
 
                 // 🔴 දින 15 ක Free Plan Expiry Logic
                 if (data.isFreePlanActive && data.freePlanActivationDate) {
+                    // 💡 ALL_PLANS_DATA වෙතින් Free Plan දත්ත ලබා ගැනීම
+                    const freePlanData = ALL_PLANS_DATA.free;
+                    const freePlanHashRate = freePlanData ? freePlanData.hashRate : FREE_PLAN_HASH_RATE_DEFAULT;
+                    const freePlanExpiryDays = freePlanData ? freePlanData.durationDays : FREE_PLAN_EXPIRY_DAYS_DEFAULT;
+                    
                     const activationTime = data.freePlanActivationDate.toDate().getTime();
-                    const expiryTime = activationTime + (FREE_PLAN_EXPIRY_DAYS * 24 * 60 * 60 * 1000); 
+                    const expiryTime = activationTime + (freePlanExpiryDays * 24 * 60 * 60 * 1000); 
                     const currentTime = Date.now();
 
                     if (currentTime > expiryTime) {
@@ -882,7 +959,7 @@
                             
                             if (!currentData.isFreePlanActive) return; 
 
-                            const newTotalHashRate = Math.max(0, (currentData.totalHashRate || 0) - FREE_PLAN_HASH_RATE);
+                            const newTotalHashRate = Math.max(0, (currentData.totalHashRate || 0) - freePlanHashRate);
                             const newEstimatedDailyIncome = newTotalHashRate * DEFAULT_DAILY_INCOME_PER_MH; 
                             
                             transaction.update(userDocRef, {
@@ -898,7 +975,7 @@
                             data.estimatedDailyIncome = newEstimatedDailyIncome;
                         });
 
-                        alert(`Your Free Plan (${FREE_PLAN_HASH_RATE.toFixed(2)} MH/s) has expired after ${FREE_PLAN_EXPIRY_DAYS} days. Your total earnings have been credited to your balance.`);
+                        alert(`Your Free Plan (${freePlanHashRate.toFixed(2)} MH/s) has expired after ${freePlanExpiryDays} days. Your total earnings have been credited to your balance.`);
                         window.location.reload(); 
                         return;
                     }
@@ -1032,6 +1109,43 @@
             }
         }
         
+        // --- goToPayment ශ්‍රිතය (යාවත්කාලීන කළ) ---
+
+        function goToPayment(planId) {
+            const user = auth.currentUser;
+            // දැන් අපි ALL_PLANS_DATA වෙතින් දත්ත කියවමු
+            const plan = ALL_PLANS_DATA[planId]; 
+
+            if (!user) {
+                alert("සැලසුමක් මිලදී ගැනීමට පෙර කරුණාකර ලොග් වන්න.");
+                return;
+            }
+            
+            if (!plan) {
+                alert("සැලසුම් දත්ත තවමත් පූරණය වී නොමැත, නැතහොත් අවලංගු සැලසුම් හැඳුනුම්පතකි.");
+                return;
+            }
+
+            // තෝරාගත් සැලසුමේ තොරතුරු
+            const planDetails = {
+                planName: planId.toUpperCase(), 
+                price: plan.price,
+                hashRate: plan.hashRate,
+                durationDays: plan.durationDays
+            };
+            
+            // Firebase වෙත දත්ත යැවීමට (පරිශීලකයා payment.html වෙත යොමු කිරීමට පෙර)
+            db.collection("payment_redirects").doc(user.uid).set(planDetails)
+                .then(() => {
+                    // ගෙවීම් පිටුවට යොමු කිරීම
+                    window.location.href = `payment.html?plan=${planId}`;
+                })
+                .catch(error => {
+                    console.error("Error creating payment redirect:", error);
+                    alert("ගෙවීම් පිටුවට යොමු වීමේ දෝෂයක් සිදුවිය. නැවත උත්සාහ කරන්න.");
+                });
+        }
+        
         // --- Telegram බොත්තම එහා මෙහා ගෙන යා හැකි (Draggable) කිරීම සඳහා JavaScript ---
         function makeDraggable(element) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -1123,8 +1237,6 @@
 
         // පිටුව Load වූ පසු draggable ශ්‍රිතය ක්‍රියාත්මක කිරීම
         window.onload = function() {
-            // ... අනෙකුත් Firebase Logic මෙහිදී ක්‍රියාත්මක වේ ...
-            
             // Telegram බොත්තම draggable බවට පත් කිරීම
             const telegramBtn = document.getElementById('telegram-btn');
             if (telegramBtn) {
@@ -1132,35 +1244,6 @@
             }
         };
         // --- අවසන් Draggable JavaScript කේතය ---
-        
-        // --- goToPayment ශ්‍රිතය ---
-
-const PLANS_FOR_REDIRECT = {
-    bronze: { price: 10.00, hashRate: 150.00, name: "BRONZE" },
-    silver: { price: 50.00, hashRate: 250.00, name: "SILVER" },
-    gold: { price: 100.00, hashRate: 500.00, name: "ELITE GOLD" }
-};
-
-function goToPayment(planId) {
-    const user = auth.currentUser;
-    const plan = PLANS_FOR_REDIRECT[planId];
-
-    if (!user) {
-        alert("සැලසුමක් මිලදී ගැනීමට පෙර කරුණාකර ලොග් වන්න.");
-        return;
-    }
-    
-    if (!plan) {
-        alert("අවලංගු සැලසුම් හැඳුනුම්පතකි.");
-        return;
-    }
-
-    // තෝරාගත් සැලසුමේ තොරතුරු (ID සහ Price) URL එකේ Query Parameters ලෙස යවයි
-    const redirectUrl = `payment.html?planId=${planId}&price=${plan.price}&name=${plan.name.replace(/\s/g, '%20')}`;
-    
-    // payment.html පිටුවට යොමු කිරීම
-    window.location.href = redirectUrl;
-}
     </script>
 
 </body>
