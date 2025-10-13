@@ -631,17 +631,17 @@
         const db = firebase.firestore(); 
         
         // ----------------------------------------------------
-        // 🟢 ගෝලීය නියතයන් සහ විචල්‍යයන් (යාවත්කාලීන කර ඇත)
+        // 🟢 ගෝලීය නියතයන් සහ විචල්‍යයන්
         // ----------------------------------------------------
         
         let isFreePlanActive = false;
         let totalHashRate = 0.00; 
         let miningInterval; 
         
-        // 💡 සැලසුම් දත්ත ගතිකව ගබඩා කිරීමට නව ගෝලීය විචල්‍යය (Hardcoded PLANS_FOR_REDIRECT ඉවත් කර ඇත)
+        // 💡 සැලසුම් දත්ත ගතිකව ගබඩා කිරීමට නව ගෝලීය විචල්‍යය
         let ALL_PLANS_DATA = {}; 
         
-        // 💡 පෙරනිමි අගයන් 
+        // 💡 පෙරනිමි අගයන් (Firebase දත්ත පූරණය වීමට පෙර අවශ්‍ය නම්)
         const FREE_PLAN_HASH_RATE_DEFAULT = 50.00; 
         const FREE_PLAN_EXPIRY_DAYS_DEFAULT = 15;
 
@@ -839,6 +839,7 @@
         // ----------------------------------------------------
         async function fetchAndRenderPlans() {
             try {
+                // 💡 වැදගත්: මෙය ක්‍රියාත්මක වීමට Firestore Security Rule එක නිවැරදි විය යුතුය. (allow read: if request.auth.uid != null)
                 const plansSnapshot = await db.collection("plans").get();
                 const plansData = {};
                 plansSnapshot.forEach(doc => {
@@ -882,6 +883,7 @@
                     const uiIds = planMap[planId];
                     
                     if (plan && uiIds) {
+                        // Firebase දත්ත මත පදනම්ව UI යාවත්කාලීන කිරීම
                         const priceText = planId === 'free' ? `$${plan.price.toFixed(2)} (FREE)` : `$${plan.price.toFixed(2)}`;
                         const durationText = `${plan.durationDays} Days${planId === 'free' ? ' Trial' : ''}`;
                         
@@ -889,16 +891,28 @@
                         document.getElementById(uiIds.hashRate).innerHTML = `Hash Rate: **${plan.hashRate.toFixed(2)} MH/s**`;
                         document.getElementById(uiIds.price).innerHTML = `Price: **${priceText}**`;
                         document.getElementById(uiIds.duration).innerHTML = `Duration: **${durationText}**`;
-                        document.getElementById(uiIds.earning).innerHTML = `<p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: **${plan.fullEarningXRP.toFixed(2)} XRP**</p>`; // Earning සඳහා සම්පූර්ණ p ටැගය යාවත්කාලීන කරයි
+                        // fullEarningXRP දත්ත තිබේදැයි පරීක්ෂා කිරීම
+                        const earningValue = plan.fullEarningXRP ? plan.fullEarningXRP.toFixed(2) + ' XRP' : 'N/A';
+                        document.getElementById(uiIds.earning).innerHTML = `<p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: **${earningValue}**</p>`; 
                     }
                 }
                 
+                // දත්ත සාර්ථකව පූරණය වූ පසු දෝෂ පණිවිඩය ඉවත් කරන්න
+                const plansSection = document.getElementById('plans');
+                const errorMessage = plansSection.querySelector('.error-message');
+                if (errorMessage) {
+                    errorMessage.remove();
+                }
+
             } catch (e) {
                 console.error("Error fetching and rendering plans:", e);
                 // දත්ත කියවීමේ දෝෂයක් ඇති වුවහොත් පණිවිඩයක් පෙන්වන්න
                 const plansSection = document.getElementById('plans');
-                if(plansSection) {
-                   plansSection.innerHTML = '<h2 class="section-title error-message" style="color: #d32f2f;">⚠️ Failed to load plans. Please check Firebase config and security rules.</h2>';
+                // දෝෂ පණිවිඩය දැනටමත් නොමැති නම් පමණක් පෙන්වන්න
+                if (plansSection && !plansSection.querySelector('.error-message')) {
+                   const errorMessageHTML = '<h2 class="section-title error-message" style="color: #d32f2f;">⚠️ Failed to load plans. Please check Firebase config and **Security Rules** for the "plans" collection.</h2>';
+                   // Loading cards වලට ඉහලින් පෙන්වන්න
+                   plansSection.insertAdjacentHTML('afterbegin', errorMessageHTML);
                 }
             }
         }
@@ -908,6 +922,10 @@
         // 🔑 Auth State Listener (දත්ත කියවීම හා UI යාවත්කාලීන කිරීම)
         // -----------------------------------------------------------
         auth.onAuthStateChanged(async (user) => {
+            
+            // 🟢 පළමුව සැලසුම් දත්ත ගතිකව පූරණය කිරීමට උත්සාහ කරන්න (ලොග් වීමට පෙර පවා මෙය අවශ්‍ය විය හැකිය)
+            await fetchAndRenderPlans();
+
             if (!user) {
                 stopRealTimeSimulation(); 
                 window.location.href = "register.html"; 
@@ -924,10 +942,7 @@
                     return;
                 }
                 
-                // 🟢 5. Plan Configurations Firebase වෙතින් කියවා UI යාවත්කාලීන කිරීම
-                await fetchAndRenderPlans();
-
-
+                // 💡 දැන් සියලුම Firebase දත්ත කියවීමේ logic ආරම්භ කරන්න
                 const userDocRef = db.collection("users").doc(user.uid);
                 let userDoc = await userDocRef.get();
                 let data = userDoc.data();
@@ -995,7 +1010,7 @@
                 await calculateAndApplyMining(userDocRef, data);
 
                 
-                // 3. 🖥️ UI යාවත්කාලීන කිරීම සහ Activated Badge එකතු කිරීම (නව Logic)
+                // 3. 🖥️ UI යාවත්කාලීන කිරීම සහ Activated Badge එකතු කිරීම
                 const userName = data.username || 'Miner'; 
                 document.getElementById('header-user-display-name').textContent = userName;
                 document.getElementById('hero-user-display-name').textContent = userName;
@@ -1011,7 +1026,7 @@
                 
                 
                 // 💡 නව: සියලුම සැලසුම් සඳහා 'Activated' Badge එකතු කිරීම 💡
-                const activePlans = data.activePlans || []; // ගෙවන සැලසුම් Array එක (උදා: ['bronze', 'silver'])
+                const activePlans = data.activePlans || []; 
                 const planCards = document.querySelectorAll('.plan-container .plan-card'); 
 
                 planCards.forEach(card => {
@@ -1025,11 +1040,9 @@
                     
                     let shouldActivate = false;
                     
-                    // 1. Free Plan එක සක්‍රියදැයි පරීක්ෂා කිරීම
                     if (planType.includes('free') && isFreePlanActive) {
                         shouldActivate = true;
                     } 
-                    // 2. ගෙවන සැලසුම් සක්‍රියදැයි පරීක්ෂා කිරීම (Firebase Array එක භාවිතයෙන්)
                     else if (activePlans.includes(planType)) {
                         shouldActivate = true;
                     }
@@ -1041,7 +1054,6 @@
                         card.appendChild(badge);
                     }
                     
-                    // Free Plan Button එක යාවත්කාලීන කිරීම (Activation තත්ත්වය අනුව)
                     if (planType.includes('free')) {
                          updateFreePlanUI();
                     }
@@ -1122,99 +1134,4 @@
                 return;
             }
             
-            // සැලසුම් දත්ත පූරණය වී ඇත්දැයි පරීක්ෂා කිරීම
-            if (!plan) {
-                alert("සැලසුම් දත්ත තවමත් පූරණය වී නොමැත, නැතහොත් අවලංගු සැලසුම් හැඳුනුම්පතකි. කරුණාකර නැවත පිටුවට පිවිසෙන්න.");
-                return;
-            }
-
-            // තෝරාගත් සැලසුමේ තොරතුරු
-            const planDetails = {
-                planName: plan.name || planId.toUpperCase(), // Plan object එකේ name field එක භාවිතා කරන්න
-                price: plan.price,
-                hashRate: plan.hashRate,
-                durationDays: plan.durationDays
-            };
-
-            // Firebase වෙත දත්ත යැවීමට (payment.html වෙත ගෙන යාමට පෙර)
-            db.collection("payment_redirects").doc(user.uid).set(planDetails)
-                .then(() => {
-                    // ගෙවීම් පිටුවට යොමු කිරීම
-                    window.location.href = `payment.html?plan=${planId}`;
-                })
-                .catch(error => {
-                    console.error("Error creating payment redirect:", error);
-                    alert("ගෙවීම් පිටුවට යොමු වීමේ දෝෂයක් සිදුවිය. නැවත උත්සාහ කරන්න.");
-                });
-        }
-        
-        // --- Telegram බොත්තම එහා මෙහා ගෙන යා හැකි (Draggable) කිරීම සඳහා JavaScript ---
-        function makeDraggable(element) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            let isDragging = false;
-            
-            element.onmousedown = dragMouseDown;
-            element.ontouchstart = dragTouchStart; 
-            
-            // Link එක ක්ලික් වීම වැලැක්වීමට
-            element.onclick = function(e) {
-                if (isDragging) {
-                    e.preventDefault();
-                    isDragging = false; 
-                }
-            };
-            
-            function dragMouseDown(e) {
-                e = e || window.event;
-                e.preventDefault(); 
-                
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                
-                element.classList.add('dragging'); 
-                document.onmouseup = closeDragElement;
-                document.onmousemove = elementDrag;
-            }
-            
-            function dragTouchStart(e) {
-                e = e || window.event;
-                
-                pos3 = e.targetTouches[0].clientX;
-                pos4 = e.targetTouches[0].clientY;
-                
-                element.classList.add('dragging'); 
-                document.ontouchend = closeDragElement;
-                document.ontouchmove = elementDragTouch;
-            }
-
-            function elementDrag(e) {
-                e = e || window.event;
-                e.preventDefault();
-                
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                
-                // පළමු pixel කිහිපය එහා මෙහා වූ විට isDragging සත්‍ය බවට පත් කරයි
-                if (Math.abs(pos1) > 2 || Math.abs(pos2) > 2) {
-                    isDragging = true;
-                }
-                
-                element.style.top = (element.offsetTop - pos2) + "px";
-                element.style.left = (element.offsetLeft - pos1) + "px";
-            }
-
-            function elementDragTouch(e) {
-                e = e || window.event;
-                
-                pos1 = pos3 - e.targetTouches[0].clientX;
-                pos2 = pos4 - e.targetTouches[0].clientY;
-                pos3 = e.targetTouches[0].clientX;
-                pos4 = e.targetTouches[0].clientY;
-                
-                if (Math.abs(pos1) > 2 || Math.abs(pos2) > 2) {
-                    isDragging = true;
-                }
-                
-                element.style.top = (
+            // 💡 සැලසුම් දත්ත පූර
