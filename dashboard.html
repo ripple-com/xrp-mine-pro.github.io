@@ -638,10 +638,10 @@
         let totalHashRate = 0.00; 
         let miningInterval; 
         
-        // 💡 සැලසුම් දත්ත ගතිකව ගබඩා කිරීමට නව විචල්‍යය
+        // 💡 සැලසුම් දත්ත ගතිකව ගබඩා කිරීමට නව ගෝලීය විචල්‍යය (Hardcoded PLANS_FOR_REDIRECT ඉවත් කර ඇත)
         let ALL_PLANS_DATA = {}; 
         
-        // 💡 පෙරනිමි අගයන් (Firebase දත්ත පූරණය වීමට පෙර අවශ්‍ය නම්)
+        // 💡 පෙරනිමි අගයන් 
         const FREE_PLAN_HASH_RATE_DEFAULT = 50.00; 
         const FREE_PLAN_EXPIRY_DAYS_DEFAULT = 15;
 
@@ -742,7 +742,6 @@
 
         // --- Utility function to update the Free Plan UI ---
         function updateFreePlanUI() {
-            const card = document.getElementById('free-plan-card');
             const button = document.getElementById('free-plan-btn');
             
             if (isFreePlanActive) {
@@ -890,7 +889,7 @@
                         document.getElementById(uiIds.hashRate).innerHTML = `Hash Rate: **${plan.hashRate.toFixed(2)} MH/s**`;
                         document.getElementById(uiIds.price).innerHTML = `Price: **${priceText}**`;
                         document.getElementById(uiIds.duration).innerHTML = `Duration: **${durationText}**`;
-                        document.getElementById(uiIds.earning).innerHTML = `Full Earning: **${plan.fullEarningXRP.toFixed(2)} XRP**`;
+                        document.getElementById(uiIds.earning).innerHTML = `<p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: **${plan.fullEarningXRP.toFixed(2)} XRP**</p>`; // Earning සඳහා සම්පූර්ණ p ටැගය යාවත්කාලීන කරයි
                     }
                 }
                 
@@ -925,7 +924,7 @@
                     return;
                 }
                 
-                // 🟢 5. Plan Configurations Firebase වෙතින් කියවා UI යාවත්කාලීන කිරීම (Auth එකට පෙර Load කිරීමට)
+                // 🟢 5. Plan Configurations Firebase වෙතින් කියවා UI යාවත්කාලීන කිරීම
                 await fetchAndRenderPlans();
 
 
@@ -1123,14 +1122,15 @@
                 return;
             }
             
+            // සැලසුම් දත්ත පූරණය වී ඇත්දැයි පරීක්ෂා කිරීම
             if (!plan) {
-                alert("සැලසුම් දත්ත තවමත් පූරණය වී නොමැත, නැතහොත් අවලංගු සැලසුම් හැඳුනුම්පතකි.");
+                alert("සැලසුම් දත්ත තවමත් පූරණය වී නොමැත, නැතහොත් අවලංගු සැලසුම් හැඳුනුම්පතකි. කරුණාකර නැවත පිටුවට පිවිසෙන්න.");
                 return;
             }
 
             // තෝරාගත් සැලසුමේ තොරතුරු
             const planDetails = {
-                planName: planId.toUpperCase(), 
+                planName: plan.name || planId.toUpperCase(), // Plan object එකේ name field එක භාවිතා කරන්න
                 price: plan.price,
                 hashRate: plan.hashRate,
                 durationDays: plan.durationDays
@@ -1217,37 +1217,4 @@
                     isDragging = true;
                 }
                 
-                element.style.top = (element.offsetTop - pos2) + "px";
-                element.style.left = (element.offsetLeft - pos1) + "px";
-            }
-
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
-                document.ontouchend = null;
-                document.ontouchmove = null;
-                element.classList.remove('dragging');
-                
-                // Drag එක අවසන් වූ පසු, isDragging true නම් link එක විවෘත වීම නවත්වයි
-                setTimeout(() => {
-                    if(isDragging) {
-                        isDragging = false; 
-                    }
-                }, 50); 
-            }
-        }
-
-        // පිටුව Load වූ පසු draggable ශ්‍රිතය ක්‍රියාත්මක කිරීම
-        window.onload = function() {
-            // Telegram බොත්තම draggable බවට පත් කිරීම
-            const telegramBtn = document.getElementById('telegram-btn');
-            if (telegramBtn) {
-                makeDraggable(telegramBtn);
-            }
-        };
-        // --- අවසන් Draggable JavaScript කේතය ---
-        
-    </script>
-
-</body>
-</html>
+                element.style.top = (
