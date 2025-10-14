@@ -215,7 +215,7 @@
                 <label for="telegram-username">3. Your Telegram Username (@username) & Phone Number</label>
                 <input type="text" id="telegram-username" placeholder="@YourUsername, +94XXXXXXXXX" required>
 
-                <label for="account-email">4. xrp-mine-pro Account Gmail</label>
+                <label for="account-email">4. Your Account Gmail</label>
                 <input type="email" id="account-email" placeholder="YourAccountEmail@gmail.com" required>
 
                 <p style="color: #ff9800; font-weight: 600; margin-top: 20px;">
@@ -261,63 +261,45 @@
     </div>
 
     <script>
-        // ⚠️ CONFIGURATION - REPLACE WITH YOUR ACTUAL DATA
-        // These keys should be treated as SECRET and not hardcoded in a real public-facing application.
-        const TELEGRAM_BOT_TOKEN = "8075478739:AAG--5tk65gjXGyDZlbquiORvKU8-IF5Snw"; 
-        const ADMIN_CHAT_ID = "8344580966";   
-        const USDT_ADDRESS = "0x1642febf95f91b6a6345786f6b847fc61d8ecff2";
+        // ⚠️ CONFIGURATION - ඔබගේ සත්‍ය දත්ත ඇතුලත් කරන්න
+        
+        // 1. ඔබගේ Telegram Bot Token එක මෙහි ඇතුළත් කරන්න
+        const TELEGRAM_BOT_TOKEN = "ඔබේ-ටෙලිග්‍රෑම්-බොට්-ටෝකනය-මෙහි-ලියන්න"; 
+        
+        // 2. ඔබගේ Telegram Chat ID එක මෙහි ඇතුළත් කරන්න (Admin ගේ ID එක)
+        const ADMIN_CHAT_ID = "ඔබේ-ටෙලිග්‍රෑම්-Chat-ID-මෙහි-ලියන්න";   
+        
+        // 3. ඔබ ගෙවීම් භාරගන්නා USDT (BEP20) ලිපිනය මෙහි ඇතුළත් කරන්න
+        const USDT_ADDRESS = "0x1642febf95f91b6a6345786f6b847fc61d8ecff2"; 
+
 
         let selectedPlan = {};
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Check for the required 'plan', 'price', and 'name' parameters in the URL
+            // URL එකෙන් parameters කියවීම (dashboard.html වෙතින් ලැබුණු planId, name, price)
             const params = new URLSearchParams(window.location.search);
-            // In the provided dashboard.html, the URL is 'payment.html?plan=<planId>'.
-            // The Firebase lookup to get price/name data is done in dashboard.html before redirecting,
-            // but the final payment page should preferably rely on ALL parameters passed in the URL,
-            // or perform a final Firebase lookup here for security/data integrity.
-            // Since the original payment.html relied on planId, price, and name, 
-            // and the goToPayment in dashboard.html only sends planId, we must adapt.
-            // For a complete, self-contained payment page, we'll use placeholder logic 
-            // for the plan data, or simulate reading the correct data (as the original file did not).
             
-            // --- Since the original payment.html expected planId, price, and name ---
-            // --- The dashboard.html provided only sends 'plan' (which is planId). ---
-            // --- We must temporarily mock the expected plan data for the UI to load. ---
-            
-            // ⚠️ REAL-WORLD FIX: The goToPayment in dashboard.html needs to send all data, 
-            // or this page needs to use Firebase to fetch the data based on 'planId'.
-            // The original logic is incorrect for the new dashboard.html logic.
-
-            // TEMPORARY FIX to make the provided payment.html work based on URL.
-            // If the user has navigated from dashboard.html, they will have only '?plan=<planId>'.
-            // We assume the user came from a working link in a real app, so we'll 
-            // use the original logic (which is slightly different from the new dashboard's redirect).
-            
-            selectedPlan.planId = params.get('planId') || params.get('plan'); // Accommodate both old/new
-            selectedPlan.price = parseFloat(params.get('price')) || 50.00; // Mock default price if missing
-            selectedPlan.name = params.get('name') || selectedPlan.planId.toUpperCase() || 'PLAN-A'; // Mock default name
+            selectedPlan.planId = params.get('planId'); 
+            selectedPlan.name = params.get('name'); 
+            selectedPlan.price = parseFloat(params.get('price')); 
 
             const planNameDisplay = document.getElementById('plan-name-display');
             const planPriceDisplay = document.getElementById('plan-price-display');
             const usdtAddressInput = document.getElementById('usdt-address');
             const modalUsdtAddressSpan = document.getElementById('modal-usdt-address');
 
-
-            // 💡 If you were to fully integrate the dashboard's Firebase logic:
-            // 1. Fetch the plan details from Firebase based on selectedPlan.planId here.
-            // 2. Load the price and name from the fetched Firebase document.
-            // Since Firebase is not included in this payment page, we rely on the URL or hardcoded mock.
-
-            if (selectedPlan.planId && selectedPlan.price && selectedPlan.name && !isNaN(selectedPlan.price)) {
-                // Update UI
+            // දත්ත නිවැරදිදැයි පරීක්ෂා කිරීම
+            if (selectedPlan.planId && selectedPlan.name && !isNaN(selectedPlan.price)) {
+                // UI එක update කරන්න
                 planNameDisplay.textContent = selectedPlan.name.toUpperCase();
                 planPriceDisplay.textContent = `$${selectedPlan.price.toFixed(2)} USDT`;
+                
+                // USDT Address එක UI එකට සහ Modal එකට Load කිරීම
                 usdtAddressInput.value = USDT_ADDRESS;
-                modalUsdtAddressSpan.textContent = USDT_ADDRESS; // Set address in modal
+                modalUsdtAddressSpan.textContent = USDT_ADDRESS; 
             } else {
-                // Error handling if data is missing or URL is wrong
-                alert("Plan information is missing. Redirecting to Dashboard.");
+                // දත්ත අඩු නම් හෝ වැරදි නම් dashboard වෙත යවන්න
+                alert("Plan information is missing or corrupted. Redirecting to Dashboard.");
                 window.location.href = 'dashboard.html';
             }
         });
@@ -343,7 +325,7 @@
                 .catch(err => console.error('Could not copy text: ', err));
         }
         
-        // --- Telegram Submission Function (UPDATED TO HANDLE FILE UPLOAD) ---
+        // --- Telegram Submission Function ---
 
         async function handleProofSubmission(event) {
             event.preventDefault();
@@ -364,7 +346,7 @@
                 return;
             }
             
-            // Check file type (Telegram sendPhoto is for JPEG, GIF, PNG)
+            // Check file type
             if (!proofFile.type.startsWith('image/')) {
                 errorMsg.textContent = "Please upload a valid image file (JPEG, PNG, GIF).";
                 errorMsg.style.display = 'block';
@@ -417,7 +399,6 @@
             } catch (error) {
                 console.error('Submission Error:', error);
                 errorMsg.textContent = "Submission failed. Please try again or contact support directly via Telegram.";
-                submitButton.textContent = 'Try Again';
                 errorMsg.style.display = 'block';
             } finally {
                 submitButton.disabled = false;

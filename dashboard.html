@@ -1113,40 +1113,28 @@
         
         // --- goToPayment ශ්‍රිතය (යාවත්කාලීන කළ) ---
 
-        function goToPayment(planId) {
-            const user = auth.currentUser;
-            // දැන් අපි ALL_PLANS_DATA වෙතින් දත්ත කියවමු
-            const plan = ALL_PLANS_DATA[planId]; 
+        // --- dashboard.html ගොනුවේ ඇති <script> ටැගය ඇතුළත, දැනට පවතින goToPayment ශ්‍රිතය වෙනුවට මෙය ආදේශ කරන්න ---
 
-            if (!user) {
-                alert("සැලසුමක් මිලදී ගැනීමට පෙර කරුණාකර ලොග් වන්න.");
-                return;
-            }
-            
-            if (!plan) {
-                alert("සැලසුම් දත්ත තවමත් පූරණය වී නොමැත, නැතහොත් අවලංගු සැලසුම් හැඳුනුම්පතකි.");
-                return;
-            }
+function goToPayment(planId) {
+    // 1. තෝරාගත් Plan එක සොයා ගන්න (Firebase වෙතින් Load වූ plans Array එක භාවිතා කරයි)
+    // (මේ සඳහා plans නම් Global Array එකක් Dashboard එකේ තිබිය යුතුයි)
+    const selectedPlan = plans.find(plan => plan.id === planId);
 
-            // තෝරාගත් සැලසුමේ තොරතුරු
-            const planDetails = {
-                planName: planId.toUpperCase(), 
-                price: plan.price,
-                hashRate: plan.hashRate,
-                durationDays: plan.durationDays
-            };
+    if (selectedPlan) {
+        const planName = selectedPlan.name;
+        // Firebase දත්ත වලින් ලැබෙන නවතම මිල (price) භාවිතා කිරීම
+        const planPrice = selectedPlan.price; 
 
-            // Firebase වෙත දත්ත යැවීමට (payment.html වෙත ගෙන යාමට පෙර)
-            db.collection("payment_redirects").doc(user.uid).set(planDetails)
-                .then(() => {
-                    // ගෙවීම් පිටුවට යොමු කිරීම
-                    window.location.href = `payment.html?plan=${planId}`;
-                })
-                .catch(error => {
-                    console.error("Error creating payment redirect:", error);
-                    alert("ගෙවීම් පිටුවට යොමු වීමේ දෝෂයක් සිදුවිය. නැවත උත්සාහ කරන්න.");
-                });
-        }
+        // 2. payment.html වෙත Plan ID, Name සහ Price යන තුනම URL Parameter ලෙස යවන්න
+        // encodeURIComponent() භාවිතයෙන් නම URL එකට ගැලපෙන ලෙස සකසයි
+        window.location.href = `payment.html?planId=${planId}&name=${encodeURIComponent(planName)}&price=${planPrice}`;
+    } else {
+        // Plan එක සොයාගත නොහැකි නම් දෝෂයක් පෙන්වයි
+        alert("Error: Selected plan not found in data. Please refresh the page.");
+    }
+}
+// ---------------------------------------------------------------------------------------
+
         
         // --- Telegram බොත්තම එහා මෙහා ගෙන යා හැකි (Draggable) කිරීම සඳහා JavaScript ---
         function makeDraggable(element) {
