@@ -280,9 +280,9 @@
             const params = new URLSearchParams(window.location.search);
             
             selectedPlan.planId = params.get('planId'); 
-            selectedPlan.name = params.get('name'); 
-            selectedPlan.price = parseFloat(params.get('price')); 
-
+            selectedPlan.price = parseFloat(params.get('price'));
+            selectedPlan.name = params.get('name');
+            
             const planNameDisplay = document.getElementById('plan-name-display');
             const planPriceDisplay = document.getElementById('plan-price-display');
             const usdtAddressInput = document.getElementById('usdt-address');

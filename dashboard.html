@@ -1115,25 +1115,33 @@
 
         // --- dashboard.html ගොනුවේ ඇති <script> ටැගය ඇතුළත, දැනට පවතින goToPayment ශ්‍රිතය වෙනුවට මෙය ආදේශ කරන්න ---
 
+// 🟢 dashboard.html හි <script> ටැගය තුළ, දැනට පවතින goToPayment ශ්‍රිතය වෙනුවට මෙය ආදේශ කරන්න.
+
 function goToPayment(planId) {
-    // 1. තෝරාගත් Plan එක සොයා ගන්න (Firebase වෙතින් Load වූ plans Array එක භාවිතා කරයි)
-    // (මේ සඳහා plans නම් Global Array එකක් Dashboard එකේ තිබිය යුතුයි)
-    const selectedPlan = plans.find(plan => plan.id === planId);
+    const user = auth.currentUser;
+    // ALL_PLANS_DATA වෙතින් දත්ත කියවමු
+    const plan = ALL_PLANS_DATA[planId]; 
 
-    if (selectedPlan) {
-        const planName = selectedPlan.name;
-        // Firebase දත්ත වලින් ලැබෙන නවතම මිල (price) භාවිතා කිරීම
-        const planPrice = selectedPlan.price; 
-
-        // 2. payment.html වෙත Plan ID, Name සහ Price යන තුනම URL Parameter ලෙස යවන්න
-        // encodeURIComponent() භාවිතයෙන් නම URL එකට ගැලපෙන ලෙස සකසයි
-        window.location.href = `payment.html?planId=${planId}&name=${encodeURIComponent(planName)}&price=${planPrice}`;
-    } else {
-        // Plan එක සොයාගත නොහැකි නම් දෝෂයක් පෙන්වයි
-        alert("Error: Selected plan not found in data. Please refresh the page.");
+    if (!user) {
+        alert("සැලසුමක් මිලදී ගැනීමට පෙර කරුණාකර ලොග් වන්න.");
+        return;
     }
+    
+    if (!plan) {
+        alert("සැලසුම් දත්ත තවමත් පූරණය වී නොමැත, නැතහොත් අවලංගු සැලසුම් හැඳුනුම්පතකි.");
+        return;
+    }
+
+    // 1. තෝරාගත් Plan එකේ නම (name) සහ නවතම මිල (price) ලබා ගැනීම
+    // payment.html එක බලාපොරොත්තු වන පරිදි URL parameter සකස් කිරීම.
+    const planName = planId.toUpperCase();
+    const planPrice = plan.price; 
+
+    // 2. payment.html වෙත Plan ID, Name සහ Price යන තුනම URL Parameter ලෙස යැවීම.
+    // Firebase වෙත payment_redirects එකක් යැවීමේ අවශ්‍යතාවය මෙයින් ඉවත් කර ඇත.
+    window.location.href = `payment.html?planId=${planId}&name=${encodeURIComponent(planName)}&price=${planPrice}`;
 }
-// ---------------------------------------------------------------------------------------
+
 
         
         // --- Telegram බොත්තම එහා මෙහා ගෙන යා හැකි (Draggable) කිරීම සඳහා JavaScript ---
