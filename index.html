@@ -3,144 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XRP Mine Pro | Premium Cloud Mining Platform</title>
-    
+    <title>Premium XRP Cloud Mining Platform - Home</title>    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        /* 🎨 BASE CSS STYLES */
-        :root {
-            --primary-color: #03a9f4; /* Blue - Main Highlight */
-            --secondary-color: #ff9800; /* Orange/Gold - Register/CTA */
-            --accent-color: #4CAF50; /* Green - Mining Highlight/Success */
-            --card-bg: #212121; 
-            --bg-color: #121212;
-            --text-color: #eeeeee;
-            --border-color: #333333;
-        }
-
+        /* Base Styles - High-Contrast Material Dark Theme (dashboard.html හි මෙන්) */
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: #121212; 
+            color: #eeeeee; 
             line-height: 1.6;
         }
 
-        /* ------------------ Header Styles ------------------ */
+        /* Material Dark Themed Colors */
+        :root {
+            --primary-color: #03a9f4; /* නිල් */
+            --secondary-color: #ff9800; /* තැඹිලි/රන් */
+            --accent-color: #4CAF50; /* කොළ */
+            --card-bg: #212121; 
+            --border-color: #333333;
+            --menu-width: 280px;
+            --referral-bg: #1a1a1a; 
+        }
+        
+        /* Global Reset & Transitions */
+        a { color: var(--primary-color); text-decoration: none; transition: color 0.3s, transform 0.2s; }
+        a:hover { color: #81d4fa; }
+        button { cursor: pointer; border: none; transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s; color: white; } 
+
+        /* Header & Navigation */
         header {
+            background-color: #121212; 
+            padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 5%;
-            background-color: var(--card-bg);
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 3px solid var(--secondary-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 900;
         }
 
+        /* 💡 Logo Styling - Image සඳහා සුළු වෙනස්කම් */
         .logo {
-            font-size: 1.8em;
+            font-size: 1.8em; /* Text logo සඳහා වූ size එක ඉවත් කරනු ලැබේ */
             font-weight: 800;
-            color: var(--primary-color);
+            color: var(--secondary-color);
         }
-
-        .cta-btn {
-            background-color: var(--secondary-color);
-            color: var(--bg-color) !important;
-            padding: 8px 15px;
-            border-radius: 4px;
-            font-weight: 700;
-            text-decoration: none;
+        .logo img {
+            max-height: 35px; /* header logo size */
+            width: auto;
         }
         
-        /* ------------------ Hero Section Styles ------------------ */
+        nav a { margin-left: 35px; font-weight: 600; font-size: 1em; color: #bbbbbb; }
+        nav a:hover { color: var(--primary-color); }
+
+        .user-auth-area {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* 1. Login/Signup Button Style for Landing Page */
+        .auth-btn {
+            background-color: var(--primary-color); 
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(3, 169, 244, 0.3);
+            text-transform: uppercase;
+            color: white; 
+        }
+        .auth-btn:hover {
+            background-color: #0288d1;
+            transform: translateY(-1px);
+        }
+
+
+        /* Hero Section - Updated for Landing Page */
         .hero {
-            padding: 100px 5%; 
+            background: linear-gradient(135deg, #121212 0%, #0a0a0a 100%);
+            padding: 80px 5% 60px;
             text-align: center;
-            position: relative; 
-            z-index: 1; 
-            background: radial-gradient(circle at top, #1a1a1a 0%, var(--bg-color) 70%);
+            min-height: 40vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
-        .hero h1 { font-size: 3.5em; font-weight: 800; margin-bottom: 20px; }
-        .hero .highlight { color: var(--accent-color); }
-        .cta-primary {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: var(--bg-color);
-            padding: 15px 30px;
-            font-size: 1.1em;
+        .hero h1 {
+            color: white;
+            font-size: 4em;
+            margin-bottom: 15px;
+            font-weight: 800;
+            text-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            color: #bdbdbd;
+            max-width: 800px;
+        }
+
+        /* 2. Hero Action Button */
+        .hero-action-btn {
+            background-color: var(--secondary-color);
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.2em;
             font-weight: 700;
-            text-decoration: none;
-            border-radius: 6px;
+            box-shadow: 0 6px 15px rgba(255, 152, 0, 0.5);
+            margin-top: 15px;
+            display: inline-block;
+            color: #121212; 
+        }
+        .hero-action-btn:hover {
+            background-color: #ffb74d;
+            transform: translateY(-2px) scale(1.02);
+            color: #121212; 
         }
 
-        .stats {
-            margin-top: 50px;
+
+        /* Content Sections */
+        .content-section {
+            padding: 60px 5%; 
+            text-align: center;
+        }
+        .features-section { background-color: #1a1a1a; }
+        .pricing-section { background-color: #121212; }
+        .faq { background-color: #1a1a1a; } 
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 40px; 
+        }
+
+        /* Feature Cards (නව කොටස) */
+        .feature-container {
             display: flex;
             justify-content: center;
-            gap: 40px;
-            font-size: 1.1em;
-            color: #999999;
+            gap: 30px;
+            flex-wrap: wrap;
         }
-
-        /* ------------------ XRP FLOATING ANIMATION ------------------ */
-        .xrp-animation-area {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden; 
-            z-index: 0;
-            opacity: 0.08;
-        }
-
-        .xrp-coins {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            padding: 0; margin: 0; list-style: none;
-        }
-
-        .xrp-coins li {
-            position: absolute; display: block; width: 20px; height: 20px;
-            animation: animate 20s linear infinite; 
-            bottom: -150px; color: var(--primary-color);
-        }
-
-        .xrp-coins li i { font-size: 3em; }
-
-        .xrp-coins li:nth-child(1) { left: 25%; width: 80px; animation-delay: 0s; animation-duration: 15s; }
-        .xrp-coins li:nth-child(2) { left: 10%; width: 20px; animation-delay: 2s; animation-duration: 12s; }
-        .xrp-coins li:nth-child(3) { left: 70%; width: 20px; animation-delay: 4s; animation-duration: 18s; }
-        .xrp-coins li:nth-child(4) { left: 40%; width: 60px; animation-delay: 0s; animation-duration: 10s; }
-        .xrp-coins li:nth-child(5) { left: 85%; width: 40px; animation-delay: 3s; animation-duration: 20s; }
-
-        @keyframes animate {
-            0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.5; }
-            50% { transform: translateY(-50vh) rotate(180deg) scale(1.1); }
-            100% { transform: translateY(-100vh) rotate(360deg) scale(1); opacity: 0; }
-        }
-        
-        /* ------------------ General Section Styles ------------------ */
-        .section {
-            padding: 80px 5%;
+        .feature-card {
+            flex-basis: 300px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
             text-align: center;
-            background-color: var(--bg-color);
-            border-top: 1px solid var(--border-color);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            border-color: var(--primary-color);
+        }
+        .feature-card i {
+            font-size: 3em;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        .feature-card h3 {
+            font-size: 1.5em;
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+        .feature-card p {
+            color: #bbbbbb;
         }
 
-        .section h2 {
-            font-size: 2.2em;
-            color: var(--primary-color);
-            margin-bottom: 50px;
-            font-weight: 700;
-        }
-        
-        /* ------------------ Plans Grid Styles ------------------ */
+        /* Plan Cards (Pricing Section - dashboard.html හි මෙන්) */
         .plan-container {
             display: flex;
             justify-content: center;
@@ -157,25 +198,29 @@
             border: 2px solid #424242;
             transition: transform 0.3s, box-shadow 0.3s;
             position: relative; 
-            text-align: center;
         }
         .plan-card:hover {
             transform: scale(1.03);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
         }
 
+        /* Highlight Styles (dashboard.html හි මෙන්) */
+        
+        /* Bronze Plan සඳහා නිල් දාරය */
+        .plan-card.bronze-highlight { 
+            border: 3px solid var(--primary-color); 
+            background: linear-gradient(145deg, #2c2c2c, #3a3a3a);
+        }
+
         .plan-card.gold-highlight {
             border: 3px solid var(--secondary-color); 
             background: linear-gradient(145deg, #2c2c2c, #3a3a3a);
-            box-shadow: 0 10px 40px rgba(255, 152, 0, 0.4);
         }
-        
         .plan-card.free-plan {
             border: 3px solid var(--accent-color); 
             background: linear-gradient(145deg, #1f2b1f, #2c382c); 
-            box-shadow: 0 10px 40px rgba(76, 175, 80, 0.4);
+            order: -1; 
         }
-        
         .plan-card h3 {
             color: var(--primary-color);
             font-size: 2em;
@@ -193,7 +238,8 @@
             color: #cccccc;
         }
         
-        .plan-card button {
+        /* 3. Plan Button (Pricing Cards) - සියලුම Plans වලට සුදු අකුරු */
+        .plan-card .price-action-btn {
             background-color: var(--secondary-color);
             padding: 14px 40px;
             border-radius: 30px;
@@ -201,263 +247,411 @@
             font-weight: 600;
             margin-top: 20px;
             box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
+            display: inline-block;
+            color: white; 
         }
-        .plan-card button:hover {
-            transform: translateY(-1px);
-        }
-        
-        .plan-card.free-plan button {
+        .plan-card.free-plan .price-action-btn {
              background-color: var(--accent-color);
              box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
+             color: white; 
         }
-        .plan-card button:disabled {
-            background-color: #555 !important;
-            box-shadow: none !important;
-            cursor: not-allowed;
+        /* Bronze/Silver/Gold plans වලටත් සුදු වර්ණය තහවුරු කරයි */
+        .plan-card.bronze-highlight .price-action-btn,
+        .plan-card.silver-highlight .price-action-btn,
+        .plan-card.gold-highlight .price-action-btn {
+            color: white;
         }
         
-        /* ------------------ (නව) Activated Badge CSS ------------------ */
-        /* මෙය dashboard.html වෙතින් ගෙන ආවකි. 😄.html එකට අලුතින් එක් කරන ලදී. */
-        .activated-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background-color: var(--accent-color);
-            color: white;
-            padding: 5px 12px;
-            border-radius: 5px;
-            font-weight: 700;
-            font-size: 0.9em;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-        }
 
 
-        /* ------------------ Features Grid Styles ------------------ */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .card { 
+        /* FAQ Section (dashboard.html හි මෙන්) */
+        .qa-item {
             background-color: var(--card-bg);
-            padding: 30px;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 25px;
             border-radius: 8px;
-            border: 1px solid #2f2f2f;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s, border-color 0.3s;
-            text-align: center;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--secondary-color);
-        }
-
-        .card i {
-            font-size: 2.5em;
-            color: var(--accent-color);
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .card h3 {
-            font-size: 1.4em;
-            margin-top: 0;
-            color: var(--text-color);
-        }
-
-        /* ------------------ Testimonial Styles ------------------ */
-        .testimonial-section {
-             background-color: #1a1a1a;
-        }
-        .testimonial-card {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px;
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            border-left: 5px solid var(--primary-color);
             text-align: left;
+            border-left: 4px solid var(--accent-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
-        .quote {
-            font-style: italic;
-            font-size: 1.2em;
-            margin-bottom: 20px;
-        }
-        .author {
-            font-weight: 700;
-            color: var(--accent-color);
-        }
-        .txn-id {
-            display: block;
-            font-size: 0.9em;
-            color: #888;
-            margin-top: 5px;
+        .qa-item h4 {
+            color: var(--primary-color);
+            font-size: 1.3em;
+            font-weight: 600;
         }
 
-
-        /* ------------------ Footer Styles ------------------ */
+        /* Footer (dashboard.html හි මෙන්) */
         footer {
-            padding: 30px 5%;
-            background-color: var(--bg-color);
+            background-color: #000000;
+            color: #9e9e9e;
+            padding: 35px 0;
+            font-size: 0.9em;
             border-top: 1px solid var(--border-color);
             text-align: center;
-            color: #888888;
-            font-size: 0.9em;
+        }
+        
+        /* --- SIDE MENU STYLES (dashboard.html හි මෙන්) --- */
+        .side-menu {
+            height: 100%;
+            width: 0; 
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            right: 0;
+            background-color: #2c2c2c; 
+            overflow-x: hidden;
+            padding-top: 70px; 
+            transition: width 0.5s; 
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* 💡 Side Menu හි Logo Image සඳහා වෙනස්කම් */
+        .side-menu .logo-container {
+            padding: 0 25px 30px; 
+            text-align: left; 
+            border-bottom: 1px solid #424242; 
+            padding-bottom: 10px;
+        }
+        .side-menu .logo-container img {
+            max-height: 30px; /* side menu logo size */
+            width: auto;
+        }
+        /* කලින් h2 එකට තිබූ style යථා තත්ත්වයට පත් කරයි */
+        /* .side-menu h2 { font-size: 1.5em; margin: 0 25px 30px; color: var(--secondary-color); text-align: left; border-bottom: 1px solid #424242; padding-bottom: 10px; } */
+
+
+        .side-menu.open { width: var(--menu-width); } 
+        .side-menu a { padding: 15px 25px; font-size: 1em; color: #bbbbbb; display: block; border-bottom: 1px solid #333333; }
+        .side-menu a:hover { background-color: #3a3a3a; color: var(--primary-color); }
+        .side-menu a i { margin-right: 15px; color: var(--secondary-color); } 
+        .side-menu .close-btn { position: absolute; top: 15px; right: 25px; font-size: 36px; color: #eeeeee; cursor: pointer; background: none; border: none; }
+        
+        /* 4. Side Menu Login Button (සුදු අකුරු තහවුරු කරන ලදි) */
+        .side-menu .auth-btn-side {
+            background-color: var(--primary-color); 
+            margin: 20px 25px; 
+            display: block; 
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 8px;
+            color: white; 
         }
 
-        footer .legal-links a {
-            color: #888888;
-            text-decoration: none;
-            margin: 0 15px;
-            transition: color 0.3s;
-        }
-        footer .legal-links a:hover { color: var(--primary-color); }
-        footer div a { margin: 0 10px; font-size: 1.4em; }
 
-        /* ------------------ Media Queries (Responsive) ------------------ */
-        @media (max-width: 1100px) {
-            .grid {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+        .open-btn { 
+            position: fixed; 
+            top: 20px; 
+            right: 20px; 
+            font-size: 1.1em; 
+            background-color: var(--secondary-color); 
+            color: white; 
+            border: none; 
+            padding: 10px 12px; 
+            cursor: pointer; 
+            z-index: 1001; 
+            border-radius: 5px; 
+            display: none; 
+        }
+
+        /* --- Floating/Draggable Telegram Support Button (dashboard.html හි මෙන්) --- */
+        .telegram-support-btn {
+            position: fixed; 
+            top: 85vh; 
+            left: 80vw; 
+            cursor: grab; 
+            z-index: 999; 
+            background-color: #0088cc; 
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(0, 136, 204, 0.5); 
+            transition: background-color 0.3s, box-shadow 0.3s;
+            text-decoration: none; 
+        }
+
+        .telegram-support-btn:hover {
+            background-color: #00aaff;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 0 5px rgba(0, 170, 255, 0.7);
+        }
+        .telegram-support-btn.dragging {
+            cursor: grabbing;
+        }
+
+
+        /* --- MOBILE-ONLY OPTIMIZATION (dashboard.html හි මෙන්) --- */
+        @media (min-width: 1px) {
+            nav, .user-auth-area { 
+                display: none !important; 
             }
-            .plan-container {
-                gap: 20px; /* Reduce gap on smaller screens */
+            .open-btn { 
+                position: absolute; 
+                display: block !important; 
+            }
+            header { 
+                flex-direction: column; 
+                padding: 15px; 
+                text-align: center; 
+                justify-content: flex-start;
+                align-items: flex-start;
+                padding-right: 80px; 
+            }
+            .logo {
+                margin-right: auto;
             }
         }
+
         @media (max-width: 768px) {
-            header { flex-direction: column; padding: 15px 5%; }
-            .hero h1 { font-size: 2.5em; }
-            .stats { flex-direction: column; gap: 15px; }
-            .plan-card { width: 90%; }
-            header .cta-btn { margin-top: 10px; }
+            .hero h1 { font-size: 3em; }
+            .hero p { font-size: 1.2em; }
+            .feature-card, .plan-card { width: 90%; }
+            .feature-container, .plan-container { flex-direction: column; align-items: center; gap: 20px; }
+            .content-section { padding: 40px 5%; }
+            .telegram-support-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.8em;
+                top: 85vh;
+                left: 70vw; 
+            }
         }
     </style>
 </head>
 <body>
+    
+    <button class="open-btn" onclick="toggleNav()"><i class="fas fa-bars"></i></button>
 
-    <div class="xrp-animation-area">
-        <ul class="xrp-coins">
-            <li><i class="fa-brands fa-xrp"></i></li>
-            <li><i class="fa-brands fa-xrp"></i></li>
-            <li><i class="fa-brands fa-xrp"></i></li>
-            <li><i class="fa-brands fa-xrp"></i></li>
-            <li><i class="fa-brands fa-xrp"></i></li>
-        </ul>
+    <div id="mySideMenu" class="side-menu">
+        <button class="close-btn" onclick="toggleNav()">&times;</button> 
+        <div class="logo-container">
+            <img src="images/logo.png" alt="XRP Mine Pro Logo" style="height: 30px;">
+        </div>
+        
+        <a href="#features"><i class="fas fa-cogs"></i> Our Features</a>
+        <a href="#pricing"><i class="fas fa-money-check-alt"></i> Pricing Plans</a>
+        <a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a>
+        <a href="#contact"><i class="fas fa-headset"></i> Contact Us</a>
+        <a href="register.html" class="auth-btn-side"><i class="fas fa-sign-in-alt"></i> Sign Up / Login</a> 
     </div>
 
     <header>
-        <div class="logo">XRP Mine Pro</div>
-        <a href="register.html" class="cta-btn">Login / Register</a> 
+        <div class="logo">
+            <img src="images/logo.png" alt="XRP Mine Pro Logo" style="height: 35px; vertical-align: middle;">
+        </div>
+        <nav>
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div class="user-auth-area">
+            <a href="register.html" class="auth-btn">Sign Up / Login</a>
+        </div>
     </header>
 
     <section class="hero">
-        <h1>Start Your <span class="highlight">XRP Mining</span> Journey Today.</h1>
-        <p>Premium cloud mining with high-speed performance, daily payouts, and a 10% commission referral system.</p>
-        <a href="register.html" class="cta-primary">Start Mining Now</a>
-        <div class="stats">
-            <div><i class="fas fa-users"></i> 50,000+ Users Globally</div>
-            <div><i class="fas fa-chart-line"></i> Guaranteed Uptime</div>
-            <div><i class="fas fa-shield-alt"></i> Secure & Protected</div>
-        </div>
+        <h1>Start Mining XRP Today!</h1> 
+        <p>The premium, secure, and high-yield XRP cloud mining platform. No hardware required, start earning in minutes.</p>
+        <a href="register.html" class="hero-action-btn">GET STARTED FREE <i class="fas fa-rocket"></i></a>
     </section>
 
-    <section id="plans" class="section">
-        <h2>SELECT YOUR CONTRACT</h2>
+    <section id="features" class="content-section features-section">
+        <h2>PLATFORM FEATURES</h2>
+        <div class="feature-container">
+            <div class="feature-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Top-Tier Security</h3>
+                <p>Industry-leading encryption, cold storage, and 2FA to protect your assets and data.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-bolt"></i>
+                <h3>Instant Activation</h3>
+                <p>Activate your mining contract instantly and watch your XRP balance grow in real-time.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-globe"></i>
+                <h3>Global Data Centers</h3>
+                <p>Optimized mining performance through strategically placed data centers across the globe.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="pricing" class="content-section pricing-section">
+        <h2>OUR MINING CONTRACTS</h2>
         <div class="plan-container">
             
-            <div class="plan-card free-plan" id="free-plan-card">
+            <div class="plan-card free-plan">
                 <h3><i class="fas fa-gift"></i> FREE STARTER (Trial)</h3>
                 <p>Hash Rate: **50.00 MH/s**</p> 
                 <p>Price: **$0.00 (FREE)**</p>
                 <p>Duration: **15 Days Trial**</p>
-                <p style="font-size: 0.9em; color: #ff9800; font-weight: 600;">Full Earning: **15.00 XRP**</p> 
-                <button id="free-plan-btn" onclick="document.location.href='register.html'">ACTIVATE FREE PLAN <i class="fas fa-rocket"></i></button>
+                <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Earn your first XRP risk-free!</p> 
+                <a href="register.html" class="price-action-btn">SIGN UP & START <i class="fas fa-rocket"></i></a>
             </div>
             
-            <div class="plan-card">
+            <div class="plan-card bronze-highlight"> 
                 <h3>BRONZE (1 Month)</h3>
-                <p>Hash Rate: **150 MH/s**</p>
-                <p>Price: $10</p>
-                <p>Duration: 30 Days</p>
-                <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: **35.00 XRP**</p> 
-                <button onclick="document.location.href='register.html'">PURCHASE <i class="fas fa-bolt"></i></button>
+                <p>Hash Rate: **200.00 MH/s**</p>
+                <p>Price: **$25.00**</p>
+                <p>Duration: **30 Days**</p>
+                <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Ideal for new investors.</p> 
+                <a href="register.html" class="price-action-btn">VIEW & BUY <i class="fas fa-bolt"></i></a>
             </div>
             
-            <div class="plan-card">
+            <div class="plan-card silver-highlight" style="--silver-color: #f44336; border-color: #f44336;"> 
                 <h3>SILVER (2 Months)</h3>
-                <p>Hash Rate: **250 MH/s**</p>
-                <p>Price: $50</p>
-                <p>Duration: 60 Days</p>
-                <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: **120.00 XRP**</p>
-                <button onclick="document.location.href='register.html'">PURCHASE <i class="fas fa-bolt"></i></button>
+                <p>Hash Rate: **500.00 MH/s**</p>
+                <p>Price: **$75.00**</p>
+                <p>Duration: **60 Days**</p>
+                <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Great value and returns.</p>
+                <a href="register.html" class="price-action-btn">VIEW & BUY <i class="fas fa-bolt"></i></a>
             </div>
             
             <div class="plan-card gold-highlight">
                 <h3>ELITE GOLD (3 Months)</h3>
-                <p>Hash Rate: **500 MH/s**</p> 
-                <p>Price: $100</p>
-                <p>Duration: 90 Days</p>
-                <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: **500.00 XRP**</p>
-                <button onclick="document.location.href='register.html'">PURCHASE <i class="fas fa-fire"></i></button>
+                <p>Hash Rate: **1500.00 MH/s**</p> 
+                <p>Price: **$200.00**</p>
+                <p>Duration: **90 Days**</p>
+                <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Maximum returns and power.</p>
+                <a href="register.html" class="price-action-btn">VIEW & BUY <i class="fas fa-fire"></i></a>
             </div>
         </div>
     </section>
-    <section id="features" class="section" style="background-color: #1a1a1a;">
-        <h2>Why Choose XRP Mine Pro?</h2>
-        <div class="grid">
-            
-            <div class="card" style="text-align: left;">
-                <i class="fas fa-bolt"></i>
-                <h3>High-Speed Hashing</h3>
-                <p>We provide the latest generation of mining hardware for maximum XRP output and efficiency.</p>
-            </div>
-            
-            <div class="card" style="text-align: left;">
-                <i class="fas fa-handshake"></i>
-                <h3>10% Lifetime Commission</h3>
-                <p>Refer your friends and earn a substantial 10% commission on all their plan purchases. Passive income guaranteed!</p>
-            </div>
-            
-            <div class="card" style="text-align: left;">
-                <i class="fas fa-wallet"></i>
-                <h3>Instant Daily Payouts</h3>
-                <p>Withdraw your mined XRP directly to your wallet daily. No waiting period, quick and reliable payouts.</p>
-            </div>
-            
-            <div class="card" style="text-align: left;">
-                <i class="fas fa-headset"></i>
-                <h3>24/7 Priority Support</h3>
-                <p>Our dedicated team is always ready to assist you with any technical or account-related questions.</p>
-            </div>
+
+    <section id="faq" class="content-section faq">
+        <h2>SECURITY AND FAQ</h2>
+        <div class="qa-item">
+            <h4><i class="fas fa-lock"></i> Is my XRP secure?</h4>
+            <p>We use material design principles for security: strong encryption, cold storage, and 2FA authentication are standard.</p>
+        </div>
+        <div class="qa-item">
+            <h4><i class="fas fa-dollar-sign"></i> How do I get started?</h4>
+            <p>Simply click 'Sign Up', create an account, verify your email, and choose a mining plan (including the free trial!) to begin earning.</p>
+        </div>
+        <div class="qa-item">
+            <h4><i class="fas fa-globe"></i> Where are the mining centers located?</h4>
+            <p>Our global data centers are strategically placed for optimal efficiency and minimal latency, ensuring consistent output.</p>
         </div>
     </section>
     
-    <section class="section testimonial-section">
-        <h2>What Our Users Say</h2>
-        <div class="testimonial-card">
-            <p class="quote">"I've been using XRP Mine Pro for 6 months and the payouts are instant. The passive income from the referral program is a huge bonus! Highly recommend."</p>
-            <div class="author">
-                Samantha B. (USA)
-                <span class="txn-id">Last Payout TXN: 5b7d...c4f8</span>
-            </div>
-        </div>
-    </section>
+    <a href="https://t.me/XRP_Mine_Pro_Support" target="_blank" class="telegram-support-btn" id="telegram-btn" title="Telegram Support">
+        <i class="fab fa-telegram-plane"></i>
+    </a>
     
-    <footer>
-        <p>&copy; 2025 XRP Mine Pro. All rights reserved.</p>
-        <div style="margin: 15px 0;">
-            <a href="#"><i class="fab fa-telegram-plane"></i></a>
-            <a href="#"><i class="fas fa-envelope"></i></a>
-        </div>
-        <div class="legal-links">
-            <a href="#">Privacy Policy</a> |
-            <a href="#">Terms of Service</a> |
-            <a href="#">FAQ</a>
-        </div>
+    <footer id="contact">
+        <p>Contact Us: support@xrpminepro.com</p>
+        <p>&copy; 2025 XRP Mine Pro. High-Contrast Solutions.</p>
     </footer>
+
+    <script>
+        // -----------------------------------------------------------
+        // 🛠️ Utility Functions 
+        // ----------------------------------------------------------
+        function toggleNav() {
+            const sideMenu = document.getElementById("mySideMenu");
+            sideMenu.classList.toggle('open');
+        }
+
+        // --- Telegram බොත්තම එහා මෙහා ගෙන යා හැකි (Draggable) කිරීම සඳහා JavaScript (dashboard.html හි මෙන්) ---
+        function makeDraggable(element) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            let isDragging = false;
+            
+            element.onmousedown = dragMouseDown;
+            element.ontouchstart = dragTouchStart; 
+            
+            element.onclick = function(e) {
+                if (isDragging) {
+                    e.preventDefault();
+                    isDragging = false; 
+                }
+            };
+            
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault(); 
+                
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                
+                element.classList.add('dragging'); 
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+            
+            function dragTouchStart(e) {
+                e = e || window.event;
+                
+                pos3 = e.targetTouches[0].clientX;
+                pos4 = e.targetTouches[0].clientY;
+                
+                element.classList.add('dragging'); 
+                document.ontouchend = closeDragElement;
+                document.ontouchmove = elementDragTouch;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                
+                if (Math.abs(pos1) > 2 || Math.abs(pos2) > 2) {
+                    isDragging = true;
+                }
+                
+                element.style.top = (element.offsetTop - pos2) + "px";
+                element.style.left = (element.offsetLeft - pos1) + "px";
+            }
+
+            function elementDragTouch(e) {
+                e = e || window.event;
+                
+                pos1 = pos3 - e.targetTouches[0].clientX;
+                pos2 = pos4 - e.targetTouches[0].clientY;
+                pos3 = e.targetTouches[0].clientX;
+                pos4 = e.targetTouches[0].clientY;
+                
+                if (Math.abs(pos1) > 2 || Math.abs(pos2) > 2) {
+                    isDragging = true;
+                }
+                
+                element.style.top = (element.offsetTop - pos2) + "px";
+                element.style.left = (element.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+                document.ontouchend = null;
+                document.ontouchmove = null;
+                element.classList.remove('dragging');
+                
+                setTimeout(() => {
+                    if(isDragging) {
+                        isDragging = false; 
+                    }
+                }, 50); 
+            }
+        }
+
+        // පිටුව Load වූ පසු draggable ශ්‍රිතය ක්‍රියාත්මක කිරීම
+        window.onload = function() {
+            const telegramBtn = document.getElementById('telegram-btn');
+            if (telegramBtn) {
+                makeDraggable(telegramBtn);
+            }
+        };
+        
+    </script>
 
 </body>
 </html>
