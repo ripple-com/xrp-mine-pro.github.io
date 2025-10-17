@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium XRP Cloud Mining Platform - User Dashboard</title>    
+    <title>Premium XRP Cloud Mining Platform - User Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico"> 
+<link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16">    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
@@ -270,7 +273,23 @@
         }
 
 
-
+        /* FAQ Section */
+        .faq { background-color: #1a1a1a; } 
+        .qa-item {
+            background-color: var(--card-bg);
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: left;
+            border-left: 4px solid var(--accent-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        .qa-item h4 {
+            color: var(--primary-color);
+            font-size: 1.3em;
+            font-weight: 600;
+        }
 
         /* Referral System Styles */
         .referral-box {
@@ -473,7 +492,7 @@
         <a href="withdrawal.html"><i class="fas fa-wallet"></i> Withdraw XRP</a>
         <a href="transactions.html"><i class="fas fa-history"></i> Transaction History</a>
         <a href="#referral"><i class="fas fa-users"></i> Referral Program</a> 
-        <a href="#"><i class="fas fa-cog"></i> Settings & Security</a>
+        <a href="faq.html"><i class="fas fa-question-circle"></i> FAQ</a>
         <button onclick="logout()" class="logout-btn-side"><i class="fas fa-sign-out-alt"></i> Log Out</button> 
     </div>
 
@@ -483,7 +502,7 @@
             <a href="#dashboard">Dashboard</a>
             <a href="#plans">Plans</a>
             <a href="#referral">Referral</a> 
-            <a href="faq.html">FAQ</a>
+            <a href="#faq">FAQ</a>
             <a href="#contact">Contact</a>
         </nav>
         <div class="user-auth-area">
@@ -556,8 +575,9 @@
             </div>
         </div>
     </section>
+   
     
-        <section id="referral" class="referral">
+    <section id="referral" class="referral">
         <h2>REFERRAL PROGRAM</h2>
         <div class="referral-box">
             <h3><i class="fas fa-handshake"></i> Invite & Earn (<span id="total-referrals">0</span> Total Referrals)</h3> 
@@ -1086,34 +1106,32 @@
         
         // --- goToPayment ශ්‍රිතය (යාවත්කාලීන කළ) ---
 
-        // --- dashboard.html ගොනුවේ ඇති <script> ටැගය ඇතුළත, දැනට පවතින goToPayment ශ්‍රිතය වෙනුවට මෙය ආදේශ කරන්න ---
+        // 🟢 dashboard.html හි <script> ටැගය තුළ, දැනට පවතින goToPayment ශ්‍රිතය වෙනුවට මෙය ආදේශ කරන්න.
 
-// 🟢 dashboard.html හි <script> ටැගය තුළ, දැනට පවතින goToPayment ශ්‍රිතය වෙනුවට මෙය ආදේශ කරන්න.
+        function goToPayment(planId) {
+            const user = auth.currentUser;
+            // ALL_PLANS_DATA වෙතින් දත්ත කියවමු
+            const plan = ALL_PLANS_DATA[planId]; 
 
-function goToPayment(planId) {
-    const user = auth.currentUser;
-    // ALL_PLANS_DATA වෙතින් දත්ත කියවමු
-    const plan = ALL_PLANS_DATA[planId]; 
+            if (!user) {
+                alert("සැලසුමක් මිලදී ගැනීමට පෙර කරුණාකර ලොග් වන්න.");
+                return;
+            }
+            
+            if (!plan) {
+                alert("සැලසුම් දත්ත තවමත් පූරණය වී නොමැත, නැතහොත් අවලංගු සැලසුම් හැඳුනුම්පතකි.");
+                return;
+            }
 
-    if (!user) {
-        alert("සැලසුමක් මිලදී ගැනීමට පෙර කරුණාකර ලොග් වන්න.");
-        return;
-    }
-    
-    if (!plan) {
-        alert("සැලසුම් දත්ත තවමත් පූරණය වී නොමැත, නැතහොත් අවලංගු සැලසුම් හැඳුනුම්පතකි.");
-        return;
-    }
+            // 1. තෝරාගත් Plan එකේ නම (name) සහ නවතම මිල (price) ලබා ගැනීම
+            // payment.html එක බලාපොරොත්තු වන පරිදි URL parameter සකස් කිරීම.
+            const planName = planId.toUpperCase();
+            const planPrice = plan.price; 
 
-    // 1. තෝරාගත් Plan එකේ නම (name) සහ නවතම මිල (price) ලබා ගැනීම
-    // payment.html එක බලාපොරොත්තු වන පරිදි URL parameter සකස් කිරීම.
-    const planName = planId.toUpperCase();
-    const planPrice = plan.price; 
-
-    // 2. payment.html වෙත Plan ID, Name සහ Price යන තුනම URL Parameter ලෙස යැවීම.
-    // Firebase වෙත payment_redirects එකක් යැවීමේ අවශ්‍යතාවය මෙයින් ඉවත් කර ඇත.
-    window.location.href = `payment.html?planId=${planId}&name=${encodeURIComponent(planName)}&price=${planPrice}`;
-}
+            // 2. payment.html වෙත Plan ID, Name සහ Price යන තුනම URL Parameter ලෙස යැවීම.
+            // Firebase වෙත payment_redirects එකක් යැවීමේ අවශ්‍යතාවය මෙයින් ඉවත් කර ඇත.
+            window.location.href = `payment.html?planId=${planId}&name=${encodeURIComponent(planName)}&price=${planPrice}`;
+        }
 
 
         
