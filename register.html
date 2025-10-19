@@ -6,7 +6,7 @@
     <title>XRP Mine Pro - Auth Center (Login/Register) - Firebase Ready</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico"> 
 <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="favicon-16x16x.png" sizes="16x16">
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -171,7 +171,7 @@
             <form id="reg-form" onsubmit="event.preventDefault(); handleRegistration();" method="POST">
                 <div class="input-group">
                     <label for="reg-username"><i class="fas fa-user"></i> Username</label>
-                    <input type="text" id="reg-username" name="username" placeholder="Choose a username" required>
+                    <input type="text" id="reg-username" name="username" placeholder="CAPITALS ONLY (Max 7 characters)" pattern="[A-Z]*" maxlength="7" title="Username must be in CAPITAL letters only and less than 8 characters." required>
                 </div>
                 <div class="input-group">
                     <label for="reg-email"><i class="fas fa-envelope"></i> Email Address</label>
@@ -334,109 +334,131 @@
         }
 
 
-     // 🟢 FIREBASE REGISTER FUNCTION (Referral Logic සහිතව)
-async function handleRegistration() {
-    const username = document.getElementById('reg-username').value;
-    const email = document.getElementById('reg-email').value;
-    const password = document.getElementById('reg-password').value;
-    const confirmPassword = document.getElementById('reg-confirm-password').value;
-    
-    displayFeedback('register-feedback', 'Creating account...', 'pending');
+    // 🟢 FIREBASE REGISTER FUNCTION (Referral Logic සහිතව)
+    async function handleRegistration() {
+        let username = document.getElementById('reg-username').value;
+        const email = document.getElementById('reg-email').value;
+        const password = document.getElementById('reg-password').value;
+        const confirmPassword = document.getElementById('reg-confirm-password').value;
+        
+        displayFeedback('register-feedback', 'Creating account...', 'pending');
 
-    if (password !== confirmPassword) {
-        displayFeedback('register-feedback', 'Error: Passwords do not match!', 'error');
-        return; 
-    }
+        // 1. Username වලංගුකරණය (Validation)
+        // A-Z පමණක් සහ අකුරු 8 ට අඩුවෙන් (උපරිම 7)
+        const usernameRegex = /^[A-Z]{1,7}$/; 
+        if (!usernameRegex.test(username)) {
+            displayFeedback('register-feedback', 'Error: Username must be 1-7 CAPITAL letters only!', 'error');
+            return;
+        }
 
-    try {
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        const user = userCredential.user;
+        if (password !== confirmPassword) {
+            displayFeedback('register-feedback', 'Error: Passwords do not match!', 'error');
+            return; 
+        }
         
-        // 🟢 නව කේතය: සත්‍යාපනයෙන් පසු යා යුතු පිටුව සකසයි
-        const actionCodeSettings = {
-            url: DASHBOARD_URL, 
-            handleCodeInApp: false, 
-        };
-        
-        await user.sendEmailVerification(actionCodeSettings); 
-        await user.updateProfile({ displayName: username }); 
-        
-        const userDocRef = db.collection("users").doc(user.uid);
-        const newReferralCode = user.uid.substring(0, 8); // නව පරිශීලකයාගේ කේතය
-        
-        // Firestore වෙත දත්ත සුරැකීම (නව පරිශීලකයා සඳහා)
-        await userDocRef.set({
-            username: username,
-            email: email,
-            
-            // ⚡️ REFERRAL SYSTEM FIELDS
-            referralCode: newReferralCode,             // තමන්ගේම Referral Code එක
-            referredBy: referralIdFromUrl || null,    // URL එකෙන් ආව Referrer ගේ ID එක (ref)
-            
-            balance: 0.00, 
-            totalMined: 0.00,
-            referrals: 0, 
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            totalHashRate: 0.00, 
-            estimatedDailyIncome: 0.00
-        });
-        
-        // ⚡️ REFERRAL LOGIC යාවත්කාලීන කිරීම (Referrer ගේ ගණන වැඩි කිරීම)
-        if (referralIdFromUrl) {
-            try {
-                // referralIdFromUrl (ref) එකට අදාළ Referrer ව සොයා ගැනීම.
-                const referrerQuery = await db.collection("users").where("referralCode", "==", referralIdFromUrl).limit(1).get();
-                
-                if (!referrerQuery.empty) {
-                    const referrerDoc = referrerQuery.docs[0];
-                    const referrerDocRef = db.collection("users").doc(referrerDoc.id);
-                    
-                    // Transaction භාවිතයෙන් referrals ගණන 1කින් වැඩි කිරීම.
-                    await db.runTransaction(async (transaction) => {
-                        const doc = await transaction.get(referrerDocRef);
-                        if (!doc.exists) {
-                            // මෙහිදී දෝෂය නොසලකා හැරීමට හෝ ලොග් කිරීමට පුළුවන්
-                            throw "Referrer document does not exist during transaction!";
-                        }
-                        
-                        const currentReferrals = doc.data().referrals || 0;
-                        const newReferrals = currentReferrals + 1;
-                        
-                        transaction.update(referrerDocRef, {
-                            referrals: newReferrals 
-                        });
-                        
-                        console.log(`✅ Referral count updated for referrer: ${referrerDoc.data().username}. New count: ${newReferrals}`);
-                    });
-                } else {
-                    console.warn("⚠️ Referrer user not found with code:", referralIdFromUrl);
-                }
-            } catch (e) {
-                 console.error("❌ Error updating referrer count:", e);
+        // 2. පවතින Username පරීක්ෂාව (Uniqueness Check)
+        try {
+            const usernameQuery = await db.collection("users").where("username", "==", username).limit(1).get();
+            if (!usernameQuery.empty) {
+                displayFeedback('register-feedback', 'Error: This username is already taken. Please choose another one.', 'error');
+                return;
             }
+        } catch (error) {
+            console.error("Firebase Username Check Error:", error);
+            displayFeedback('register-feedback', 'Error: Failed to check username availability. Try again.', 'error');
+            return;
         }
-        // ⚡️ REFERRAL LOGIC අවසන්
 
-        // TELEGRAM NOTIFICATION (REGISTER)
-        sendTelegramNotification('Registration', {
-            Username: username,
-            Email: email,
-            ReferralCode: newReferralCode, // නව කේතය මෙහි යොදන්න
-            ReferredBy: referralIdFromUrl || 'None',
-            Status: 'Created, Verification Pending'
-        });
+        // 3. Firebase Authentication සහ Firestore වෙත දත්ත එකතු කිරීම
+        try {
+            const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+            const user = userCredential.user;
+            
+            // 🟢 නව කේතය: සත්‍යාපනයෙන් පසු යා යුතු පිටුව සකසයි
+            const actionCodeSettings = {
+                url: DASHBOARD_URL, 
+                handleCodeInApp: false, 
+            };
+            
+            await user.sendEmailVerification(actionCodeSettings); 
+            await user.updateProfile({ displayName: username }); 
+            
+            const userDocRef = db.collection("users").doc(user.uid);
+            const newReferralCode = user.uid.substring(0, 8); // නව පරිශීලකයාගේ කේතය
+            
+            // Firestore වෙත දත්ත සුරැකීම (නව පරිශීලකයා සඳහා)
+            await userDocRef.set({
+                username: username,
+                email: email,
+                
+                // ⚡️ REFERRAL SYSTEM FIELDS
+                referralCode: newReferralCode,             // තමන්ගේම Referral Code එක
+                referredBy: referralIdFromUrl || null,    // URL එකෙන් ආව Referrer ගේ ID එක (ref)
+                
+                balance: 0.00, 
+                totalMined: 0.00,
+                referrals: 0, 
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                totalHashRate: 0.00, 
+                estimatedDailyIncome: 0.00
+            });
+            
+            // ⚡️ REFERRAL LOGIC යාවත්කාලීන කිරීම (Referrer ගේ ගණන වැඩි කිරීම)
+            if (referralIdFromUrl) {
+                try {
+                    // referralIdFromUrl (ref) එකට අදාළ Referrer ව සොයා ගැනීම.
+                    const referrerQuery = await db.collection("users").where("referralCode", "==", referralIdFromUrl).limit(1).get();
+                    
+                    if (!referrerQuery.empty) {
+                        const referrerDoc = referrerQuery.docs[0];
+                        const referrerDocRef = db.collection("users").doc(referrerDoc.id);
+                        
+                        // Transaction භාවිතයෙන් referrals ගණන 1කින් වැඩි කිරීම.
+                        await db.runTransaction(async (transaction) => {
+                            const doc = await transaction.get(referrerDocRef);
+                            if (!doc.exists) {
+                                // මෙහිදී දෝෂය නොසලකා හැරීමට හෝ ලොග් කිරීමට පුළුවන්
+                                throw "Referrer document does not exist during transaction!";
+                            }
+                            
+                            const currentReferrals = doc.data().referrals || 0;
+                            const newReferrals = currentReferrals + 1;
+                            
+                            transaction.update(referrerDocRef, {
+                                referrals: newReferrals 
+                            });
+                            
+                            console.log(`✅ Referral count updated for referrer: ${referrerDoc.data().username}. New count: ${newReferrals}`);
+                        });
+                    } else {
+                        console.warn("⚠️ Referrer user not found with code:", referralIdFromUrl);
+                    }
+                } catch (e) {
+                    console.error("❌ Error updating referrer count:", e);
+                }
+            }
+            // ⚡️ REFERRAL LOGIC අවසන්
 
-        showVerificationMessage();
-        
-    } catch (error) {
-        let errorMessage = "Registration failed. Please try again.";
-        if (error.code) {
-            errorMessage = error.message.replace('Firebase:', '').trim(); 
+            // TELEGRAM NOTIFICATION (REGISTER)
+            sendTelegramNotification('Registration', {
+                Username: username,
+                Email: email,
+                ReferralCode: newReferralCode, // නව කේතය මෙහි යොදන්න
+                ReferredBy: referralIdFromUrl || 'None',
+                Status: 'Created, Verification Pending'
+            });
+
+            showVerificationMessage();
+            
+        } catch (error) {
+            let errorMessage = "Registration failed. Please try again.";
+            if (error.code) {
+                errorMessage = error.message.replace('Firebase:', '').trim(); 
+            }
+            displayFeedback('register-feedback', 'Error: ' + errorMessage, 'error');
+            console.error("Firebase Registration Error:", error);
         }
-        displayFeedback('register-feedback', 'Error: ' + errorMessage, 'error');
-        console.error("Firebase Registration Error:", error);
     }
-}
 
         
         // 🟢 FIREBASE LOGIN FUNCTION (reload() ක්‍රමය සහිතව)
