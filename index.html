@@ -135,7 +135,7 @@
         }
         .features-section { background-color: #1a1a1a; }
         .pricing-section { background-color: #121212; }
-        .testimonials-section { background-color: #1a1a1a; } /* NEW */
+        /* .testimonials-section { background-color: #1a1a1a; } - ඉවත් කරන ලදි */
         .faq { background-color: #121212; } 
 
         h2 {
@@ -181,7 +181,7 @@
             color: #bbbbbb;
         }
         
-        /* Testimonial Styles (NEW) */
+        /* Testimonial Styles - ඉවත් කරන ලදි 
         .testimonial-container {
             display: flex;
             justify-content: center;
@@ -213,6 +213,7 @@
             text-align: right;
             display: block;
         }
+        */
 
         /* Plan Cards (Pricing Section - dashboard.html හි මෙන්) */
         .plan-container {
@@ -430,7 +431,7 @@
             .feature-card, .plan-card { width: 90%; }
             .feature-container, .plan-container { flex-direction: column; align-items: center; gap: 20px; }
             .content-section { padding: 40px 5%; }
-            .testimonial-card { flex-basis: 90%; }
+            /* .testimonial-card { flex-basis: 90%; } - ඉවත් කරන ලදි */
             .telegram-support-btn {
                 width: 50px;
                 height: 50px;
@@ -448,16 +449,22 @@
     <div id="mySideMenu" class="side-menu">
         <button class="close-btn" onclick="toggleNav()">&times;</button> 
         <h2>XRP MINE PRO</h2> 
-        <a href="about.html"><i class="fas fa-info-circle"></i> About Us</a> <a href="#pricing"><i class="fas fa-money-check-alt"></i> Pricing Plans</a>
-        <a href="#testimonials"><i class="fas fa-star"></i> Testimonials</a> <a href="#features"><i class="fas fa-cogs"></i> Our Features</a> <a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a>
+        
+        <a href="#pricing"><i class="fas fa-money-check-alt"></i> Pricing Plans</a>
+        <a href="#features"><i class="fas fa-cogs"></i> Our Features</a>
+        <a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a>
+        <a href="about.html"><i class="fas fa-info-circle"></i> About Us</a> 
+        
         <a href="register.html" class="auth-btn-side"><i class="fas fa-sign-in-alt"></i> Sign Up / Login</a> 
     </div>
 
     <header>
         <div class="logo">XRP MINE PRO</div>
         <nav>
-            <a href="about.html">About</a> <a href="#pricing">Pricing</a>
-            <a href="#features">Features</a> <a href="faq.html">FAQ</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#features">Features</a>
+            <a href="faq.html">FAQ</a>
+            <a href="about.html">About</a>
         </nav>
         <div class="user-auth-area">
             <a href="register.html" class="auth-btn">Sign Up / Login</a>
@@ -512,19 +519,6 @@
         </div>
     </section>
 
-    <section id="testimonials" class="content-section testimonials-section">
-        <h2>WHAT OUR USERS SAY</h2>
-        <div class="testimonial-container">
-            <div class="testimonial-card">
-                <p>"I was skeptical at first, but XRP Mine Pro delivered exactly what they promised. Easy setup and consistent daily payouts!"</p>
-                <span class="author">- Kasun P. (Elite Gold User)</span>
-            </div>
-            <div class="testimonial-card">
-                <p>"The best cloud mining platform I've used. The Telegram support is quick, and the security features give me peace of mind."</p>
-                <span class="author">- Dilshan A. (Bronze User)</span>
-            </div>
-        </div>
-    </section>
     <section id="features" class="content-section features-section"> <h2>PLATFORM FEATURES</h2>
         <div class="feature-container">
             <div class="feature-card">
