@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        /* Shared Styles from Dashboard */
+        /* Shared Styles from Dashboard (Dark Theme) */
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
@@ -34,7 +34,7 @@
             background-color: #121212; 
             padding: 15px 5%;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* Adjusted for only logo */
             align-items: center;
             border-bottom: 3px solid var(--secondary-color);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
@@ -49,13 +49,15 @@
             color: var(--secondary-color);
         }
         
-        nav a { margin-left: 35px; font-weight: 600; font-size: 1em; color: #bbbbbb; }
-        nav a:hover { color: var(--primary-color); }
-        
+        /* The 'nav' element is removed from the HTML, so these styles are now redundant, 
+           but kept for clarity on what was removed: */
+        /* nav { display: none; } */ 
+
+
         /* --- ABOUT PAGE SPECIFIC STYLES --- */
         .about-section {
             padding: 60px 5%;
-            max-width: 1000px;
+            max-width: 1200px; 
             margin: 0 auto;
             text-align: center;
         }
@@ -82,6 +84,7 @@
             gap: 30px;
             margin-top: 40px;
             flex-wrap: wrap;
+            justify-content: center; 
         }
 
         .mission-vision .card {
@@ -92,7 +95,7 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
             text-align: left;
             border-left: 5px solid var(--secondary-color);
-            min-width: 300px;
+            min-width: 350px; 
         }
 
         .mission-vision .card h2 {
@@ -111,6 +114,9 @@
             background-color: #1a1a1a;
             border-radius: 15px;
             border: 1px solid var(--border-color);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .team-contact h2 {
@@ -136,28 +142,58 @@
             margin-top: 50px;
         }
 
-        /* Mobile Adjustments */
+        /* --- RESPONSIVE / MOBILE OPTIMIZATIONS --- */
+
+        @media (max-width: 1024px) {
+            .mission-vision .card {
+                min-width: 45%; 
+            }
+        }
+
         @media (max-width: 768px) {
-            header { flex-direction: column; align-items: flex-start; padding: 15px; }
-            nav { display: none; } /* Hide main navigation on mobile, assuming side menu is used */
-            .about-section { padding: 30px 5%; }
-            .about-section h1 { font-size: 2.5em; }
-            .mission-vision { flex-direction: column; gap: 20px; }
-            .mission-vision .card { min-width: 100%; }
+            /* Header adjustments for smaller screens */
+            header { 
+                flex-direction: row; /* Keep logo centered/left, no need for wrap */
+                justify-content: center; /* Center the logo if no other elements */
+                align-items: center; 
+            }
+            
+            .about-section { 
+                padding: 30px 5%; 
+            }
+            .about-section h1 { 
+                font-size: 2.5em; 
+            }
+
+            /* Stack cards vertically on mobile */
+            .mission-vision { 
+                flex-direction: column; 
+                gap: 20px; 
+            }
+            .mission-vision .card { 
+                min-width: 100%; 
+            }
+            
+            .team-contact {
+                padding: 30px;
+            }
+        }
+        
+        /* Extra Small Mobile (Up to 480px) */
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.6em;
+            }
+            .about-section h1 {
+                font-size: 2em;
+            }
         }
     </style>
 </head>
 <body>
     
     <header>
-        <div class="logo">XRP MINE PRO</div>
-        <nav>
-            <a href="dashboard.html#dashboard">Dashboard</a>
-            <a href="dashboard.html#plans">Plans</a>
-            <a href="faq.html">FAQ</a>
-            <a href="about.html" style="color: var(--secondary-color);">About Us</a>
-            <a href="dashboard.html#contact">Contact</a>
-        </nav>
+        <a href="dashboard.html" class="logo">XRP MINE PRO</a>
         </header>
 
     <section class="about-section">
