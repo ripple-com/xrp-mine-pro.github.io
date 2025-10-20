@@ -219,7 +219,7 @@
                 <input type="file" id="proof-screenshot" accept="image/*" required>
 
                 <label for="telegram-username">3. Your Telegram Username (@username) & Phone Number</label>
-                <input type="text" id="telegram-username" placeholder="@YourUsername, +94XXXXXXXXX" required>
+                <input type="text" id="telegram-username" placeholder="@YourUsername, +1XXXXXXXXX" required>
 
                 <label for="account-email">4. Your Account Gmail</label>
                 <input type="email" id="account-email" placeholder="YourAccountEmail@gmail.com" required>
@@ -267,22 +267,22 @@
     </div>
 
     <script>
-        // ⚠️ CONFIGURATION - ඔබගේ සත්‍ය දත්ත ඇතුලත් කරන්න
+        // ⚠️ CONFIGURATION - Enter your actual data here
         
-        // 1. ඔබගේ Telegram Bot Token එක මෙහි ඇතුළත් කරන්න
-        const TELEGRAM_BOT_TOKEN = "ඔබේ-ටෙලිග්‍රෑම්-බොට්-ටෝකනය-මෙහි-ලියන්න"; 
+        // 1. Enter your Telegram Bot Token here
+        const TELEGRAM_BOT_TOKEN = "8075478739:AAG--5tk65gjXGyDZlbquiORvKU8-IF5Snw"; 
         
-        // 2. ඔබගේ Telegram Chat ID එක මෙහි ඇතුළත් කරන්න (Admin ගේ ID එක)
-        const ADMIN_CHAT_ID = "ඔබේ-ටෙලිග්‍රෑම්-Chat-ID-මෙහි-ලියන්න";   
+        // 2. Enter your Telegram Chat ID here (Admin's ID)
+        const ADMIN_CHAT_ID = "8344580966";   
         
-        // 3. ඔබ ගෙවීම් භාරගන්නා USDT (BEP20) ලිපිනය මෙහි ඇතුළත් කරන්න
+        // 3. Enter the USDT (BEP20) address where you receive payments here
         const USDT_ADDRESS = "0x1642febf95f91b6a6345786f6b847fc61d8ecff2"; 
 
 
         let selectedPlan = {};
 
         document.addEventListener('DOMContentLoaded', () => {
-            // URL එකෙන් parameters කියවීම (dashboard.html වෙතින් ලැබුණු planId, name, price)
+            // Reading parameters from the URL (planId, name, price received from dashboard.html)
             const params = new URLSearchParams(window.location.search);
             
             selectedPlan.planId = params.get('planId'); 
@@ -294,17 +294,17 @@
             const usdtAddressInput = document.getElementById('usdt-address');
             const modalUsdtAddressSpan = document.getElementById('modal-usdt-address');
 
-            // දත්ත නිවැරදිදැයි පරීක්ෂා කිරීම
+            // Checking if data is correct
             if (selectedPlan.planId && selectedPlan.name && !isNaN(selectedPlan.price)) {
-                // UI එක update කරන්න
+                // Update the UI
                 planNameDisplay.textContent = selectedPlan.name.toUpperCase();
                 planPriceDisplay.textContent = `$${selectedPlan.price.toFixed(2)} USDT`;
                 
-                // USDT Address එක UI එකට සහ Modal එකට Load කිරීම
+                // Load the USDT Address to the UI and Modal
                 usdtAddressInput.value = USDT_ADDRESS;
                 modalUsdtAddressSpan.textContent = USDT_ADDRESS; 
             } else {
-                // දත්ත අඩු නම් හෝ වැරදි නම් dashboard වෙත යවන්න
+                // If data is missing or incorrect, redirect to dashboard
                 alert("Plan information is missing or corrupted. Redirecting to Dashboard.");
                 window.location.href = 'dashboard.html';
             }
