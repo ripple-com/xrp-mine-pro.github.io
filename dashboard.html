@@ -30,7 +30,7 @@
             --border-color: #333333;
             --menu-width: 280px;
             --referral-bg: #1a1a1a; 
-            /* 💡 නව වර්ණ: Bronze නිල්, Silver රතු 💡 */
+            /* New Colors: Bronze Blue, Silver Red */
             --bronze-color: #03a9f4; /* Primary Blue for Bronze */
             --silver-color: #f44336; /* Red for Silver */
         }
@@ -188,14 +188,14 @@
             box-shadow: 0 10px 40px rgba(255, 152, 0, 0.4);
         }
         
-        /* Bronze Highlight (නිල්) */
+        /* Bronze Highlight (Blue) */
         .plan-card.bronze-highlight {
             border: 3px solid var(--bronze-color); 
             background: linear-gradient(145deg, #2c2c2c, #263238); 
             box-shadow: 0 10px 40px rgba(3, 169, 244, 0.4); 
         }
 
-        /* Silver Highlight (රතු) */
+        /* Silver Highlight (Red) */
         .plan-card.silver-highlight {
             border: 3px solid var(--silver-color); 
             background: linear-gradient(145deg, #2c2c2c, #3e2723); 
@@ -210,7 +210,7 @@
             order: -1; 
         }
         
-        /* Activated Badge (සියලුම සැලසුම් සඳහා) */
+        /* Activated Badge (for all plans) */
         .activated-badge {
             position: absolute;
             top: 15px;
@@ -223,11 +223,11 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
             z-index: 10; 
             
-            /* පෙරනිමි වර්ණය Free Plan සඳහා */
+            /* Default color for Free Plan */
             background-color: var(--accent-color); 
         }
         
-        /* 💡 නව: ගෙවන සැලසුම් සඳහා Activated Badge වර්ණ 💡 */
+        /* Paid Plans Activated Badge Colors */
         .plan-card.gold-highlight .activated-badge {
             background-color: var(--secondary-color); /* Orange/Gold */
         }
@@ -379,14 +379,15 @@
         .side-menu a i { margin-right: 15px; color: var(--secondary-color); } 
         .side-menu .close-btn { position: absolute; top: 15px; right: 25px; font-size: 36px; color: #eeeeee; cursor: pointer; background: none; border: none; }
         
-        /* Side Menu Logout Button */
+        /* Side Menu Logout Button - Centered */
         .side-menu .logout-btn-side {
             background-color: #f44336; 
-            margin: 20px 25px; 
+            margin: 20px auto; /* Centered */
             display: block; 
             text-align: center;
             padding: 10px 0;
             border-radius: 8px;
+            width: 80%; /* Width for centering */
         }
 
 
@@ -405,7 +406,7 @@
             display: none; 
         }
 
-        /* --- Floating/Draggable Telegram Support Button (යාවත්කාලීන කරන ලදී) --- */
+        /* --- Floating/Draggable Telegram Support Button --- */
         .telegram-support-btn {
             position: fixed; 
             top: 85vh; 
@@ -431,7 +432,7 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 0 5px rgba(0, 170, 255, 0.7);
         }
         
-        /* ඇදගෙන යන විට cursor එක වෙනස් වේ */
+        /* Cursor changes when dragging */
         .telegram-support-btn.dragging {
             cursor: grabbing;
         }
@@ -469,7 +470,7 @@
             .copy-btn { width: 100%; }
             .user-info { display: none !important; } 
 
-            /* කුඩා තිර සඳහා Floating බොත්තම ප්‍රමාණය අඩු කිරීම */
+            /* Reduce Floating button size on small screens */
             .telegram-support-btn {
                 width: 50px;
                 height: 50px;
@@ -493,7 +494,7 @@
         <a href="transactions.html"><i class="fas fa-history"></i> Transaction History</a>
         <a href="#referral"><i class="fas fa-users"></i> Referral Program</a> 
         <a href="faq.html"><i class="fas fa-question-circle"></i> FAQ</a>
-        <button onclick="logout()" class="logout-btn-side"><i class="fas fa-sign-out-alt"></i> Log Out</button> 
+        <a href="about.html"><i class="fas fa-info-circle"></i> About Us</a> <button onclick="logout()" class="logout-btn-side"><i class="fas fa-sign-out-alt"></i> Log Out</button> 
     </div>
 
     <header>
@@ -609,7 +610,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // ⚠️ ඔබේ සැබෑ Firebase Config තොරතුරු මෙහිද තිබිය යුතුයි.
+        // ⚠️ Replace with your actual Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyBsTIzaJtaGiAfv4a69o80f0QvKiq6lFj4", 
             authDomain: "xrp-mine-pro.firebaseapp.com",
@@ -624,34 +625,34 @@
         const db = firebase.firestore(); 
         
         // ----------------------------------------------------
-        // 🟢 ගෝලීය නියතයන් සහ විචල්‍යයන් (යාවත්කාලීන කර ඇත)
+        // 🟢 Global Constants and Variables
         // ----------------------------------------------------
         
         let isFreePlanActive = false;
         let totalHashRate = 0.00; 
         let miningInterval; 
         
-        // 💡 සැලසුම් දත්ත ගතිකව ගබඩා කිරීමට නව විචල්‍යය
+        // Variable to store dynamic plan data
         let ALL_PLANS_DATA = {}; 
         
-        // 💡 පෙරනිමි අගයන් (Firebase දත්ත පූරණය වීමට පෙර අවශ්‍ය නම්)
+        // Default values (needed before Firebase data loads)
         const FREE_PLAN_HASH_RATE_DEFAULT = 50.00; 
         const FREE_PLAN_EXPIRY_DAYS_DEFAULT = 15;
 
         const DEFAULT_DAILY_INCOME_PER_MH = 0.05; 
         const XRP_RATE_PER_SECOND_PER_MH = 0.00001; 
-        const MINING_UPDATE_INTERVAL = 10000; // 10 seconds (UI update සඳහා)
+        const MINING_UPDATE_INTERVAL = 10000; // 10 seconds (for UI update)
         
         let currentLocalBalance = 0.00; 
         let isMiningOnline = false;     
 
 
         // ----------------------------------------------------
-        // 🟢 1. Offline Mining Calculation Logic (පිටතදී mine වීම)
+        // 🟢 1. Offline Mining Calculation Logic
         // ----------------------------------------------------
 
         /**
-         * පරිශීලකයා වෙබ් අඩවියෙන් පිටව සිටි කාලය ගණනය කර XRP ශේෂයට එකතු කරයි.
+         * Calculates and applies XRP earned while the user was away.
          */
         async function calculateAndApplyMining(userDocRef, userData) {
             const totalHashRate = userData.totalHashRate || 0.00;
@@ -665,7 +666,7 @@
             const timeElapsedMs = currentTime.getTime() - lastMiningUpdate.getTime(); 
             const timeElapsedSeconds = timeElapsedMs / 1000; 
             
-            // 🧮 Offline දී උපයා ගත් XRP ප්‍රමාණය ගණනය කිරීම
+            // Calculate XRP earned offline
             const xrpEarnedOffline = totalHashRate * timeElapsedSeconds * XRP_RATE_PER_SECOND_PER_MH;
 
             if (xrpEarnedOffline > 0.000001) { 
@@ -679,13 +680,13 @@
                         
                         transaction.update(userDocRef, {
                             balance: newBalance,
-                            // නව යාවත්කාලීන කාලය වත්මන් සර්වර් වේලාවට සකසන්න
+                            // Set new update time to current server time
                             lastMiningUpdate: firebase.firestore.FieldValue.serverTimestamp() 
                         });
                         
-                        userData.balance = newBalance; // දේශීයව දත්ත යාවත්කාලීන කිරීම
+                        userData.balance = newBalance; // Update data locally
 
-                        // UI යාවත්කාලීන කිරීම
+                        // Update UI
                         document.getElementById('current-balance').textContent = newBalance.toFixed(4) + ' XRP';
                         console.log(`✅ Offline Mining Applied. +${xrpEarnedOffline.toFixed(4)} XRP earned over ${timeElapsedSeconds.toFixed(0)} seconds.`);
                     });
@@ -697,7 +698,7 @@
         }
 
         // ----------------------------------------------------
-        // 🟢 2. Real-time UI Simulation Logic (සජීවීව පෙන්වීම)
+        // 🟢 2. Real-time UI Simulation Logic
         // ----------------------------------------------------
 
         function startRealTimeSimulation() {
@@ -715,13 +716,13 @@
             isMiningOnline = true; 
             
             miningInterval = setInterval(() => {
-                // 1. දේශීය ශේෂය යාවත්කාලීන කරන්න
+                // 1. Update local balance
                 currentLocalBalance += xrpPerUpdate;
                 
-                // 2. Dashboard UI යාවත්කාලීන කරන්න
+                // 2. Update Dashboard UI
                 document.getElementById('current-balance').textContent = currentLocalBalance.toFixed(4) + ' XRP';
                 
-            }, MINING_UPDATE_INTERVAL); // සෑම තත්පර 10කට වරක්ම යාවත්කාලීන කරන්න
+            }, MINING_UPDATE_INTERVAL); // Update every 10 seconds
         }
 
         function stopRealTimeSimulation() {
@@ -763,7 +764,7 @@
                 return;
             }
             
-            // 💡 ALL_PLANS_DATA වෙතින් Free Plan දත්ත ලබා ගැනීම
+            // Get Free Plan data from ALL_PLANS_DATA
             const freePlanData = ALL_PLANS_DATA.free;
             const freePlanHashRate = freePlanData ? freePlanData.hashRate : FREE_PLAN_HASH_RATE_DEFAULT;
             const freePlanExpiryDays = freePlanData ? freePlanData.durationDays : FREE_PLAN_EXPIRY_DAYS_DEFAULT;
@@ -813,7 +814,7 @@
                 
                 alert(`Free Plan Activated Successfully! Your ${freePlanHashRate.toFixed(2)} MH/s mining has started for ${freePlanExpiryDays} days.`);
                 
-                // Active Badge එක අතින් එකතු කරන්න
+                // Manually add the Active Badge
                 const card = document.getElementById('free-plan-card');
                 card.querySelector('.activated-badge')?.remove(); 
                 const badge = document.createElement('span');
@@ -829,7 +830,7 @@
         }
 
         // ----------------------------------------------------
-        // 🟢 3. Firebase වෙතින් සැලසුම් දත්ත කියවා Dashboard UI යාවත්කාලීන කිරීම (නව ශ්‍රිතය)
+        // 🟢 3. Fetching Plan Data from Firebase and updating Dashboard UI (New function)
         // ----------------------------------------------------
         async function fetchAndRenderPlans() {
             try {
@@ -839,10 +840,10 @@
                     plansData[doc.id] = doc.data(); 
                 });
                 
-                // ගෝලීය විචල්‍යය යාවත්කාලීන කිරීම
+                // Update global variable
                 ALL_PLANS_DATA = plansData;
 
-                // සැලසුම් ID සහ ඒවායේ UI ID සිතියම්ගත කිරීම
+                // Map Plan ID to their UI IDs
                 const planMap = {
                     free: {
                         hashRate: 'free-hash-rate',
@@ -870,7 +871,7 @@
                     }
                 };
 
-                // UI යාවත්කාලීන කිරීම
+                // Update UI
                 for (const planId in planMap) {
                     const plan = plansData[planId];
                     const uiIds = planMap[planId];
@@ -879,7 +880,7 @@
                         const priceText = planId === 'free' ? `$${plan.price.toFixed(2)} (FREE)` : `$${plan.price.toFixed(2)}`;
                         const durationText = `${plan.durationDays} Days${planId === 'free' ? ' Trial' : ''}`;
                         
-                        // දත්ත පූරණය
+                        // Load data
                         document.getElementById(uiIds.hashRate).innerHTML = `Hash Rate: **${plan.hashRate.toFixed(2)} MH/s**`;
                         document.getElementById(uiIds.price).innerHTML = `Price: **${priceText}**`;
                         document.getElementById(uiIds.duration).innerHTML = `Duration: **${durationText}**`;
@@ -889,7 +890,7 @@
                 
             } catch (e) {
                 console.error("Error fetching and rendering plans:", e);
-                // දත්ත කියවීමේ දෝෂයක් ඇති වුවහොත් පණිවිඩයක් පෙන්වන්න
+                // Display error message if data fetching fails
                 const plansSection = document.getElementById('plans');
                 if(plansSection) {
                    plansSection.innerHTML = '<h2 class="section-title error-message" style="color: #d32f2f;">⚠️ Failed to load plans. Please check Firebase config and security rules.</h2>';
@@ -899,7 +900,7 @@
 
 
         // -----------------------------------------------------------
-        // 🔑 Auth State Listener (දත්ත කියවීම හා UI යාවත්කාලීන කිරීම)
+        // 🔑 Auth State Listener (Data Reading & UI Update)
         // -----------------------------------------------------------
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
@@ -918,7 +919,7 @@
                     return;
                 }
                 
-                // 🟢 5. Plan Configurations Firebase වෙතින් කියවා UI යාවත්කාලීන කිරීම (Auth එකට පෙර Load කිරීමට)
+                // 🟢 5. Load Plan Configurations before proceeding
                 await fetchAndRenderPlans();
 
 
@@ -932,9 +933,9 @@
                     return;
                 }
 
-                // 🔴 දින 15 ක Free Plan Expiry Logic
+                // 🔴 Free Plan Expiry Logic (15 Days)
                 if (data.isFreePlanActive && data.freePlanActivationDate) {
-                    // 💡 ALL_PLANS_DATA වෙතින් Free Plan දත්ත ලබා ගැනීම
+                    // Get Free Plan data
                     const freePlanData = ALL_PLANS_DATA.free;
                     const freePlanHashRate = freePlanData ? freePlanData.hashRate : FREE_PLAN_HASH_RATE_DEFAULT;
                     const freePlanExpiryDays = freePlanData ? freePlanData.durationDays : FREE_PLAN_EXPIRY_DAYS_DEFAULT;
@@ -976,7 +977,7 @@
                     }
                 }
                 
-                // 1. 🔴 පළමු වරට ලොග් වන විට lastMiningUpdate සකසයි.
+                // 1. 🔴 Set lastMiningUpdate on first login if not set.
                 if (!data.lastMiningUpdate) {
                     await userDocRef.update({
                         lastMiningUpdate: firebase.firestore.FieldValue.serverTimestamp() 
@@ -985,11 +986,11 @@
                     data = userDoc.data();
                 }
 
-                // 2. 🟢 Offline Mining ගණනය කිරීම සහ ශේෂයට එකතු කිරීම
+                // 2. 🟢 Calculate and Apply Offline Mining
                 await calculateAndApplyMining(userDocRef, data);
 
                 
-                // 3. 🖥️ UI යාවත්කාලීන කිරීම සහ Activated Badge එකතු කිරීම (නව Logic)
+                // 3. 🖥️ Update UI and add Activated Badge (New Logic)
                 const userName = data.username || 'Miner'; 
                 document.getElementById('header-user-display-name').textContent = userName;
                 document.getElementById('hero-user-display-name').textContent = userName;
@@ -1004,26 +1005,26 @@
                 totalHashRate = data.totalHashRate || 0.00; 
                 
                 
-                // 💡 නව: සියලුම සැලසුම් සඳහා 'Activated' Badge එකතු කිරීම 💡
-                const activePlans = data.activePlans || []; // ගෙවන සැලසුම් Array එක (උදා: ['bronze', 'silver'])
+                // 💡 Add 'Activated' Badge for all active plans
+                const activePlans = data.activePlans || []; 
                 const planCards = document.querySelectorAll('.plan-container .plan-card'); 
 
                 planCards.forEach(card => {
                     const planTypeElement = card.querySelector('h3');
                     if (!planTypeElement) return;
 
-                    // 'BRONZE (1 Month)' => 'bronze'
+                    // Extract plan type (e.g., 'BRONZE (1 Month)' => 'bronze')
                     const planType = planTypeElement.textContent.toLowerCase().split('(')[0].trim().replace('elite ', '').replace('<i class="fas fa-gift"></i>', '').trim();
                     
-                    card.querySelector('.activated-badge')?.remove(); // පවතින badge ඉවත් කිරීම
+                    card.querySelector('.activated-badge')?.remove(); // Remove existing badge
                     
                     let shouldActivate = false;
                     
-                    // 1. Free Plan එක සක්‍රියදැයි පරීක්ෂා කිරීම
+                    // 1. Check if Free Plan is active
                     if (planType.includes('free') && isFreePlanActive) {
                         shouldActivate = true;
                     } 
-                    // 2. ගෙවන සැලසුම් සක්‍රියදැයි පරීක්ෂා කිරීම (Firebase Array එක භාවිතයෙන්)
+                    // 2. Check if Paid Plan is active (using Firebase Array)
                     else if (activePlans.includes(planType)) {
                         shouldActivate = true;
                     }
@@ -1035,20 +1036,20 @@
                         card.appendChild(badge);
                     }
                     
-                    // Free Plan Button එක යාවත්කාලීන කිරීම (Activation තත්ත්වය අනුව)
+                    // Update Free Plan Button status
                     if (planType.includes('free')) {
                          updateFreePlanUI();
                     }
                 });
                 
-                // 🟢 Referral Link එක නිවැරදිව ජනනය කිරීම
+                // 🟢 Generate Referral Link
                 const referralLinkInput = document.getElementById("referralLink");
                 const referralCode = data.referralCode || user.uid.substring(0, 8); 
                 const BASE_REGISTER_URL = 'https://ripple-com.github.io/xrp-mine-pro.github.io/register.html'; 
                 referralLinkInput.value = `${BASE_REGISTER_URL}?ref=${referralCode}`; 
  
                 
-                // 4. 🚀 Real-time Simulation එක ආරම්භ කිරීම
+                // 4. 🚀 Start Real-time Simulation
                 if (totalHashRate > 0) {
                     currentLocalBalance = data.balance || 0.00;
                     startRealTimeSimulation(); 
@@ -1104,38 +1105,31 @@
             }
         }
         
-        // --- goToPayment ශ්‍රිතය (යාවත්කාලීන කළ) ---
-
-        // 🟢 dashboard.html හි <script> ටැගය තුළ, දැනට පවතින goToPayment ශ්‍රිතය වෙනුවට මෙය ආදේශ කරන්න.
-
+        // --- goToPayment Function ---
         function goToPayment(planId) {
             const user = auth.currentUser;
-            // ALL_PLANS_DATA වෙතින් දත්ත කියවමු
             const plan = ALL_PLANS_DATA[planId]; 
 
             if (!user) {
-                alert("සැලසුමක් මිලදී ගැනීමට පෙර කරුණාකර ලොග් වන්න.");
+                alert("Please log in before purchasing a plan.");
                 return;
             }
             
             if (!plan) {
-                alert("සැලසුම් දත්ත තවමත් පූරණය වී නොමැත, නැතහොත් අවලංගු සැලසුම් හැඳුනුම්පතකි.");
+                alert("Plan data not loaded yet, or invalid plan ID.");
                 return;
             }
 
-            // 1. තෝරාගත් Plan එකේ නම (name) සහ නවතම මිල (price) ලබා ගැනීම
-            // payment.html එක බලාපොරොත්තු වන පරිදි URL parameter සකස් කිරීම.
             const planName = planId.toUpperCase();
             const planPrice = plan.price; 
 
-            // 2. payment.html වෙත Plan ID, Name සහ Price යන තුනම URL Parameter ලෙස යැවීම.
-            // Firebase වෙත payment_redirects එකක් යැවීමේ අවශ්‍යතාවය මෙයින් ඉවත් කර ඇත.
+            // Redirect to payment.html with plan details
             window.location.href = `payment.html?planId=${planId}&name=${encodeURIComponent(planName)}&price=${planPrice}`;
         }
 
 
         
-        // --- Telegram බොත්තම එහා මෙහා ගෙන යා හැකි (Draggable) කිරීම සඳහා JavaScript ---
+        // --- Telegram Draggable Button JavaScript ---
         function makeDraggable(element) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
             let isDragging = false;
@@ -1143,7 +1137,7 @@
             element.onmousedown = dragMouseDown;
             element.ontouchstart = dragTouchStart; 
             
-            // Link එක ක්ලික් වීම වැලැක්වීමට
+            // Prevent link from opening on click if dragged
             element.onclick = function(e) {
                 if (isDragging) {
                     e.preventDefault();
@@ -1183,7 +1177,7 @@
                 pos3 = e.clientX;
                 pos4 = e.clientY;
                 
-                // පළමු pixel කිහිපය එහා මෙහා වූ විට isDragging සත්‍ය බවට පත් කරයි
+                // Set isDragging to true only after moving a few pixels
                 if (Math.abs(pos1) > 2 || Math.abs(pos2) > 2) {
                     isDragging = true;
                 }
@@ -1215,7 +1209,7 @@
                 document.ontouchmove = null;
                 element.classList.remove('dragging');
                 
-                // Drag එක අවසන් වූ පසු, isDragging true නම් link එක විවෘත වීම නවත්වයි
+                // If dragging occurred, prevent the link from opening
                 setTimeout(() => {
                     if(isDragging) {
                         isDragging = false; 
@@ -1224,15 +1218,14 @@
             }
         }
 
-        // පිටුව Load වූ පසු draggable ශ්‍රිතය ක්‍රියාත්මක කිරීම
+        // Make the Telegram button draggable on window load
         window.onload = function() {
-            // Telegram බොත්තම draggable බවට පත් කිරීම
             const telegramBtn = document.getElementById('telegram-btn');
             if (telegramBtn) {
                 makeDraggable(telegramBtn);
             }
         };
-        // --- අවසන් Draggable JavaScript කේතය ---
+        // --- End Draggable JavaScript Code ---
         
     </script>
 
