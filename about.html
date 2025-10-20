@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium XRP Cloud Mining Platform - About Us</title>
+    <title>About Us - XRP Mine Pro</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico"> 
-<link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16">    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        /* Base Styles - High-Contrast Material Dark Theme (dashboard.html හි කේතය) */
+        /* Shared Styles from Dashboard */
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
@@ -21,23 +19,17 @@
             line-height: 1.6;
         }
 
-        /* Material Dark Themed Colors */
         :root {
-            --primary-color: #03a9f4; /* නිල් */
-            --secondary-color: #ff9800; /* තැඹිලි/රන් */
-            --accent-color: #4CAF50; /* කොළ */
+            --primary-color: #03a9f4; 
+            --secondary-color: #ff9800; 
             --card-bg: #212121; 
             --border-color: #333333;
-            --menu-width: 280px;
-            --referral-bg: #1a1a1a; 
         }
-        
-        /* Global Reset & Transitions */
-        a { color: var(--primary-color); text-decoration: none; transition: color 0.3s, transform 0.2s; }
-        a:hover { color: #81d4fa; }
-        button { cursor: pointer; border: none; transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s; color: white; } 
 
-        /* Header & Navigation (dashboard.html හි මෙන්) */
+        a { color: var(--primary-color); text-decoration: none; transition: color 0.3s; }
+        a:hover { color: #81d4fa; }
+
+        /* Header & Navigation (Matching Dashboard) */
         header {
             background-color: #121212; 
             padding: 15px 5%;
@@ -59,108 +51,81 @@
         
         nav a { margin-left: 35px; font-weight: 600; font-size: 1em; color: #bbbbbb; }
         nav a:hover { color: var(--primary-color); }
-
-        .user-auth-area {
-            display: flex;
-            align-items: center;
-        }
         
-        .auth-btn {
-            background-color: var(--primary-color); 
-            padding: 10px 25px;
-            border-radius: 8px;
-            font-weight: 600;
-            box-shadow: 0 4px 10px rgba(3, 169, 244, 0.3);
-            text-transform: uppercase;
-            color: white; 
-        }
-        .auth-btn:hover {
-            background-color: #0288d1;
-            transform: translateY(-1px);
-        }
-        
-        /* Main Content Area */
-        main {
-            padding: 40px 5%;
-            min-height: 80vh; 
-        }
-        
-        /* Content Section Styles */
-        .content-section {
-            padding: 60px 0; 
+        /* --- ABOUT PAGE SPECIFIC STYLES --- */
+        .about-section {
+            padding: 60px 5%;
+            max-width: 1000px;
+            margin: 0 auto;
             text-align: center;
-            max-width: 1200px;
-            margin: auto;
-        }
-        
-        .about-header {
-            color: white;
-            font-size: 3.5em;
-            font-weight: 800;
-            margin-bottom: 20px;
-            text-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
         }
 
-        .about-text {
-            font-size: 1.2em;
-            color: #bdbdbd;
-            max-width: 900px;
-            margin: 0 auto 50px;
+        .about-section h1 {
+            color: var(--secondary-color);
+            font-size: 3em; 
+            margin-bottom: 10px;
+            font-weight: 800;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .about-section p {
+            font-size: 1.1em;
+            color: #cccccc;
+            margin-bottom: 30px;
             text-align: left;
         }
 
-        /* Mission/Vision/Team Cards (dashboard card style) */
-        .card-container {
+        .mission-vision {
             display: flex;
-            justify-content: center;
             gap: 30px;
-            flex-wrap: wrap;
             margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .mission-vision .card {
+            flex: 1;
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            text-align: left;
+            border-left: 5px solid var(--secondary-color);
+            min-width: 300px;
+        }
+
+        .mission-vision .card h2 {
+            font-size: 1.6em;
+            color: var(--primary-color);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+        }
+
+        .team-contact {
+            margin-top: 50px;
+            padding: 40px;
+            background-color: #1a1a1a;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
         }
         
-        .info-card {
-            flex-basis: 300px;
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s;
-        }
-        .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-            border-color: var(--secondary-color);
-        }
-        .info-card i {
-            font-size: 3em;
+        .team-contact h2 {
             color: var(--primary-color);
-            margin-bottom: 15px;
-        }
-        .info-card h3 {
-            font-size: 1.5em;
-            color: var(--secondary-color);
-            margin-top: 0;
-        }
-        .info-card p {
-            color: #bbbbbb;
-            text-align: center; 
+            font-size: 2em;
+            margin-bottom: 25px;
         }
 
-        /* Section Headings */
-        h2 {
-            color: var(--primary-color);
-            font-size: 2.5em;
-            font-weight: 700;
-            margin-bottom: 40px; 
-            border-bottom: 2px solid var(--border-color);
-            display: inline-block;
-            padding-bottom: 10px;
+        .contact-info a {
+            display: block;
+            margin: 10px 0;
+            font-size: 1.1em;
         }
-
-
-        /* Footer (dashboard.html හි මෙන්) */
+        
+        /* Footer */
         footer {
             background-color: #000000;
             color: #9e9e9e;
@@ -168,305 +133,64 @@
             font-size: 0.9em;
             border-top: 1px solid var(--border-color);
             text-align: center;
-        }
-        
-        /* --- SIDE MENU STYLES (dashboard.html හි මෙන්) --- */
-        .side-menu {
-            height: 100%;
-            width: 0; 
-            position: fixed;
-            z-index: 1000;
-            top: 0;
-            right: 0;
-            background-color: #2c2c2c; 
-            overflow-x: hidden;
-            padding-top: 70px; 
-            transition: width 0.5s; 
-            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.4);
-        }
-        .side-menu h2 { font-size: 1.5em; margin: 0 25px 30px; color: var(--secondary-color); text-align: left; border-bottom: 1px solid #424242; padding-bottom: 10px; }
-        .side-menu.open { width: var(--menu-width); } 
-        .side-menu a { padding: 15px 25px; font-size: 1em; color: #bbbbbb; display: block; border-bottom: 1px solid #333333; }
-        .side-menu a:hover { background-color: #3a3a3a; color: var(--primary-color); }
-        .side-menu a i { margin-right: 15px; color: var(--secondary-color); } 
-        .side-menu .close-btn { position: absolute; top: 15px; right: 25px; font-size: 36px; color: #eeeeee; cursor: pointer; background: none; border: none; }
-        
-        .side-menu .auth-btn-side {
-            background-color: var(--primary-color); 
-            margin: 20px 25px; 
-            display: block; 
-            text-align: center;
-            padding: 10px 0;
-            border-radius: 8px;
-            color: white; 
+            margin-top: 50px;
         }
 
-
-        .open-btn { 
-            position: fixed; 
-            top: 20px; 
-            right: 20px; 
-            font-size: 1.1em; 
-            background-color: var(--secondary-color); 
-            color: white; 
-            border: none; 
-            padding: 10px 12px; 
-            cursor: pointer; 
-            z-index: 1001; 
-            border-radius: 5px; 
-            display: none; 
-        }
-
-        /* --- Floating/Draggable Telegram Support Button (dashboard.html හි මෙන්) --- */
-        .telegram-support-btn {
-            position: fixed; 
-            top: 85vh; 
-            left: 80vw; 
-            cursor: grab; 
-            z-index: 999; 
-            background-color: #0088cc; 
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2em;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(0, 136, 204, 0.5); 
-            transition: background-color 0.3s, box-shadow 0.3s;
-            text-decoration: none; 
-        }
-
-        .telegram-support-btn:hover {
-            background-color: #00aaff;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 0 5px rgba(0, 170, 255, 0.7);
-        }
-        .telegram-support-btn.dragging {
-            cursor: grabbing;
-        }
-
-
-        /* --- MOBILE-ONLY OPTIMIZATION (dashboard.html හි මෙන්) --- */
-        @media (min-width: 1px) {
-            nav, .user-auth-area { 
-                display: none !important; 
-            }
-            .open-btn { 
-                position: absolute; 
-                display: block !important; 
-            }
-            header { 
-                flex-direction: column; 
-                padding: 15px; 
-                text-align: center; 
-                justify-content: flex-start;
-                align-items: flex-start;
-                padding-right: 80px; 
-            }
-            .logo {
-                margin-right: auto;
-            }
-        }
-
+        /* Mobile Adjustments */
         @media (max-width: 768px) {
-            .about-header { font-size: 2.5em; }
-            .about-text { font-size: 1em; }
-            .info-card { width: 90%; }
-            .card-container { flex-direction: column; align-items: center; gap: 20px; }
-            .content-section { padding: 40px 5%; }
-            .telegram-support-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 1.8em;
-                top: 85vh;
-                left: 70vw; 
-            }
+            header { flex-direction: column; align-items: flex-start; padding: 15px; }
+            nav { display: none; } /* Hide main navigation on mobile, assuming side menu is used */
+            .about-section { padding: 30px 5%; }
+            .about-section h1 { font-size: 2.5em; }
+            .mission-vision { flex-direction: column; gap: 20px; }
+            .mission-vision .card { min-width: 100%; }
         }
     </style>
 </head>
 <body>
     
-    <button class="open-btn" onclick="toggleNav()"><i class="fas fa-bars"></i></button>
-
-    <div id="mySideMenu" class="side-menu">
-        <button class="close-btn" onclick="toggleNav()">&times;</button> 
-        <h2>XRP MINE PRO</h2> 
-        
-        <a href="index.html#pricing"><i class="fas fa-money-check-alt"></i> Pricing Plans</a>
-        <a href="index.html#features"><i class="fas fa-cogs"></i> Our Features</a>
-        <a href="faq.html"><i class="fas fa-question-circle"></i> FAQ</a>
-        <a href="about.html" style="background-color: #3a3a3a; color: var(--primary-color);"><i class="fas fa-info-circle"></i> About Us</a>
-        
-        <a href="register.html" class="auth-btn-side"><i class="fas fa-sign-in-alt"></i> Sign Up / Login</a> 
-    </div>
-
     <header>
         <div class="logo">XRP MINE PRO</div>
         <nav>
-            <a href="index.html#pricing">Pricing</a>
-            <a href="index.html#features">Features</a>
+            <a href="dashboard.html#dashboard">Dashboard</a>
+            <a href="dashboard.html#plans">Plans</a>
             <a href="faq.html">FAQ</a>
-            <a href="about.html" style="color: var(--secondary-color);">About</a>
+            <a href="about.html" style="color: var(--secondary-color);">About Us</a>
+            <a href="dashboard.html#contact">Contact</a>
         </nav>
-        <div class="user-auth-area">
-            <a href="register.html" class="auth-btn">Sign Up / Login</a>
-        </div>
-    </header>
+        </header>
 
-    <main>
-        <section id="about" class="content-section">
-            <h1 class="about-header">About XRP Mine Pro</h1> 
-            <p class="about-text">
-                XRP Mine Pro was founded in 2023 with a clear mission: to make cryptocurrency mining accessible, profitable, and secure for everyone, regardless of technical skill or investment size. We specialize in providing premium cloud mining contracts focused on XRP (Ripple), leveraging state-of-the-art data centers and advanced proprietary technology to ensure maximum efficiency and stable daily returns.
-            </p>
-            <p class="about-text">
-                Our platform is built on transparency, reliability, and unparalleled security. We believe in high-contrast solutions—delivering clear results in a dark-themed, professional environment. Join thousands of users worldwide who trust us to grow their XRP portfolio risk-free.
-            </p>
-        </section>
+    <section class="about-section">
+        <h1>About XRP Mine Pro</h1>
         
-        <section id="mission" class="content-section" style="padding-top: 0;">
-            <h2>OUR CORE VALUES</h2>
-            <div class="card-container">
-                <div class="info-card">
-                    <i class="fas fa-bullseye"></i>
-                    <h3>Our Mission</h3>
-                    <p>To provide a secure, transparent, and highly profitable cloud mining service that simplifies cryptocurrency investment for the global community.</p>
-                </div>
-                <div class="info-card">
-                    <i class="fas fa-eye"></i>
-                    <h3>Our Vision</h3>
-                    <p>To be the world's leading XRP cloud mining platform, driving innovation in crypto earnings and financial freedom for our users.</p>
-                </div>
-                <div class="info-card">
-                    <i class="fas fa-handshake"></i>
-                    <h3>Commitment</h3>
-                    <p>We commit to 24/7 uptime, daily payouts, and world-class customer support to ensure an exceptional user experience.</p>
-                </div>
-            </div>
-        </section>
+        <p>XRP Mine Pro is a premium cloud mining platform dedicated to providing accessible and secure ways for individuals to participate in XRP (Ripple) mining. Our mission is to democratize the mining process, offering powerful hash rate capabilities without the need for expensive hardware, maintenance, or technical expertise.</p>
 
-    </main>
-    
-    
-    <a href="https://t.me/XRP_Mine_Pro_Support" target="_blank" class="telegram-support-btn" id="telegram-btn" title="Telegram Support">
-        <i class="fab fa-telegram-plane"></i>
-    </a>
-    
+        <div class="mission-vision">
+            <div class="card">
+                <h2><i class="fas fa-bullseye"></i> Our Mission</h2>
+                <p>To deliver a transparent, profitable, and user-friendly cloud mining experience for the XRP community. We prioritize security, reliability, and continuous technological advancement to ensure maximum uptime and consistent returns for our clients.</p>
+            </div>
+            <div class="card">
+                <h2><i class="fas fa-eye"></i> Our Vision</h2>
+                <p>To become the leading and most trusted global platform for crypto cloud mining, expanding our services to support the growth and stability of the entire digital asset ecosystem, starting with the power of Ripple (XRP).</p>
+            </div>
+        </div>
+
+        <div class="team-contact">
+            <h2>Our Core Values</h2>
+            <p style="text-align: center;">**Transparency** - **Security** - **Innovation** - **Customer Focus**</p>
+            
+            <h2 style="margin-top: 40px;">Contact Information</h2>
+            <div class="contact-info">
+                <a href="mailto:support@xrpminepro.com"><i class="fas fa-envelope"></i> Email Support: support@xrpminepro.com</a>
+                <a href="https://t.me/XRP_Mine_Pro_Support" target="_blank"><i class="fab fa-telegram"></i> Join our Telegram Community (For Quick Support)</a>
+            </div>
+        </div>
+    </section>
+
     <footer>
-        <p>Contact Us: support@xrpminepro.com</p>
-        <p>&copy; 2025 XRP Mine Pro. High-Contrast Solutions.</p>
+        <p>&copy; 2025 XRP Mine Pro. All rights reserved.</p>
     </footer>
 
-    <script>
-        // -----------------------------------------------------------
-        // 🛠️ Utility Functions 
-        // ----------------------------------------------------------
-        function toggleNav() {
-            const sideMenu = document.getElementById("mySideMenu");
-            sideMenu.classList.toggle('open');
-        }
-
-        // --- Telegram බොත්තම එහා මෙහා ගෙන යා හැකි (Draggable) කිරීම සඳහා JavaScript (dashboard.html හි මෙන්) ---
-        function makeDraggable(element) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            let isDragging = false;
-            
-            element.onmousedown = dragMouseDown;
-            element.ontouchstart = dragTouchStart; 
-            
-            element.onclick = function(e) {
-                // If it was dragging, prevent the link from opening
-                if (isDragging) {
-                    e.preventDefault();
-                    isDragging = false; 
-                }
-            };
-            
-            function dragMouseDown(e) {
-                e = e || window.event;
-                e.preventDefault(); 
-                
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                
-                element.classList.add('dragging'); 
-                document.onmouseup = closeDragElement;
-                document.onmousemove = elementDrag;
-            }
-            
-            function dragTouchStart(e) {
-                e = e || window.event;
-                
-                pos3 = e.targetTouches[0].clientX;
-                pos4 = e.targetTouches[0].clientY;
-                
-                element.classList.add('dragging'); 
-                document.ontouchend = closeDragElement;
-                document.ontouchmove = elementDragTouch;
-            }
-
-            function elementDrag(e) {
-                e = e || window.event;
-                e.preventDefault();
-                
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                
-                // Check if enough movement occurred to constitute a drag
-                if (Math.abs(pos1) > 2 || Math.abs(pos2) > 2) {
-                    isDragging = true;
-                }
-                
-                element.style.top = (element.offsetTop - pos2) + "px";
-                element.style.left = (element.offsetLeft - pos1) + "px";
-            }
-
-            function elementDragTouch(e) {
-                e = e || window.event;
-                
-                pos1 = pos3 - e.targetTouches[0].clientX;
-                pos2 = pos4 - e.targetTouches[0].clientY;
-                pos3 = e.targetTouches[0].clientX;
-                pos4 = e.targetTouches[0].clientY;
-                
-                if (Math.abs(pos1) > 2 || Math.abs(pos2) > 2) {
-                    isDragging = true;
-                }
-                
-                element.style.top = (element.offsetTop - pos2) + "px";
-                element.style.left = (element.offsetLeft - pos1) + "px";
-            }
-
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
-                document.ontouchend = null;
-                document.ontouchmove = null;
-                element.classList.remove('dragging');
-                
-                // Reset isDragging after a short delay to allow the click event to fire/be prevented correctly
-                setTimeout(() => {
-                    if(isDragging) {
-                        // isDragging is reset by the onclick handler if it was dragged
-                    } else {
-                        isDragging = false;
-                    }
-                }, 50); 
-            }
-        }
-
-        // පිටුව Load වූ පසු draggable ශ්‍රිතය ක්‍රියාත්මක කිරීම
-        window.onload = function() {
-            const telegramBtn = document.getElementById('telegram-btn');
-            if (telegramBtn) {
-                makeDraggable(telegramBtn);
-            }
-        };
-        
-    </script>
-
 </body>
-    </html>
+</html>
