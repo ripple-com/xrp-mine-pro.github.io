@@ -444,46 +444,47 @@
     </section>
     
     <section id="pricing" class="content-section pricing-section">
-        <h2>OUR MINING CONTRACTS</h2>
-        <div class="plan-container">
-            
-            <div class="plan-card free-plan">
-                <h3><i class="fas fa-gift"></i> FREE STARTER (Trial)</h3>
-                <p>Hash Rate: **50.00 MH/s**</p> 
-                <p>Price: **$0.00 (FREE)**</p>
-                <p>Duration: **15 Days Trial**</p>
-                <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Earn your first XRP risk-free!</p> 
-                <a href="register.html" class="price-action-btn">SIGN UP & START <i class="fas fa-rocket"></i></a>
-            </div>
-            
-            <div class="plan-card bronze-highlight"> 
-                <h3>BRONZE (1 Month)</h3>
-                <p>Hash Rate: **200.00 MH/s**</p>
-                <p>Price: **$25.00**</p>
-                <p>Duration: **30 Days**</p>
-                <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Ideal for new investors.</p> 
-                <a href="register.html" class="price-action-btn">VIEW & BUY <i class="fas fa-bolt"></i></a>
-            </div>
-            
-            <div class="plan-card silver-highlight" style="--silver-color: #f44336; border-color: #f44336;"> 
-                <h3>SILVER (2 Months)</h3>
-                <p>Hash Rate: **500.00 MH/s**</p>
-                <p>Price: **$75.00**</p>
-                <p>Duration: **60 Days**</p>
-                <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Great value and returns.</p>
-                <a href="register.html" class="price-action-btn">VIEW & BUY <i class="fas fa-bolt"></i></a>
-            </div>
-            
-            <div class="plan-card gold-highlight">
-                <h3>ELITE GOLD (3 Months)</h3>
-                <p>Hash Rate: **1500.00 MH/s**</p> 
-                <p>Price: **$200.00**</p>
-                <p>Duration: **90 Days**</p>
-                <p style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Maximum returns and power.</p>
-                <a href="register.html" class="price-action-btn">VIEW & BUY <i class="fas fa-fire"></i></a>
-            </div>
+    <h2>OUR MINING CONTRACTS</h2>
+    <div class="plan-container">
+        
+        <div class="plan-card free-plan">
+            <h3><i class="fas fa-gift"></i> FREE STARTER (Trial)</h3>
+            <p id="index-free-hash-rate">Loading Hash Rate...</p> 
+            <p id="index-free-price">Loading Price...</p>
+            <p id="index-free-duration">Loading Duration...</p>
+            <p id="index-free-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Loading Earning...</p> 
+            <a href="register.html" class="price-action-btn">SIGN UP & START <i class="fas fa-rocket"></i></a>
         </div>
-    </section>
+        
+        <div class="plan-card bronze-highlight"> 
+            <h3>BRONZE (1 Month)</h3>
+            <p id="index-bronze-hash-rate">Loading Hash Rate...</p>
+            <p id="index-bronze-price">Loading Price...</p>
+            <p id="index-bronze-duration">Loading Duration...</p>
+            <p id="index-bronze-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Loading Earning...</p> 
+            <a href="register.html" class="price-action-btn">VIEW & BUY <i class="fas fa-bolt"></i></a>
+        </div>
+        
+        <div class="plan-card silver-highlight" style="--silver-color: #f44336; border-color: #f44336;"> 
+            <h3>SILVER (2 Months)</h3>
+            <p id="index-silver-hash-rate">Loading Hash Rate...</p>
+            <p id="index-silver-price">Loading Price...</p>
+            <p id="index-silver-duration">Loading Duration...</p>
+            <p id="index-silver-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Loading Earning...</p>
+            <a href="register.html" class="price-action-btn">VIEW & BUY <i class="fas fa-bolt"></i></a>
+        </div>
+        
+        <div class="plan-card gold-highlight">
+            <h3>ELITE GOLD (3 Months)</h3>
+            <p id="index-gold-hash-rate">Loading Hash Rate...</p> 
+            <p id="index-gold-price">Loading Price...</p>
+            <p id="index-gold-duration">Loading Duration...</p>
+            <p id="index-gold-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Loading Earning...</p>
+            <a href="register.html" class="price-action-btn">VIEW & BUY <i class="fas fa-fire"></i></a>
+        </div>
+    </div>
+</section>
+
     
     <section id="features" class="content-section features-section"> <h2>PLATFORM FEATURES</h2>
         <div class="feature-container">
@@ -619,6 +620,108 @@
         };
         
     </script>
+        <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // ⚠️ Dashboard.html හි තිබූ ඔබේ Firebase Config එක මෙහි අලවන්න
+        const firebaseConfig = {
+            apiKey: "AIzaSyBsTIzaJtaGiAfv4a69o80f0QvKiq6lFj4", 
+            authDomain: "xrp-mine-pro.firebaseapp.com",
+            projectId: "xrp-mine-pro",
+            storageBucket: "xrp-mine-pro.appspot.com",
+            messagingSenderId: "1234567890",
+            appId: "1:1234567890:web:abcdef123456"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(); 
+        
+        // ----------------------------------------------------
+        // 🟢 Fetching Plan Data from Firebase and updating Landing Page UI 
+        // ----------------------------------------------------
+        async function fetchAndRenderPlansForLanding() {
+            try {
+                const plansSnapshot = await db.collection("plans").get();
+                const plansData = {};
+                plansSnapshot.forEach(doc => {
+                    plansData[doc.id] = doc.data(); 
+                });
+                
+                // Map Plan ID to their UI IDs (index.html)
+                const planMap = {
+                    free: {
+                        hashRate: 'index-free-hash-rate',
+                        price: 'index-free-price',
+                        duration: 'index-free-duration',
+                        earning: 'index-free-earning'
+                    },
+                    bronze: {
+                        hashRate: 'index-bronze-hash-rate',
+                        price: 'index-bronze-price',
+                        duration: 'index-bronze-duration',
+                        earning: 'index-bronze-earning'
+                    },
+                    silver: {
+                        hashRate: 'index-silver-hash-rate',
+                        price: 'index-silver-price',
+                        duration: 'index-silver-duration',
+                        earning: 'index-silver-earning'
+                    },
+                    gold: {
+                        hashRate: 'index-gold-hash-rate',
+                        price: 'index-gold-price',
+                        duration: 'index-gold-duration',
+                        earning: 'index-gold-earning'
+                    }
+                };
+
+                // Update UI
+                for (const planId in planMap) {
+                    const plan = plansData[planId];
+                    const uiIds = planMap[planId];
+                    
+                    if (plan && uiIds) {
+                        const priceText = planId === 'free' ? `$${plan.price.toFixed(2)} (FREE)` : `$${plan.price.toFixed(2)}`;
+                        const durationText = `${plan.durationDays} Days${planId === 'free' ? ' Trial' : ''}`;
+                        
+                        // Load data
+                        document.getElementById(uiIds.hashRate).innerHTML = `Hash Rate: **${plan.hashRate.toFixed(2)} MH/s**`;
+                        document.getElementById(uiIds.price).innerHTML = `Price: **${priceText}**`;
+                        document.getElementById(uiIds.duration).innerHTML = `Duration: **${durationText}**`;
+                        document.getElementById(uiIds.earning).innerHTML = `Full Earning: **${plan.fullEarningXRP.toFixed(2)} XRP**`;
+                    }
+                }
+                
+            } catch (e) {
+                console.error("Error fetching and rendering plans for landing page:", e);
+                // Display error message if data fetching fails
+                const plansSection = document.getElementById('pricing');
+                if(plansSection) {
+                   plansSection.innerHTML = '<h2 class="section-title error-message" style="color: #d32f2f;">⚠️ Failed to load plans. Please check Firebase config.</h2>';
+                }
+            }
+        }
+
+        // -----------------------------------------------------------
+        // 🛠️ Utility Functions (පහළට ගෙන ගිය)
+        // ----------------------------------------------------------
+
+        // ... [දැනට පවතින index.html script code මෙහි ඇත: toggleNav(), makeDraggable(), window.onload, etc.] ...
+
+        // 🟢 පිටුව load වූ පසු plan data fetch කිරීම
+        window.onload = function() {
+            const telegramBtn = document.getElementById('telegram-btn');
+            if (telegramBtn) {
+                makeDraggable(telegramBtn);
+            }
+            
+            // 🚀 නව ශ්‍රිතය කැඳවීම 
+            fetchAndRenderPlansForLanding(); 
+        };
+        
+    </script>
+
 
 </body>
 </html>
