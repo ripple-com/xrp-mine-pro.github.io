@@ -25,542 +25,566 @@
         /* Material Dark Themed Colors */
         :root {
             --primary-color: #03a9f4; /* නිල් */
-            --secondary-color: #ff9800; /* තැඹිලි/රන් */
-            --accent-color: #4CAF50; /* කොළ */
-            --card-bg: #212121; 
-            --border-color: #333333;
-            --menu-width: 280px;
-            --referral-bg: #1a1a1a; 
+            --secondary-color: #ff9800; /* තැඹිලි */
+            --background-dark: #1e1e1e;
+            --card-dark: #2a2a2a;
+            --text-light: #eeeeee;
+            --text-muted: #aaaaaa;
+            --success-color: #4caf50;
+            --danger-color: #f44336;
         }
-        
-        /* Global Reset & Transitions */
-        a { color: var(--primary-color); text-decoration: none; transition: color 0.3s, transform 0.2s; }
-        a:hover { color: #81d4fa; }
-        button { cursor: pointer; border: none; transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s; color: white; } 
 
-        /* Header & Navigation */
+        /* Header and Navigation */
         header {
-            background-color: #121212; 
-            padding: 15px 5%;
+            background-color: var(--background-dark);
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 3px solid var(--secondary-color);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             position: sticky;
             top: 0;
-            z-index: 900;
+            z-index: 1000;
         }
 
         .logo {
-            font-size: 1.8em;
+            font-size: 1.5em;
             font-weight: 800;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
             color: var(--secondary-color);
         }
-        
-        nav a { margin-left: 35px; font-weight: 600; font-size: 1em; color: #bbbbbb; }
-        nav a:hover { color: var(--primary-color); }
 
-        .user-auth-area {
-            display: flex;
-            align-items: center;
-        }
-        
-        /* 1. Login/Signup Button Style for Landing Page - රතු පැහැයට වෙනස් කරන ලදී */
-        .auth-btn {
-            background-color: #f44336; /* රතු */
-            padding: 10px 25px;
-            border-radius: 8px;
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin-left: 25px;
+            padding: 5px 10px;
+            transition: color 0.3s, border-bottom 0.3s;
             font-weight: 600;
-            box-shadow: 0 4px 10px rgba(244, 67, 54, 0.3); /* රතු සෙවන */
-            text-transform: uppercase;
-            color: white; 
-        }
-        .auth-btn:hover {
-            background-color: #d32f2f; /* තද රතු */
-            transform: translateY(-1px);
         }
 
+        nav a:hover, nav a.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
 
-        /* Hero Section - Updated for Landing Page */
-        .hero {
-            background: linear-gradient(135deg, #121212 0%, #0a0a0a 100%);
-            padding: 80px 5% 60px;
-            text-align: center;
-            min-height: 40vh;
+        .nav-toggle {
+            display: none;
+            font-size: 1.8em;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        #hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('xrp-mining-bg.jpg') no-repeat center center/cover; /* Replace with your background image */
+            min-height: 80vh;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 50px 20px;
         }
 
-        .hero h1 {
-            color: white;
-            font-size: 4em;
-            margin-bottom: 15px;
-            font-weight: 800;
-            text-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
-        }
-
-        .hero p {
-            font-size: 1.5em;
-            margin-bottom: 30px;
-            color: #bdbdbd;
+        .hero-content {
             max-width: 800px;
+            padding: 30px;
+            background-color: rgba(30, 30, 30, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1s ease-out;
         }
 
-        /* 2. Hero Action Button (තද අඳුරු වර්ණය භාවිතයෙන් Contrast වැඩි කරන ලදි) */
-        .hero-action-btn {
-            background-color: var(--secondary-color);
-            padding: 15px 40px;
-            border-radius: 30px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-content h1 {
+            font-size: 3em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .hero-content p {
             font-size: 1.2em;
-            font-weight: 700;
-            box-shadow: 0 6px 15px rgba(255, 152, 0, 0.5);
-            margin-top: 15px;
-            display: inline-block;
-            color: #121212; 
-        }
-        .hero-action-btn:hover {
-            background-color: #ffb74d;
-            transform: translateY(-2px) scale(1.02);
-            color: #121212; 
+            color: var(--text-light);
+            margin-bottom: 30px;
         }
 
+        .cta-btn {
+            background-color: var(--secondary-color);
+            color: #121212;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: background-color 0.3s, transform 0.2s;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-btn:hover {
+            background-color: #ffb74d; /* Lighter secondary */
+            transform: translateY(-2px);
+        }
 
         /* Content Sections */
         .content-section {
-            padding: 60px 5%; 
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
             text-align: center;
         }
-        .features-section { background-color: #1a1a1a; }
-        .pricing-section { background-color: #121212; }
-        /* .testimonials-section { background-color: #1a1a1a; } - ඉවත් කරන ලදි */
-        .faq { background-color: #121212; } 
 
-        h2 {
-            color: var(--primary-color);
-            font-size: 3em;
-            font-weight: 700;
-            margin-bottom: 40px; 
+        .content-section h2 {
+            font-size: 2.5em;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            border-bottom: 3px solid var(--primary-color);
+            display: inline-block;
+            padding-bottom: 5px;
         }
-
-        /* Feature Cards (නව කොටස) */
-        .feature-container {
-            display: flex;
-            justify-content: center;
+        
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
-            flex-wrap: wrap;
         }
-        .feature-card {
-            flex-basis: 300px;
-            background-color: var(--card-bg);
-            border-radius: 12px;
+
+        .feature-item {
+            background-color: var(--card-dark);
             padding: 30px;
-            text-align: center;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            text-align: left;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        .feature-card:hover {
+
+        .feature-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-            border-color: var(--primary-color);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6);
         }
-        .feature-card i {
-            font-size: 3em;
+
+        .feature-item i {
+            font-size: 2.5em;
             color: var(--secondary-color);
             margin-bottom: 15px;
+            display: block;
         }
-        .feature-card h3 {
-            font-size: 1.5em;
+
+        .feature-item h3 {
             color: var(--primary-color);
             margin-top: 0;
-        }
-        .feature-card p {
-            color: #bbbbbb;
-        }
-        
-        /* Plan Cards (Pricing Section - dashboard.html හි මෙන්) */
-        .plan-container {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .plan-card {
-            background-color: #2c2c2c; 
-            border-radius: 15px;
-            padding: 40px 30px;
-            width: 320px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-            border: 2px solid #424242;
-            transition: transform 0.3s, box-shadow 0.3s;
-            position: relative; 
-        }
-        .plan-card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
-        }
-
-        /* Highlight Styles (dashboard.html හි මෙන්) */
-        
-        /* Bronze Plan සඳහා නිල් දාරය */
-        .plan-card.bronze-highlight { 
-            border: 3px solid var(--primary-color); 
-            background: linear-gradient(145deg, #2c2c2c, #3a3a3a);
-        }
-
-        .plan-card.gold-highlight {
-            border: 3px solid var(--secondary-color); 
-            background: linear-gradient(145deg, #2c2c2c, #3a3a3a);
-        }
-        .plan-card.free-plan {
-            border: 3px solid var(--accent-color); 
-            background: linear-gradient(145deg, #1f2b1f, #2c382c); 
-            order: -1; 
-        }
-        .plan-card h3 {
-            color: var(--primary-color);
-            font-size: 2em;
-            margin-bottom: 25px;
             font-weight: 700;
         }
-        .plan-card.free-plan h3 {
-            color: var(--accent-color);
+        
+        /* Pricing Section (Plans) */
+        .plan-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
         }
 
+        .plan-card {
+            background-color: var(--card-dark);
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid var(--background-dark);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s, border-color 0.3s;
+        }
 
+        .plan-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+        }
+
+        .plan-card h3 {
+            font-size: 1.5em;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+        
         .plan-card p {
             font-size: 1.1em;
-            margin: 12px 0;
-            color: #cccccc;
+            color: var(--text-light);
+            margin: 10px 0;
         }
-        
-        /* 3. Plan Button (Pricing Cards) - සියලුම Plans වලට සුදු අකුරු */
-        .plan-card .price-action-btn {
-            background-color: var(--secondary-color);
-            padding: 14px 40px;
-            border-radius: 30px;
-            font-size: 1.1em;
-            font-weight: 600;
+
+        .plan-card p strong {
+            color: var(--secondary-color);
+        }
+
+        .price-action-btn {
+            background-color: var(--primary-color);
+            color: #121212;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 700;
             margin-top: 20px;
-            box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
-            display: inline-block;
-            color: white; /* 💡 සියලුම plans වලට සුදු අකුරු */
+            display: block;
+            transition: background-color 0.3s;
         }
-        .plan-card.free-plan .price-action-btn {
-             background-color: var(--accent-color);
-             box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
-             color: white; 
-        }
-        /* Bronze/Silver/Gold plans වලටත් සුදු වර්ණය තහවුරු කරයි */
-        .plan-card.bronze-highlight .price-action-btn,
-        .plan-card.silver-highlight .price-action-btn,
-        .plan-card.gold-highlight .price-action-btn {
-            color: white;
+
+        .price-action-btn:hover {
+            background-color: #4fc3f7; /* Lighter primary */
         }
         
-
-
-        /* FAQ Section (dashboard.html හි මෙන්) */
-        .qa-item {
-            background-color: var(--card-bg);
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 25px;
-            border-radius: 8px;
+        .bronze-highlight { border-color: #cd7f32; }
+        .silver-highlight { border-color: #c0c0c0; }
+        .gold-highlight { border-color: #ffc107; }
+        .free-plan { border-color: var(--success-color); }
+        
+        /* About Section (can be generic content) */
+        .about-section {
             text-align: left;
-            border-left: 4px solid var(--accent-color);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-        .qa-item h4 {
-            color: var(--primary-color);
-            font-size: 1.3em;
-            font-weight: 600;
         }
 
-        /* Footer (dashboard.html හි මෙන්) */
+        .about-section p {
+            text-align: center;
+        }
+
+        /* Footer */
         footer {
-            background-color: #000000;
-            color: #9e9e9e;
-            padding: 35px 0;
-            font-size: 0.9em;
-            border-top: 1px solid var(--border-color);
+            background-color: var(--background-dark);
+            color: var(--text-muted);
             text-align: center;
+            padding: 30px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            margin: 0 10px;
         }
         
-        /* --- SIDE MENU STYLES (dashboard.html හි මෙන්) --- */
-        .side-menu {
-            height: 100%;
-            width: 0; 
+        /* Floating Telegram Button */
+        #telegram-btn {
             position: fixed;
-            z-index: 1000;
-            top: 0;
-            right: 0;
-            background-color: #2c2c2c; 
-            overflow-x: hidden;
-            padding-top: 70px; 
-            transition: width 0.5s; 
-            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.4);
-        }
-        .side-menu h2 { font-size: 1.5em; margin: 0 25px 30px; color: var(--secondary-color); text-align: left; border-bottom: 1px solid #424242; padding-bottom: 10px; }
-        .side-menu.open { width: var(--menu-width); } 
-        .side-menu a { padding: 15px 25px; font-size: 1em; color: #bbbbbb; display: block; border-bottom: 1px solid #333333; }
-        .side-menu a:hover { background-color: #3a3a3a; color: var(--primary-color); }
-        .side-menu a i { margin-right: 15px; color: var(--secondary-color); } 
-        .side-menu .close-btn { position: absolute; top: 15px; right: 25px; font-size: 36px; color: #eeeeee; cursor: pointer; background: none; border: none; }
-        
-        /* 4. Side Menu Login Button - රතු පැහැයට වෙනස් කරන ලදී */
-        .side-menu .auth-btn-side {
-            background-color: #f44336; /* රතු */
-            margin: 20px 25px; 
-            display: block; 
-            text-align: center;
-            padding: 10px 0;
-            border-radius: 8px;
-            color: white; 
-        }
-
-
-        .open-btn { 
-            position: fixed; 
-            top: 20px; 
-            right: 20px; 
-            font-size: 1.1em; 
-            background-color: var(--secondary-color); 
-            color: white; 
-            border: none; 
-            padding: 10px 12px; 
-            cursor: pointer; 
-            z-index: 1001; 
-            border-radius: 5px; 
-            display: none; 
-        }
-
-        /* --- Floating/Draggable Telegram Support Button (dashboard.html හි මෙන්) --- */
-        .telegram-support-btn {
-            position: fixed; 
-            top: 85vh; 
-            left: 80vw; 
-            cursor: grab; 
-            z-index: 999; 
+            bottom: 20px;
+            right: 20px;
             background-color: #0088cc; 
             color: white;
+            border: none;
+            border-radius: 50%;
             width: 60px;
             height: 60px;
-            border-radius: 50%; 
+            font-size: 1.5em;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 2em;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(0, 136, 204, 0.5); 
-            transition: background-color 0.3s, box-shadow 0.3s;
-            text-decoration: none; 
+            align-items: center;
+            cursor: grab;
+            z-index: 1001;
+            transition: background-color 0.3s, transform 0.1s;
         }
 
-        .telegram-support-btn:hover {
-            background-color: #00aaff;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 0 5px rgba(0, 170, 255, 0.7);
-        }
-        .telegram-support-btn.dragging {
-            cursor: grabbing;
+        #telegram-btn:hover {
+            background-color: #00a0dc;
+            transform: scale(1.05);
         }
 
-
-        /* --- MOBILE-ONLY OPTIMIZATION (dashboard.html හි මෙන්) --- */
-        @media (min-width: 1px) {
-            nav, .user-auth-area { 
-                display: none !important; 
-            }
-            .open-btn { 
-                position: absolute; 
-                display: block !important; 
-            }
-            header { 
-                flex-direction: column; 
-                padding: 15px; 
-                text-align: center; 
-                justify-content: flex-start;
-                align-items: flex-start;
-                padding-right: 80px; 
-            }
-            .logo {
-                margin-right: auto;
-            }
+        /* Dragging class */
+        .dragging {
+            cursor: grabbing !important;
+            opacity: 0.8;
+            transition: none !important;
         }
 
+
+        /* Media Queries */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 3em; }
-            .hero p { font-size: 1.2em; }
-            .feature-card, .plan-card { width: 90%; }
-            .feature-container, .plan-container { flex-direction: column; align-items: center; gap: 20px; }
-            .content-section { padding: 40px 5%; }
-            /* .testimonial-card { flex-basis: 90%; } - ඉවත් කරන ලදි */
-            .telegram-support-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 1.8em;
-                top: 85vh;
-                left: 70vw; 
+            nav {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px; /* Adjust based on header height */
+                right: 0;
+                background-color: var(--background-dark);
+                width: 100%;
+                text-align: center;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            }
+
+            nav.open {
+                display: flex;
+            }
+
+            nav a {
+                margin: 10px 0;
+                padding: 10px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5em;
+            }
+            
+            .content-section {
+                padding: 40px 15px;
             }
         }
     </style>
 </head>
 <body>
-    
-    <button class="open-btn" onclick="toggleNav()"><i class="fas fa-bars"></i></button>
-
-    <div id="mySideMenu" class="side-menu">
-        <button class="close-btn" onclick="toggleNav()">&times;</button> 
-        <h2>XRP MINE PRO</h2> 
-        
-        <a href="#pricing"><i class="fas fa-money-check-alt"></i> Pricing Plans</a>
-        <a href="#features"><i class="fas fa-cogs"></i> Our Features</a>
-        <a href="faq.html"><i class="fas fa-question-circle"></i> FAQ</a>
-        <a href="about.html"><i class="fas fa-info-circle"></i> About Us</a> 
-        
-        <a href="register.html" class="auth-btn-side"><i class="fas fa-sign-in-alt"></i> Sign Up / Login</a> 
-    </div>
 
     <header>
-        <div class="logo">XRP MINE PRO</div>
-        <nav>
-            <a href="#pricing">Pricing</a>
+        <a href="index.html" class="logo"><i class="fas fa-bolt"></i>XRP Mine Pro</a>
+        <nav id="main-nav">
+            <a href="#hero" class="active">Home</a>
             <a href="#features">Features</a>
-            <a href="faq.html">FAQ</a>
-            <a href="about.html">About</a>
+            <a href="#pricing">Contracts</a>
+            <a href="#about">About</a>
+            <a href="login.html" class="cta-btn" style="margin-left: 25px;">Login / Register</a>
         </nav>
-        <div class="user-auth-area">
-            <a href="register.html" class="auth-btn">Sign Up / Login</a>
+        <div class="nav-toggle" onclick="toggleNav()">
+            <i class="fas fa-bars"></i>
         </div>
     </header>
 
-    <section class="hero">
-        <h1>Start Mining XRP Today!</h1> 
-        <p>The premium, secure, and high-yield XRP cloud mining platform. No hardware required, start earning in minutes.</p>
-        <a href="register.html" class="hero-action-btn">GET STARTED FREE <i class="fas fa-rocket"></i></a>
-    </section>
-    
-    <section id="pricing" class="content-section pricing-section">
-    <h2>OUR MINING CONTRACTS</h2>
-    <div class="plan-container">
-        
-        <div class="plan-card free-plan">
-            <h3><i class="fas fa-gift"></i> FREE STARTER (Trial)</h3>
-            <p id="index-free-hash-rate">Loading Hash Rate...</p> 
-            <p id="index-free-price">Loading Price...</p>
-            <p id="index-free-duration">Loading Duration...</p>
-            <p id="index-free-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Loading Earning...</p> 
-            <a href="register.html" class="price-action-btn">SIGN UP & START <i class="fas fa-rocket"></i></a>
-        </div>
-        
-        <div class="plan-card bronze-highlight"> 
-            <h3>BRONZE (1 Month)</h3>
-            <p id="index-bronze-hash-rate">Loading Hash Rate...</p>
-            <p id="index-bronze-price">Loading Price...</p>
-            <p id="index-bronze-duration">Loading Duration...</p>
-            <p id="index-bronze-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Loading Earning...</p> 
-            <a href="register.html" class="price-action-btn">VIEW & BUY <i class="fas fa-bolt"></i></a>
-        </div>
-        
-        <div class="plan-card silver-highlight" style="--silver-color: #f44336; border-color: #f44336;"> 
-            <h3>SILVER (2 Months)</h3>
-            <p id="index-silver-hash-rate">Loading Hash Rate...</p>
-            <p id="index-silver-price">Loading Price...</p>
-            <p id="index-silver-duration">Loading Duration...</p>
-            <p id="index-silver-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Loading Earning...</p>
-            <a href="register.html" class="price-action-btn">VIEW & BUY <i class="fas fa-bolt"></i></a>
-        </div>
-        
-        <div class="plan-card gold-highlight">
-            <h3>ELITE GOLD (3 Months)</h3>
-            <p id="index-gold-hash-rate">Loading Hash Rate...</p> 
-            <p id="index-gold-price">Loading Price...</p>
-            <p id="index-gold-duration">Loading Duration...</p>
-            <p id="index-gold-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Loading Earning...</p>
-            <a href="register.html" class="price-action-btn">VIEW & BUY <i class="fas fa-fire"></i></a>
-        </div>
-    </div>
-</section>
+    <main>
+        <section id="hero">
+            <div class="hero-content">
+                <h1>The Future of XRP Cloud Mining</h1>
+                <p>Start mining XRP today with our secure, fast, and profitable cloud mining contracts. No hardware, no hassle.</p>
+                <a href="register.html" class="cta-btn"><i class="fas fa-play"></i> Start Mining Now</a>
+            </div>
+        </section>
 
-    
-    <section id="features" class="content-section features-section"> <h2>PLATFORM FEATURES</h2>
-        <div class="feature-container">
-            <div class="feature-card">
-                <i class="fas fa-shield-alt"></i>
-                <h3>Top-Tier Security</h3>
-                <p>Industry-leading encryption, cold storage, and 2FA to protect your assets and data.</p>
+        <section id="features" class="content-section">
+            <h2>WHY CHOOSE US</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Secure & Reliable</h3>
+                    <p>State-of-the-art security measures and 99.9% uptime guaranteed for non-stop mining.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <h3>High Hash Rate</h3>
+                    <p>Leverage the power of our cutting-edge mining infrastructure for maximum output.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <h3>Daily Payouts</h3>
+                    <p>Your mined XRP is credited to your account balance daily, ready for immediate withdrawal.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-headset"></i>
+                    <h3>24/7 Support</h3>
+                    <p>Our dedicated support team is always available to help you with any queries or issues.</p>
+                </div>
             </div>
-            <div class="feature-card">
-                <i class="fas fa-bolt"></i>
-                <h3>Instant Activation</h3>
-                <p>Activate your mining contract instantly and watch your XRP balance grow in real-time.</p>
+        </section>
+
+        <section id="pricing" class="content-section pricing-section">
+            <h2>OUR MINING CONTRACTS</h2>
+            <div class="plan-container">
+                
+                <div class="plan-card free-plan">
+                    <h3><i class="fas fa-gift"></i> FREE STARTER (Trial)</h3>
+                    <p id="index-free-hash-rate">Hash Rate: Loading...</p> 
+                    <p id="index-free-price">Price: Loading...</p>
+                    <p id="index-free-duration">Duration: Loading...</p>
+                    <p id="index-free-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: Loading...</p> 
+                    <a href="register.html" class="price-action-btn">SIGN UP & START <i class="fas fa-rocket"></i></a>
+                </div>
+                
+                <div class="plan-card bronze-highlight"> 
+                    <h3>BRONZE (1 Month)</h3>
+                    <p id="index-bronze-hash-rate">Hash Rate: Loading...</p>
+                    <p id="index-bronze-price">Price: Loading...</p>
+                    <p id="index-bronze-duration">Duration: Loading...</p>
+                    <p id="index-bronze-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: Loading...</p> 
+                    <a href="register.html" class="price-action-btn">VIEW & BUY <i class="fas fa-bolt"></i></a>
+                </div>
+                
+                <div class="plan-card silver-highlight" style="--silver-color: #c0c0c0; border-color: #c0c0c0;"> 
+                    <h3>SILVER (2 Months)</h3>
+                    <p id="index-silver-hash-rate">Hash Rate: Loading...</p>
+                    <p id="index-silver-price">Price: Loading...</p>
+                    <p id="index-silver-duration">Duration: Loading...</p>
+                    <p id="index-silver-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: Loading...</p>
+                    <a href="register.html" class="price-action-btn">VIEW & BUY <i class="fas fa-bolt"></i></a>
+                </div>
+                
+                <div class="plan-card gold-highlight">
+                    <h3>ELITE GOLD (3 Months)</h3>
+                    <p id="index-gold-hash-rate">Hash Rate: Loading...</p> 
+                    <p id="index-gold-price">Price: Loading...</p>
+                    <p id="index-gold-duration">Duration: Loading...</p>
+                    <p id="index-gold-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Full Earning: Loading...</p>
+                    <a href="register.html" class="price-action-btn">VIEW & BUY <i class="fas fa-fire"></i></a>
+                </div>
             </div>
-            <div class="feature-card">
-                <i class="fas fa-globe"></i>
-                <h3>Global Data Centers</h3>
-                <p>Optimized mining performance through strategically placed data centers across the globe.</p>
+        </section>
+
+        <section id="about" class="content-section about-section">
+            <h2>ABOUT XRP MINE PRO</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 30px;">XRP Mine Pro is a leading platform dedicated to providing accessible and efficient cloud mining services for Ripple (XRP). Our state-of-the-art infrastructure ensures high returns and a seamless user experience. We believe in transparency and security, making cloud mining easy for everyone.</p>
+            <div style="text-align: center;">
+                <a href="contact.html" class="cta-btn" style="background-color: var(--success-color);"><i class="fas fa-envelope"></i> Contact Us</a>
             </div>
-        </div>
-    </section>
+        </section>
+        
+    </main>
+
+    <footer>
+        <p>&copy; 2024 XRP Mine Pro. All rights reserved.</p>
+        <p>
+            <a href="privacy.html">Privacy Policy</a> | 
+            <a href="terms.html">Terms of Service</a>
+        </p>
+    </footer>
     
-    
-    <a href="https://t.me/XRP_Mine_Pro_Support" target="_blank" class="telegram-support-btn" id="telegram-btn" title="Telegram Support">
+    <a id="telegram-btn" href="YOUR_TELEGRAM_LINK" target="_blank" title="Join our Telegram Group">
         <i class="fab fa-telegram-plane"></i>
     </a>
     
-    <footer id="contact">
-        <p>Contact Us: support@xrpminepro.com</p>
-        <p>&copy; 2025 XRP Mine Pro. High-Contrast Solutions.</p>
-    </footer>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // -----------------------------------------------------------
-        // 🛠️ Utility Functions 
-        // ----------------------------------------------------------
+        // ⚠️ Dashboard.html හි තිබූ ඔබේ Firebase Config එක මෙහි අලවා,
+        // මෙම DUMMY DATA වෙනස් කරන්න!
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY", 
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "SENDER_ID",
+            appId: "APP_ID"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(); 
+        
+        // ----------------------------------------------------
+        // 🟢 Plans Fetching and UI Updating Function 
+        // ----------------------------------------------------
+        async function fetchAndRenderPlansForLanding() {
+            try {
+                // Fetch plans from the 'plans' collection
+                const plansSnapshot = await db.collection("plans").get();
+                const plansData = {};
+                plansSnapshot.forEach(doc => {
+                    plansData[doc.id] = doc.data(); 
+                });
+                
+                // Mapping Plan IDs (Firestore document IDs) to their HTML element IDs
+                const planMap = {
+                    free: {
+                        hashRate: 'index-free-hash-rate',
+                        price: 'index-free-price',
+                        duration: 'index-free-duration',
+                        earning: 'index-free-earning'
+                    },
+                    bronze: {
+                        hashRate: 'index-bronze-hash-rate',
+                        price: 'index-bronze-price',
+                        duration: 'index-bronze-duration',
+                        earning: 'index-bronze-earning'
+                    },
+                    silver: {
+                        hashRate: 'index-silver-hash-rate',
+                        price: 'index-silver-price',
+                        duration: 'index-silver-duration',
+                        earning: 'index-silver-earning'
+                    },
+                    gold: {
+                        hashRate: 'index-gold-hash-rate',
+                        price: 'index-gold-price',
+                        duration: 'index-gold-duration',
+                        earning: 'index-gold-earning'
+                    }
+                };
+
+                // Update UI elements with the fetched data
+                for (const planId in planMap) {
+                    const plan = plansData[planId];
+                    const uiIds = planMap[planId];
+                    
+                    if (plan && uiIds) {
+                        const priceText = planId === 'free' ? `FREE` : `$${plan.price.toFixed(2)}`;
+                        const durationText = `${plan.durationDays} Days${planId === 'free' ? ' Trial' : ''}`;
+                        
+                        // Set content using innerHTML for formatting (e.g., **bold**)
+                        document.getElementById(uiIds.hashRate).innerHTML = `Hash Rate: **${plan.hashRate.toFixed(2)} MH/s**`;
+                        document.getElementById(uiIds.price).innerHTML = `Price: **${priceText}**`;
+                        document.getElementById(uiIds.duration).innerHTML = `Duration: **${durationText}**`;
+                        // Assuming fullEarningXRP is stored in the plan document
+                        document.getElementById(uiIds.earning).innerHTML = `Full Earning: **${plan.fullEarningXRP.toFixed(2)} XRP**`;
+                    }
+                }
+                
+            } catch (e) {
+                console.error("Error fetching and rendering plans for landing page:", e);
+                // Optionally display an error message on the page if fetching fails
+                const plansSection = document.getElementById('pricing');
+                if(plansSection) {
+                   plansSection.querySelector('h2').textContent = "⚠️ Contracts temporarily unavailable. Please try again later.";
+                }
+            }
+        }
+        // ----------------------------------------------------
+        
+        // Navigation toggle for mobile
         function toggleNav() {
-            const sideMenu = document.getElementById("mySideMenu");
-            sideMenu.classList.toggle('open');
+            const nav = document.getElementById('main-nav');
+            nav.classList.toggle('open');
         }
 
-        // --- Telegram බොත්තම එහා මෙහා ගෙන යා හැකි (Draggable) කිරීම සඳහා JavaScript (dashboard.html හි මෙන්) ---
+        // --- Draggable JavaScript Code (existing code) ---
         function makeDraggable(element) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
             let isDragging = false;
             
             element.onmousedown = dragMouseDown;
-            element.ontouchstart = dragTouchStart; 
-            
-            element.onclick = function(e) {
-                if (isDragging) {
-                    e.preventDefault();
-                    isDragging = false; 
-                }
-            };
-            
+            element.ontouchstart = dragTouchStart;
+
             function dragMouseDown(e) {
                 e = e || window.event;
-                e.preventDefault(); 
+                isDragging = false; // Reset drag state
+                e.preventDefault();
                 
                 pos3 = e.clientX;
                 pos4 = e.clientY;
-                
-                element.classList.add('dragging'); 
                 document.onmouseup = closeDragElement;
                 document.onmousemove = elementDrag;
+                element.classList.add('dragging');
             }
             
             function dragTouchStart(e) {
                 e = e || window.event;
+                isDragging = false; // Reset drag state
                 
                 pos3 = e.targetTouches[0].clientX;
                 pos4 = e.targetTouches[0].clientY;
-                
-                element.classList.add('dragging'); 
                 document.ontouchend = closeDragElement;
                 document.ontouchmove = elementDragTouch;
+                element.classList.add('dragging');
             }
 
             function elementDrag(e) {
@@ -611,117 +635,18 @@
             }
         }
 
-        // පිටුව Load වූ පසු draggable ශ්‍රිතය ක්‍රියාත්මක කිරීම
-        window.onload = function() {
-            const telegramBtn = document.getElementById('telegram-btn');
-            if (telegramBtn) {
-                makeDraggable(telegramBtn);
-            }
-        };
-        
-    </script>
-        <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-
-    <script>
-        // ⚠️ Dashboard.html හි තිබූ ඔබේ Firebase Config එක මෙහි අලවන්න
-        const firebaseConfig = {
-            apiKey: "AIzaSyBsTIzaJtaGiAfv4a69o80f0QvKiq6lFj4", 
-            authDomain: "xrp-mine-pro.firebaseapp.com",
-            projectId: "xrp-mine-pro",
-            storageBucket: "xrp-mine-pro.appspot.com",
-            messagingSenderId: "1234567890",
-            appId: "1:1234567890:web:abcdef123456"
-        };
-        
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore(); 
-        
-        // ----------------------------------------------------
-        // 🟢 Fetching Plan Data from Firebase and updating Landing Page UI 
-        // ----------------------------------------------------
-        async function fetchAndRenderPlansForLanding() {
-            try {
-                const plansSnapshot = await db.collection("plans").get();
-                const plansData = {};
-                plansSnapshot.forEach(doc => {
-                    plansData[doc.id] = doc.data(); 
-                });
-                
-                // Map Plan ID to their UI IDs (index.html)
-                const planMap = {
-                    free: {
-                        hashRate: 'index-free-hash-rate',
-                        price: 'index-free-price',
-                        duration: 'index-free-duration',
-                        earning: 'index-free-earning'
-                    },
-                    bronze: {
-                        hashRate: 'index-bronze-hash-rate',
-                        price: 'index-bronze-price',
-                        duration: 'index-bronze-duration',
-                        earning: 'index-bronze-earning'
-                    },
-                    silver: {
-                        hashRate: 'index-silver-hash-rate',
-                        price: 'index-silver-price',
-                        duration: 'index-silver-duration',
-                        earning: 'index-silver-earning'
-                    },
-                    gold: {
-                        hashRate: 'index-gold-hash-rate',
-                        price: 'index-gold-price',
-                        duration: 'index-gold-duration',
-                        earning: 'index-gold-earning'
-                    }
-                };
-
-                // Update UI
-                for (const planId in planMap) {
-                    const plan = plansData[planId];
-                    const uiIds = planMap[planId];
-                    
-                    if (plan && uiIds) {
-                        const priceText = planId === 'free' ? `$${plan.price.toFixed(2)} (FREE)` : `$${plan.price.toFixed(2)}`;
-                        const durationText = `${plan.durationDays} Days${planId === 'free' ? ' Trial' : ''}`;
-                        
-                        // Load data
-                        document.getElementById(uiIds.hashRate).innerHTML = `Hash Rate: **${plan.hashRate.toFixed(2)} MH/s**`;
-                        document.getElementById(uiIds.price).innerHTML = `Price: **${priceText}**`;
-                        document.getElementById(uiIds.duration).innerHTML = `Duration: **${durationText}**`;
-                        document.getElementById(uiIds.earning).innerHTML = `Full Earning: **${plan.fullEarningXRP.toFixed(2)} XRP**`;
-                    }
-                }
-                
-            } catch (e) {
-                console.error("Error fetching and rendering plans for landing page:", e);
-                // Display error message if data fetching fails
-                const plansSection = document.getElementById('pricing');
-                if(plansSection) {
-                   plansSection.innerHTML = '<h2 class="section-title error-message" style="color: #d32f2f;">⚠️ Failed to load plans. Please check Firebase config.</h2>';
-                }
-            }
-        }
-
-        // -----------------------------------------------------------
-        // 🛠️ Utility Functions (පහළට ගෙන ගිය)
-        // ----------------------------------------------------------
-
-        // ... [දැනට පවතින index.html script code මෙහි ඇත: toggleNav(), makeDraggable(), window.onload, etc.] ...
-
-        // 🟢 පිටුව load වූ පසු plan data fetch කිරීම
+        // පිටුව Load වූ පසු draggable ශ්‍රිතය සහ **නව ශ්‍රිතය** ක්‍රියාත්මක කිරීම
         window.onload = function() {
             const telegramBtn = document.getElementById('telegram-btn');
             if (telegramBtn) {
                 makeDraggable(telegramBtn);
             }
             
-            // 🚀 නව ශ්‍රිතය කැඳවීම 
-            fetchAndRenderPlansForLanding(); 
+            // 🚀 නව ශ්‍රිතය කැඳවීම: Firebase data fetch කර UI එක update කිරීම
+            fetchAndRenderPlansForLanding();
         };
         
     </script>
-
 
 </body>
 </html>
