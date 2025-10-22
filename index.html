@@ -6,13 +6,13 @@
     <title>Premium XRP Cloud Mining Platform - Home</title>    
     <link rel="icon" type="image/x-icon" href="favicon.ico"> 
 <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="favicon-16x16x.png" sizes="16x16">
+<link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        /* Base Styles - High-Contrast Material Dark Theme (dashboard.html හි මෙන්) */
+        /* Base Styles - High-Contrast Material Dark Theme */
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
@@ -182,84 +182,66 @@
         
         
         /* ---------------------------------------------------- */
-        /* 💡 UPDATED: Dashboard Buy Plan Card Styles (CSS) */
+        /* 🟢 FINAL: Original Plan Cards Styles with Red Silver Highlight */
         /* ---------------------------------------------------- */
         .plan-container {
             display: flex;
             justify-content: center;
             gap: 30px;
             flex-wrap: wrap;
-            margin-top: 30px;
         }
         
         .plan-card {
             background-color: #2c2c2c; 
             border-radius: 15px;
-            padding: 30px 25px;
+            padding: 40px 30px;
             width: 320px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
             border: 2px solid #424242;
             transition: transform 0.3s, box-shadow 0.3s;
             position: relative; 
-            text-align: left; /* වම් පැත්තට පෙළගැස්වීම */
+            text-align: center; 
         }
         .plan-card:hover {
             transform: scale(1.03);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
         }
 
-        /* Plan Highlights - Dashboard එකේ මෙන් */
-        .plan-card.bronze-highlight { border: 3px solid var(--primary-color); }
-        .plan-card.silver-highlight { border: 3px solid #bdbdbd; /* Light Grey/Silver */ }
-        .plan-card.gold-highlight { border: 3px solid var(--secondary-color); }
-        .plan-card.free-plan { border: 3px solid var(--accent-color); order: -1; }
-
+        /* Highlight Styles */
+        .plan-card.bronze-highlight { 
+            border: 3px solid var(--primary-color); 
+            background: linear-gradient(145deg, #2c2c2c, #3a3a3a);
+        }
+        
+        /* 🔴 SILVER Plan එකේ Border එක රතු පාටට වෙනස් කර ඇත (Final Change) */
+        .plan-card.silver-highlight { 
+            border: 3px solid var(--danger-color); 
+        }
+        
+        .plan-card.gold-highlight {
+            border: 3px solid var(--secondary-color); 
+            background: linear-gradient(145deg, #2c2c2c, #3a3a3a);
+        }
+        .plan-card.free-plan {
+            border: 3px solid var(--accent-color); 
+            background: linear-gradient(145deg, #1f2b1f, #2c382c); 
+            order: -1; 
+        }
+        
         .plan-card h3 {
-            font-size: 1.8em;
-            font-weight: 800;
-            margin-bottom: 15px;
-            text-align: center;
             color: var(--primary-color);
-            border-bottom: 2px solid #424242;
-            padding-bottom: 10px;
-        }
-        .plan-card.free-plan h3 { color: var(--accent-color); }
-        .plan-card.gold-highlight h3 { color: var(--secondary-color); }
-
-
-        .plan-detail {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px dashed #3a3a3a;
-        }
-        .plan-detail:last-of-type {
-            border-bottom: none; 
-            margin-bottom: 20px;
-        }
-
-        .plan-detail-label {
-            font-weight: 600;
-            color: #bdbdbd;
-            font-size: 1em;
-        }
-
-        .plan-detail-value {
+            font-size: 2em;
+            margin-bottom: 25px;
             font-weight: 700;
-            color: white;
-            font-size: 1.1em;
+        }
+        .plan-card.free-plan h3 {
+            color: var(--accent-color);
         }
 
-        .hash-rate-value { color: var(--primary-color); }
-        .price-value { color: var(--secondary-color); }
-        .duration-value { color: var(--accent-color); }
-        .earning-value { color: var(--primary-color); font-size: 1.2em; }
-
-
-        .buy-action {
-            text-align: center;
-            margin-top: 20px;
+        .plan-card p {
+            font-size: 1.1em;
+            margin: 12px 0;
+            color: #cccccc;
         }
         
         /* Plan Button */
@@ -268,19 +250,19 @@
             padding: 14px 40px;
             border-radius: 30px;
             font-size: 1.1em;
-            font-weight: 700;
+            font-weight: 600;
+            margin-top: 20px;
             box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
             display: inline-block;
-            color: #121212; 
+            color: white; 
         }
         .plan-card.free-plan .price-action-btn {
              background-color: var(--accent-color);
              box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
-             color: #121212; 
+             color: white; 
         }
         .price-action-btn:hover {
             transform: translateY(-1px);
-            background-color: #ffb74d;
         }
         /* ---------------------------------------------------- */
         
@@ -462,117 +444,44 @@
         <a href="register.html" class="hero-action-btn">GET STARTED FREE <i class="fas fa-rocket"></i></a>
     </section>
     
-    
     <section id="pricing" class="content-section pricing-section">
         <h2>OUR MINING CONTRACTS</h2>
         <div class="plan-container">
             
             <div class="plan-card free-plan" id="free-plan-card">
-                <h3>FREE STARTER</h3>
-                
-                <div class="plan-details">
-                    <div class="plan-detail">
-                        <span class="plan-detail-label"><i class="fas fa-tachometer-alt"></i> Hash Rate:</span>
-                        <span class="plan-detail-value hash-rate-value" id="free-hash-rate">Loading...</span>
-                    </div>
-                    <div class="plan-detail">
-                        <span class="plan-detail-label"><i class="fas fa-dollar-sign"></i> Price:</span>
-                        <span class="plan-detail-value price-value" id="free-price">Loading...</span>
-                    </div>
-                    <div class="plan-detail">
-                        <span class="plan-detail-label"><i class="fas fa-clock"></i> Duration:</span>
-                        <span class="plan-detail-value duration-value" id="free-duration">Loading...</span>
-                    </div>
-                    <div class="plan-detail">
-                        <span class="plan-detail-label"><i class="fas fa-coins"></i> Total Earning:</span>
-                        <span class="plan-detail-value earning-value" id="free-earning">Loading...</span>
-                    </div>
-                </div>
-                
-                <div class="buy-action">
-                    <a href="register.html" class="price-action-btn">SIGN UP & START <i class="fas fa-rocket"></i></a>
-                </div>
+                <h3><i class="fas fa-gift"></i> FREE STARTER (Trial)</h3>
+                <p id="free-hash-rate">Hash Rate: **Loading...**</p> 
+                <p id="free-price">Price: **Loading...**</p>
+                <p id="free-duration">Duration: **Loading...**</p>
+                <p id="free-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Earning: **Loading...**</p> 
+                <a href="register.html" class="price-action-btn">SIGN UP & START <i class="fas fa-rocket"></i></a>
             </div>
             
             <div class="plan-card bronze-highlight" id="bronze-plan-card"> 
-                <h3>BRONZE CONTRACT</h3>
-                
-                <div class="plan-details">
-                    <div class="plan-detail">
-                        <span class="plan-detail-label"><i class="fas fa-tachometer-alt"></i> Hash Rate:</span>
-                        <span class="plan-detail-value hash-rate-value" id="bronze-hash-rate">Loading...</span>
-                    </div>
-                    <div class="plan-detail">
-                        <span class="plan-detail-label"><i class="fas fa-dollar-sign"></i> Price:</span>
-                        <span class="plan-detail-value price-value" id="bronze-price">Loading...</span>
-                    </div>
-                    <div class="plan-detail">
-                        <span class="plan-detail-label"><i class="fas fa-clock"></i> Duration:</span>
-                        <span class="plan-detail-value duration-value" id="bronze-duration">Loading...</span>
-                    </div>
-                    <div class="plan-detail">
-                        <span class="plan-detail-label"><i class="fas fa-coins"></i> Total Earning:</span>
-                        <span class="plan-detail-value earning-value" id="bronze-earning">Loading...</span>
-                    </div>
-                </div>
-                
-                <div class="buy-action">
-                    <a href="register.html" class="price-action-btn">BUY NOW <i class="fas fa-bolt"></i></a>
-                </div>
+                <h3>BRONZE (1 Month)</h3>
+                <p id="bronze-hash-rate">Hash Rate: **Loading...**</p>
+                <p id="bronze-price">Price: **Loading...**</p>
+                <p id="bronze-duration">Duration: **Loading...**</p>
+                <p id="bronze-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Earning: **Loading...**</p> 
+                <a href="register.html" class="price-action-btn">VIEW & BUY <i class="fas fa-bolt"></i></a>
             </div>
             
             <div class="plan-card silver-highlight" id="silver-plan-card"> 
-                <h3>SILVER CONTRACT</h3>
-                
-                <div class="plan-details">
-                    <div class="plan-detail">
-                        <span class="plan-detail-label"><i class="fas fa-tachometer-alt"></i> Hash Rate:</span>
-                        <span class="plan-detail-value hash-rate-value" id="silver-hash-rate">Loading...</span>
-                    </div>
-                    <div class="plan-detail">
-                        <span class="plan-detail-label"><i class="fas fa-dollar-sign"></i> Price:</span>
-                        <span class="plan-detail-value price-value" id="silver-price">Loading...</span>
-                    </div>
-                    <div class="plan-detail">
-                        <span class="plan-detail-label"><i class="fas fa-clock"></i> Duration:</span>
-                        <span class="plan-detail-value duration-value" id="silver-duration">Loading...</span>
-                    </div>
-                    <div class="plan-detail">
-                        <span class="plan-detail-label"><i class="fas fa-coins"></i> Total Earning:</span>
-                        <span class="plan-detail-value earning-value" id="silver-earning">Loading...</span>
-                    </div>
-                </div>
-                
-                <div class="buy-action">
-                    <a href="register.html" class="price-action-btn">BUY NOW <i class="fas fa-bolt"></i></a>
-                </div>
+                <h3>SILVER (2 Months)</h3>
+                <p id="silver-hash-rate">Hash Rate: **Loading...**</p>
+                <p id="silver-price">Price: **Loading...**</p>
+                <p id="silver-duration">Duration: **Loading...**</p>
+                <p id="silver-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Earning: **Loading...**</p>
+                <a href="register.html" class="price-action-btn">VIEW & BUY <i class="fas fa-bolt"></i></a>
             </div>
             
             <div class="plan-card gold-highlight" id="gold-plan-card">
-                <h3>ELITE GOLD CONTRACT</h3>
-                
-                <div class="plan-details">
-                    <div class="plan-detail">
-                        <span class="plan-detail-label"><i class="fas fa-tachometer-alt"></i> Hash Rate:</span>
-                        <span class="plan-detail-value hash-rate-value" id="gold-hash-rate">Loading...</span>
-                    </div>
-                    <div class="plan-detail">
-                        <span class="plan-detail-label"><i class="fas fa-dollar-sign"></i> Price:</span>
-                        <span class="plan-detail-value price-value" id="gold-price">Loading...</span>
-                    </div>
-                    <div class="plan-detail">
-                        <span class="plan-detail-label"><i class="fas fa-clock"></i> Duration:</span>
-                        <span class="plan-detail-value duration-value" id="gold-duration">Loading...</span>
-                    </div>
-                    <div class="plan-detail">
-                        <span class="plan-detail-label"><i class="fas fa-coins"></i> Total Earning:</span>
-                        <span class="plan-detail-value earning-value" id="gold-earning">Loading...</span>
-                    </div>
-                </div>
-                
-                <div class="buy-action">
-                    <a href="register.html" class="price-action-btn">BUY NOW <i class="fas fa-fire"></i></a>
-                </div>
+                <h3>ELITE GOLD (3 Months)</h3>
+                <p id="gold-hash-rate">Hash Rate: **Loading...**</p> 
+                <p id="gold-price">Price: **Loading...**</p>
+                <p id="gold-duration">Duration: **Loading...**</p>
+                <p id="gold-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Earning: **Loading...**</p>
+                <a href="register.html" class="price-action-btn">VIEW & BUY <i class="fas fa-fire"></i></a>
             </div>
         </div>
     </section>
@@ -639,7 +548,7 @@
                     plansData[doc.id] = doc.data(); 
                 });
                 
-                // Map Plan ID to their UI IDs (UI IDs match the new dashboard-like structure)
+                // Map Plan ID to their UI IDs
                 const planMap = {
                     free: {
                         hashRate: 'free-hash-rate',
@@ -677,29 +586,30 @@
                         // Price text formatting
                         const priceText = planId === 'free' ? `$${plan.price.toFixed(2)} (FREE)` : `$${plan.price.toFixed(2)}`;
                         // Duration text formatting
-                        const durationText = `${plan.durationDays} Days`;
-                        // Earning text - Use fullEarningXRP (or a suitable value from your Firebase data)
-                        const earningText = plan.fullEarningXRP ? `${plan.fullEarningXRP.toFixed(2)} XRP` : 'TBD';
+                        const durationText = `${plan.durationDays} Days${planId === 'free' ? ' Trial' : ''}`;
+                        // Earning text - Use fullEarningXRP or a custom message
+                        const earningText = plan.fullEarningXRP ? `Earning: **${plan.fullEarningXRP.toFixed(2)} XRP**` : 'Start earning today!';
+
                         
-                        
-                        // Load data into the new Dashboard-like DOM elements
+                        // Load data into DOM elements (Using innerHTML to support the **bold** style)
                         if(document.getElementById(uiIds.hashRate)) {
-                            document.getElementById(uiIds.hashRate).textContent = `${plan.hashRate.toFixed(2)} MH/s`;
+                            document.getElementById(uiIds.hashRate).innerHTML = `Hash Rate: **${plan.hashRate.toFixed(2)} MH/s**`;
                         }
                         if(document.getElementById(uiIds.price)) {
-                            document.getElementById(uiIds.price).textContent = priceText;
+                            document.getElementById(uiIds.price).innerHTML = `Price: **${priceText}**`;
                         }
                         if(document.getElementById(uiIds.duration)) {
-                            document.getElementById(uiIds.duration).textContent = durationText;
+                            document.getElementById(uiIds.duration).innerHTML = `Duration: **${durationText}**`;
                         }
                         if(document.getElementById(uiIds.earning)) {
-                            document.getElementById(uiIds.earning).textContent = earningText;
+                            document.getElementById(uiIds.earning).innerHTML = earningText;
                         }
                     }
                 }
                 
             } catch (e) {
                 console.error("Error fetching and rendering plans:", e);
+                // Display error message if data fetching fails
                 const plansContainer = document.querySelector('.plan-container');
                 if(plansContainer) {
                    plansContainer.innerHTML = '<h3 style="color: var(--danger-color); text-align: center; width: 100%;">⚠️ Failed to load plans. Check console for details.</h3>';
