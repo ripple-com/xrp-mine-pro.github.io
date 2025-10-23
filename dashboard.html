@@ -1,4 +1,4 @@
-[span_0](start_span) <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,119 +13,110 @@
     <style>
         /* Base Styles - High-Contrast Material Dark Theme */
         body {
-          
-[span_0](end_span)   font-family: 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #121212; 
             color: #eeeeee; 
             line-height: 1.6;
-[span_1](start_span) }
+        }
 
         /* Material Dark Themed Colors */
         :root {
-            --primary-color: #03a9f4;
-[span_1](end_span) --secondary-color: #ff9800; 
+            --primary-color: #03a9f4; 
+            --secondary-color: #ff9800; 
             --accent-color: #4CAF50; /* Green - Used for Free Plan highlight */
-            --card-bg: #212121;
-[span_2](start_span) --border-color: #333333;
+            --card-bg: #212121; 
+            --border-color: #333333;
             --menu-width: 280px;
             --referral-bg: #1a1a1a; 
             /* New Colors: Bronze Blue, Silver Red */
-            --bronze-color: #03a9f4;
-[span_2](end_span) /* Primary Blue for Bronze */
-            --silver-color: #f44336;
-[span_3](start_span) /* Red for Silver */
+            --bronze-color: #03a9f4; /* Primary Blue for Bronze */
+            --silver-color: #f44336; /* Red for Silver */
         }
         
         /* Global Reset & Transitions */
-        a { color: var(--primary-color);
-[span_3](end_span) text-decoration: none; transition: color 0.3s, transform 0.2s; }
-        a:hover { color: #81d4fa;
-[span_4](start_span) }
-        button { cursor: pointer; border: none;
-[span_4](end_span) transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s; color: white; }
+        a { color: var(--primary-color); text-decoration: none; transition: color 0.3s, transform 0.2s; }
+        a:hover { color: #81d4fa; }
+        button { cursor: pointer; border: none; transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s; color: white; }
 
         /* Header & Navigation */
         header {
-            background-color: #121212;
-[span_5](start_span) padding: 15px 5%;
+            background-color: #121212; 
+            padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 3px solid var(--secondary-color);
-[span_5](end_span) box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
             position: sticky;
             top: 0;
             z-index: 900;
-[span_6](start_span) }
+        }
 
         .logo {
             font-size: 1.8em;
-[span_6](end_span) font-weight: 800;
+            font-weight: 800;
             color: var(--secondary-color);
         }
         
-        nav a { margin-left: 35px;
-[span_7](start_span) font-weight: 600; font-size: 1em; color: #bbbbbb; }
-        nav a:hover { color: var(--primary-color);
-[span_7](end_span) }
+        nav a { margin-left: 35px; font-weight: 600; font-size: 1em; color: #bbbbbb; }
+        nav a:hover { color: var(--primary-color); }
 
         .user-auth-area {
             display: flex;
-[span_8](start_span) align-items: center;
+            align-items: center;
         }
         .user-info { 
-            font-size: 0.9em;
-[span_8](end_span) margin-right: 20px;
+            font-size: 0.9em; 
+            margin-right: 20px;
             font-weight: 600;
         }
         .logout-btn {
-            background-color: #f44336;
-[span_9](start_span) padding: 10px 25px;
+            background-color: #f44336; 
+            padding: 10px 25px;
             border-radius: 8px;
             font-weight: 600;
             box-shadow: 0 4px 10px rgba(244, 67, 54, 0.3);
-[span_9](end_span) }
+        }
         .logout-btn:hover {
             background-color: #d32f2f;
-[span_10](start_span) transform: translateY(-1px);
+            transform: translateY(-1px);
         }
 
 
         /* Hero Section */
         .hero {
             background: linear-gradient(135deg, #121212 0%, #0a0a0a 100%);
-[span_10](end_span) padding: 50px 5% 30px; 
+            padding: 50px 5% 30px; 
             text-align: center;
             min-height: auto; 
         }
 
         .hero h1 {
             color: white;
-[span_11](start_span) font-size: 3em; 
+            font-size: 3em; 
             margin-bottom: 10px;
             font-weight: 800;
             text-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
-[span_11](end_span) }
+        }
 
         .hero p {
-            font-size: 1.2em;
-[span_12](start_span) margin-bottom: 0;
+            font-size: 1.2em; 
+            margin-bottom: 0;
             color: #bdbdbd;
         }
 
         /* Content Sections */
         .stats, .plans, .faq, .referral {
-            padding: 40px 5%;
-[span_12](end_span) text-align: center;
+            padding: 40px 5%; 
+            text-align: center;
         }
-        .referral { background-color: #1a1a1a;
-[span_13](start_span) } 
+        .referral { background-color: #1a1a1a; } 
 
         h2 {
             color: var(--primary-color);
-[span_13](end_span) font-size: 2.5em;
+            font-size: 2.5em;
             font-weight: 700;
             margin-bottom: 30px; 
         }
@@ -133,36 +124,36 @@
         /* Stats Boxes - Raised Material Cards */
         .stat-container {
             display: flex;
-[span_14](start_span) justify-content: center;
+            justify-content: center;
             gap: 30px;
             flex-wrap: wrap;
         }
 
         .stat-box {
             flex-basis: 300px;
-[span_14](end_span) background-color: var(--card-bg);
+            background-color: var(--card-bg);
             border-radius: 12px;
             padding: 30px;
             text-align: left;
             border: 1px solid var(--border-color);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-[span_15](start_span) transition: all 0.3s;
+            transition: all 0.3s;
         }
         .stat-box:hover {
             transform: translateY(-5px);
-[span_15](end_span) box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
         }
 
         .stat-box h3 {
             color: #bbbbbb;
-[span_16](start_span) font-size: 1.1em;
+            font-size: 1.1em;
             font-weight: 400;
             margin-bottom: 5px;
         }
 
         .stat-box .value {
             font-size: 3em;
-[span_16](end_span) color: var(--secondary-color);
+            color: var(--secondary-color);
             font-weight: 800;
             margin-top: 5px;
         }
@@ -170,192 +161,189 @@
         /* Plan Cards */
         .plan-container {
             display: flex;
-[span_17](start_span) justify-content: center;
+            justify-content: center;
             gap: 30px;
             flex-wrap: wrap;
         }
         
         .plan-card {
-            background-color: #2c2c2c;
-[span_17](end_span) border-radius: 15px;
+            background-color: #2c2c2c; 
+            border-radius: 15px;
             padding: 40px 30px;
             width: 320px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
             border: 2px solid #424242;
-[span_18](start_span) transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
             position: relative; 
         }
         .plan-card:hover {
             transform: scale(1.03);
-[span_18](end_span) box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
         }
 
         /* Gold Highlight */
         .plan-card.gold-highlight {
-            border: 3px solid var(--secondary-color);
-[span_19](start_span) background: linear-gradient(145deg, #2c2c2c, #3a3a3a);
+            border: 3px solid var(--secondary-color); 
+            background: linear-gradient(145deg, #2c2c2c, #3a3a3a);
             box-shadow: 0 10px 40px rgba(255, 152, 0, 0.4);
-[span_19](end_span) }
+        }
         
         /* Bronze Highlight (Blue) */
         .plan-card.bronze-highlight {
-            border: 3px solid var(--bronze-color);
-[span_20](start_span) background: linear-gradient(145deg, #2c2c2c, #263238); 
-            box-shadow: 0 10px 40px rgba(3, 169, 244, 0.4);
-[span_20](end_span) }
+            border: 3px solid var(--bronze-color); 
+            background: linear-gradient(145deg, #2c2c2c, #263238); 
+            box-shadow: 0 10px 40px rgba(3, 169, 244, 0.4); 
+        }
 
         /* Silver Highlight (Red) */
         .plan-card.silver-highlight {
-            border: 3px solid var(--silver-color);
-[span_21](start_span) background: linear-gradient(145deg, #2c2c2c, #3e2723); 
-            box-shadow: 0 10px 40px rgba(244, 67, 54, 0.4);
-[span_21](end_span) }
+            border: 3px solid var(--silver-color); 
+            background: linear-gradient(145deg, #2c2c2c, #3e2723); 
+            box-shadow: 0 10px 40px rgba(244, 67, 54, 0.4); 
+        }
         
         /* Free Plan Highlight */
         .plan-card.free-plan {
-            border: 3px solid var(--accent-color);
-[span_22](start_span) background: linear-gradient(145deg, #1f2b1f, #2c382c); 
+            border: 3px solid var(--accent-color); 
+            background: linear-gradient(145deg, #1f2b1f, #2c382c); 
             box-shadow: 0 10px 40px rgba(76, 175, 80, 0.4);
-            order: -1;
-[span_22](end_span) }
+            order: -1; 
+        }
         
         /* Activated Badge (for all plans) */
         .activated-badge {
             position: absolute;
-[span_23](start_span) top: 15px;
+            top: 15px;
             right: 15px;
             color: white;
             padding: 5px 12px;
             border-radius: 5px;
             font-weight: 700;
             font-size: 0.9em;
-[span_23](end_span) box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-            z-index: 10;
-[span_24](start_span) /* Default color for Free Plan */
-            background-color: var(--accent-color);
-[span_24](end_span) }
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            z-index: 10; 
+            
+            /* Default color for Free Plan */
+            background-color: var(--accent-color); 
+        }
         
         /* Paid Plans Activated Badge Colors */
         .plan-card.gold-highlight .activated-badge {
-            background-color: var(--secondary-color);
-[span_25](start_span) /* Orange/Gold */
+            background-color: var(--secondary-color); /* Orange/Gold */
         }
         .plan-card.silver-highlight .activated-badge {
-            background-color: var(--silver-color);
-[span_25](end_span) /* Red */
+            background-color: var(--silver-color); /* Red */
         }
         .plan-card.bronze-highlight .activated-badge {
-            background-color: var(--bronze-color);
-[span_26](start_span) /* Blue */
+            background-color: var(--bronze-color); /* Blue */
         }
 
 
         .plan-card h3 {
             color: var(--primary-color);
-[span_26](end_span) font-size: 2em;
+            font-size: 2em;
             margin-bottom: 25px;
             font-weight: 700;
         }
         .plan-card.free-plan h3 {
             color: var(--accent-color);
-[span_27](start_span) }
+        }
 
 
         .plan-card p {
             font-size: 1.1em;
-[span_27](end_span) margin: 12px 0;
+            margin: 12px 0;
             color: #cccccc;
         }
         
         .plan-card button {
             background-color: var(--secondary-color);
-[span_28](start_span) padding: 14px 40px;
+            padding: 14px 40px;
             border-radius: 30px;
             font-size: 1.1em;
             font-weight: 600;
             margin-top: 20px;
             box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
-[span_28](end_span) }
+        }
         
         /* Free Plan Button */
         .plan-card.free-plan button {
              background-color: var(--accent-color);
-[span_29](start_span) box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
+             box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
         }
 
 
         /* FAQ Section */
-        .faq { background-color: #1a1a1a;
-[span_29](end_span) } 
+        .faq { background-color: #1a1a1a; } 
         .qa-item {
             background-color: var(--card-bg);
-[span_30](start_span) max-width: 900px;
+            max-width: 900px;
             margin: 20px auto;
             padding: 25px;
             border-radius: 8px;
             text-align: left;
             border-left: 4px solid var(--accent-color);
-[span_30](end_span) box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
         .qa-item h4 {
             color: var(--primary-color);
-[span_31](start_span) font-size: 1.3em;
+            font-size: 1.3em;
             font-weight: 600;
         }
 
         /* Referral System Styles */
         .referral-box {
             background-color: var(--referral-bg);
-[span_31](end_span) max-width: 700px;
+            max-width: 700px;
             margin: 0 auto;
             padding: 40px;
             border-radius: 15px;
             border: 2px dashed var(--accent-color);
-[span_32](start_span) box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
         }
 
         .referral-box h3 {
             color: var(--accent-color);
-[span_32](end_span) font-size: 1.8em;
+            font-size: 1.8em;
             margin-bottom: 10px;
         }
 
         .referral-box p {
             color: #cccccc;
-[span_33](start_span) margin-bottom: 30px;
+            margin-bottom: 30px;
         }
 
         .link-container {
             display: flex;
-[span_33](end_span) gap: 10px;
+            gap: 10px;
             margin-bottom: 20px;
         }
 
         #referralLink {
             flex-grow: 1;
-[span_34](start_span) padding: 15px;
+            padding: 15px;
             border-radius: 8px;
             border: 1px solid var(--border-color);
             background-color: var(--card-bg);
             color: var(--primary-color);
             font-size: 1em;
             font-family: monospace;
-[span_34](end_span) }
+        }
 
         .copy-btn {
             background-color: var(--accent-color);
-[span_35](start_span) padding: 15px 25px;
+            padding: 15px 25px;
             border-radius: 8px;
             font-weight: 600;
         }
         .copy-btn:hover {
             background-color: #388e3c;
-[span_35](end_span) transform: translateY(-1px);
+            transform: translateY(-1px);
         }
 
         #copy-feedback {
             color: var(--secondary-color);
-[span_36](start_span) font-weight: 600;
+            font-weight: 600;
             margin-top: 15px;
             display: none; 
         }
@@ -364,16 +352,16 @@
         /* Footer */
         footer {
             background-color: #000000;
-[span_36](end_span) color: #9e9e9e;
+            color: #9e9e9e;
             padding: 35px 0;
             font-size: 0.9em;
             border-top: 1px solid var(--border-color);
-[span_37](start_span) }
+        }
         
         /* --- SIDE MENU STYLES --- */
         .side-menu {
             height: 100%;
-[span_37](end_span) width: 0; 
+            width: 0; 
             position: fixed;
             z-index: 1000;
             top: 0;
@@ -381,29 +369,22 @@
             background-color: #2c2c2c; 
             overflow-x: hidden;
             padding-top: 70px; 
-            transition: width 0.5s;
-[span_38](start_span) box-shadow: -5px 0 15px rgba(0, 0, 0, 0.4);
+            transition: width 0.5s; 
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.4);
         }
-        .side-menu h2 { font-size: 1.5em;
-[span_38](end_span) margin: 0 25px 30px; color: var(--secondary-color); text-align: left; border-bottom: 1px solid #424242; padding-bottom: 10px;
-[span_39](start_span) }
-        .side-menu.open { width: var(--menu-width);
-[span_39](end_span) } 
-        .side-menu a { padding: 15px 25px; font-size: 1em; color: #bbbbbb;
-[span_40](start_span) display: block; border-bottom: 1px solid #333333; }
-        .side-menu a:hover { background-color: #3a3a3a;
-[span_40](end_span) color: var(--primary-color); }
-        .side-menu a i { margin-right: 15px; color: var(--secondary-color);
-[span_41](start_span) } 
-        .side-menu .close-btn { position: absolute; top: 15px; right: 25px; font-size: 36px;
-[span_41](end_span) color: #eeeeee; cursor: pointer; background: none; border: none; }
+        .side-menu h2 { font-size: 1.5em; margin: 0 25px 30px; color: var(--secondary-color); text-align: left; border-bottom: 1px solid #424242; padding-bottom: 10px; }
+        .side-menu.open { width: var(--menu-width); } 
+        .side-menu a { padding: 15px 25px; font-size: 1em; color: #bbbbbb; display: block; border-bottom: 1px solid #333333; }
+        .side-menu a:hover { background-color: #3a3a3a; color: var(--primary-color); }
+        .side-menu a i { margin-right: 15px; color: var(--secondary-color); } 
+        .side-menu .close-btn { position: absolute; top: 15px; right: 25px; font-size: 36px; color: #eeeeee; cursor: pointer; background: none; border: none; }
         
         /* Side Menu Logout Button - Centered */
         .side-menu .logout-btn-side {
-            background-color: #f44336;
-[span_42](start_span) margin: 20px auto; /* Centered */
-            display: block;
-[span_42](end_span) text-align: center;
+            background-color: #f44336; 
+            margin: 20px auto; /* Centered */
+            display: block; 
+            text-align: center;
             padding: 10px 0;
             border-radius: 8px;
             width: 80%; /* Width for centering */
@@ -411,8 +392,8 @@
 
 
         .open-btn { 
-            position: fixed;
-[span_43](start_span) top: 20px; 
+            position: fixed; 
+            top: 20px; 
             right: 20px; 
             font-size: 1.1em; 
             background-color: var(--secondary-color); 
@@ -420,15 +401,15 @@
             border: none; 
             padding: 10px 12px; 
             cursor: pointer; 
-            z-index: 1001;
-[span_43](end_span) border-radius: 5px; 
+            z-index: 1001; 
+            border-radius: 5px; 
             display: none; 
         }
 
         /* --- Floating/Draggable Telegram Support Button --- */
         .telegram-support-btn {
-            position: fixed;
-[span_44](start_span) top: 85vh; 
+            position: fixed; 
+            top: 85vh; 
             left: 80vw; 
             cursor: grab; 
             z-index: 999; 
@@ -438,69 +419,61 @@
             height: 60px;
             border-radius: 50%; 
             display: flex;
-[span_44](end_span) align-items: center;
+            align-items: center;
             justify-content: center;
             font-size: 2em;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(0, 136, 204, 0.5);
-[span_45](start_span) transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(0, 136, 204, 0.5); 
+            transition: background-color 0.3s, box-shadow 0.3s;
             text-decoration: none; 
         }
 
         .telegram-support-btn:hover {
             background-color: #00aaff;
-[span_45](end_span) box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 0 5px rgba(0, 170, 255, 0.7);
-[span_46](start_span) }
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 0 5px rgba(0, 170, 255, 0.7);
+        }
         
         /* Cursor changes when dragging */
         .telegram-support-btn.dragging {
             cursor: grabbing;
-[span_46](end_span) }
+        }
 
 
         /* --- MOBILE-ONLY OPTIMIZATION --- */
         @media (min-width: 1px) {
             nav, .user-auth-area { 
-                display: none !important;
-[span_47](start_span) }
+                display: none !important; 
+            }
             .open-btn { 
-                position: absolute;
-[span_47](end_span) display: block !important; 
+                position: absolute; 
+                display: block !important; 
             }
             header { 
-                flex-direction: column;
-[span_48](start_span) padding: 15px; 
+                flex-direction: column; 
+                padding: 15px; 
                 text-align: center; 
                 justify-content: flex-start;
                 align-items: flex-start;
-                padding-right: 80px;
-[span_48](end_span) }
+                padding-right: 80px; 
+            }
             .logo {
                 margin-right: auto;
-[span_49](start_span) }
+            }
         }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 3em;
-[span_49](end_span) }
-            .hero p { font-size: 1.2em;
-[span_50](start_span) }
-            .stat-box, .plan-card { width: 90%;
-[span_50](end_span) }
-            .stat-container, .plan-container { flex-direction: column; align-items: center;
-[span_51](start_span) gap: 20px; }
-            .stats, .plans, .faq, .referral { padding: 40px 5%;
-[span_51](end_span) }
-            .link-container { flex-direction: column;
-[span_52](start_span) }
-            .copy-btn { width: 100%;
-[span_52](end_span) }
-            .user-info { display: none !important;
-[span_53](start_span) } 
+            .hero h1 { font-size: 3em; }
+            .hero p { font-size: 1.2em; }
+            .stat-box, .plan-card { width: 90%; }
+            .stat-container, .plan-container { flex-direction: column; align-items: center; gap: 20px; }
+            .stats, .plans, .faq, .referral { padding: 40px 5%; }
+            .link-container { flex-direction: column; }
+            .copy-btn { width: 100%; }
+            .user-info { display: none !important; } 
 
             /* Reduce Floating button size on small screens */
             .telegram-support-btn {
                 width: 50px;
-[span_53](end_span) height: 50px;
+                height: 50px;
                 font-size: 1.8em;
                 top: 85vh;
                 left: 70vw; 
@@ -517,8 +490,7 @@
         <h2>Welcome, <span id="side-user-display-name">Loading...</span></h2> 
         <a href="#dashboard"><i class="fas fa-chart-line"></i> Mining Stats</a>
         <a href="#plans"><i class="fas fa-shopping-cart"></i> Buy Hash Rate</a>
-        <a href="withdrawal.html"><i class="fas fa-wallet"></i> Withdraw 
-[span_54](start_span) XRP</a>
+        <a href="withdrawal.html"><i class="fas fa-wallet"></i> Withdraw XRP</a>
         <a href="transactions.html"><i class="fas fa-history"></i> Transaction History</a>
         <a href="#referral"><i class="fas fa-users"></i> Referral Program</a> 
         <a href="faq.html"><i class="fas fa-question-circle"></i> FAQ</a>
@@ -528,8 +500,7 @@
     <header>
         <div class="logo">XRP MINE PRO</div>
         <nav>
-            <a 
-[span_54](end_span) href="#dashboard">Dashboard</a>
+            <a href="#dashboard">Dashboard</a>
             <a href="#plans">Plans</a>
             <a href="#referral">Referral</a> 
             <a href="#faq">FAQ</a>
@@ -537,8 +508,7 @@
         </nav>
         <div class="user-auth-area">
             <span class="user-info">Welcome, <span id="header-user-display-name" style="color: var(--primary-color);">Loading...</span></span>
-            <button 
-[span_55](start_span) class="logout-btn" onclick="logout()">Log Out</button>
+            <button class="logout-btn" onclick="logout()">Log Out</button>
         </div>
     </header>
 
@@ -551,15 +521,13 @@
         <h2>YOUR MINING METRICS</h2>
         <div class="stat-container">
             <div class="stat-box">
-            
-[span_55](end_span)     <h3><i class="fas fa-coins"></i> Current XRP Balance</h3>
+                <h3><i class="fas fa-coins"></i> Current XRP Balance</h3>
                 <p class="value" id="current-balance">0.0000 XRP</p> 
             </div>
             <div class="stat-box">
                 <h3><i class="fas fa-tachometer-alt"></i> Total Hash Rate</h3>
                 <p class="value" id="total-hash-rate">0.00 MH/s</p>
-      
-[span_56](start_span)       </div>
+            </div>
             <div class="stat-box">
                 <h3><i class="fas fa-dollar-sign"></i> Estimated Daily Income</h3>
                 <p class="value" id="estimated-daily-income">$0.00</p>
@@ -569,50 +537,41 @@
 
     <section id="plans" class="plans">
         <h2>SELECT YOUR CONTRACT</h2>
-  
-[span_56](end_span)       <div class="plan-container">
+        <div class="plan-container">
             
             <div class="plan-card free-plan" id="free-plan-card">
                 <h3><i class="fas fa-gift"></i> FREE STARTER (Trial)</h3>
                 <p id="free-hash-rate">Loading Hash Rate...</p> 
                 <p id="free-price">Loading Price...</p>
-       
-[span_57](start_span)          <p id="free-duration">Loading Duration...</p>
-                <p id="free-earning" style="font-size: 0.9em;
-[span_57](end_span) color: #ff9800; font-weight: 600;">Loading Earning...</p> 
+                <p id="free-duration">Loading Duration...</p>
+                <p id="free-earning" style="font-size: 0.9em; color: #ff9800; font-weight: 600;">Loading Earning...</p> 
                 <button id="free-plan-btn" onclick="activateFreePlan()">ACTIVATE FREE PLAN <i class="fas fa-rocket"></i></button>
             </div>
             
             <div class="plan-card bronze-highlight"> 
-                <h3>BRONZE</h3>
-               
-[span_58](start_span)  <p id="bronze-hash-rate">Loading Hash Rate...</p>
+                <h3>BRONZE (1 Months)</h3>
+                <p id="bronze-hash-rate">Loading Hash Rate...</p>
                 <p id="bronze-price">Loading Price...</p>
                 <p id="bronze-duration">Loading Duration...</p>
-                <p id="bronze-earning" style="font-size: 0.9em;
-[span_58](end_span) color: var(--secondary-color); font-weight: 600;">Loading Earning...</p> 
+                <p id="bronze-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Loading Earning...</p> 
                 <button onclick="goToPayment('bronze')">PURCHASE <i class="fas fa-bolt"></i></button>
             </div>
             
             <div class="plan-card silver-highlight">
-                <h3>SILVER</h3>
-                <p id="silver-hash-rate">Loading Hash 
-[span_59](start_span) Rate...</p>
+                <h3>SILVER (1 Months)</h3>
+                <p id="silver-hash-rate">Loading Hash Rate...</p>
                 <p id="silver-price">Loading Price...</p>
                 <p id="silver-duration">Loading Duration...</p>
-                <p id="silver-earning" style="font-size: 0.9em;
-[span_59](end_span) color: var(--secondary-color); font-weight: 600;">Loading Earning...</p>
+                <p id="silver-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Loading Earning...</p>
                 <button onclick="goToPayment('silver')">PURCHASE <i class="fas fa-bolt"></i></button>
             </div>
             
             <div class="plan-card gold-highlight">
-                <h3>ELITE GOLD</h3>
-                <p id="gold-hash-rate">Loading Hash 
-[span_60](start_span) Rate...</p> 
+                <h3>ELITE GOLD (1 Months)</h3>
+                <p id="gold-hash-rate">Loading Hash Rate...</p> 
                 <p id="gold-price">Loading Price...</p>
                 <p id="gold-duration">Loading Duration...</p>
-                <p id="gold-earning" style="font-size: 0.9em;
-[span_60](end_span) color: var(--secondary-color); font-weight: 600;">Loading Earning...</p>
+                <p id="gold-earning" style="font-size: 0.9em; color: var(--secondary-color); font-weight: 600;">Loading Earning...</p>
                 <button onclick="goToPayment('gold')">PURCHASE <i class="fas fa-fire"></i></button>
             </div>
         </div>
@@ -622,23 +581,20 @@
     <section id="referral" class="referral">
         <h2>REFERRAL PROGRAM</h2>
         <div class="referral-box">
-            <h3><i class="fas fa-handshake"></i> Invite & Earn (<span id="total-referrals">0</span> Total 
-[span_61](start_span) Referrals)</h3> 
+            <h3><i class="fas fa-handshake"></i> Invite & Earn (<span id="total-referrals">0</span> Total Referrals)</h3> 
             <p>Share your unique link and earn **10% commission** on every plan purchase made by your referrals!</p>
             
             <div class="link-container">
                 <input type="text" id="referralLink" value="Loading your unique referral link..." readonly> 
                 
-      
-[span_61](end_span)           <button class="copy-btn" onclick="copyReferralLink()">
+                <button class="copy-btn" onclick="copyReferralLink()">
                     <i class="fas fa-copy"></i> Copy Link
                 </button>
             </div>
             
             <div id="copy-feedback">Link Copied!</div>
         </div>
-  
-[span_62](start_span)   </section>
+    </section>
     
     <a href="https://t.me/XRP_Mine_Pro_Support" target="_blank" class="telegram-support-btn" id="telegram-btn" title="Telegram Support">
         <i class="fab fa-telegram-plane"></i>
@@ -646,8 +602,7 @@
     
     <footer id="contact">
         <p>Contact Us: xrpmineprohelp@gmail.com</p>
-        <p>&copy;
-[span_62](end_span) 2025 XRP Mine Pro. High-Contrast Solutions.</p>
+        <p>&copy; 2025 XRP Mine Pro. High-Contrast Solutions.</p>
     </footer>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
@@ -660,12 +615,12 @@
             apiKey: "AIzaSyBsTIzaJtaGiAfv4a69o80f0QvKiq6lFj4", 
             authDomain: "xrp-mine-pro.firebaseapp.com",
             projectId: "xrp-mine-pro",
-      
-[span_63](start_span)       storageBucket: "xrp-mine-pro.appspot.com",
+            storageBucket: "xrp-mine-pro.appspot.com",
             messagingSenderId: "1234567890",
             appId: "1:1234567890:web:abcdef123456"
         };
-[span_63](end_span) firebase.initializeApp(firebaseConfig);
+        
+        firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore(); 
         
@@ -674,24 +629,23 @@
         // ----------------------------------------------------
         
         let isFreePlanActive = false;
-[span_64](start_span) let totalHashRate = 0.00; 
+        let totalHashRate = 0.00; 
         let miningInterval; 
         
         // Variable to store dynamic plan data
-        let ALL_PLANS_DATA = {};
-[span_64](end_span) // Default values (needed before Firebase data loads)
-        const FREE_PLAN_HASH_RATE_DEFAULT = 50.00;
-[span_65](start_span) const FREE_PLAN_EXPIRY_DAYS_DEFAULT = 15;
+        let ALL_PLANS_DATA = {}; 
+        
+        // Default values (needed before Firebase data loads)
+               // ⚠️ නව කේතය මේ ආකාරයෙන් විය යුතුය:
+        const FREE_PLAN_HASH_RATE_DEFAULT = 10.00; 
+        const FREE_PLAN_EXPIRY_DAYS_DEFAULT = 15;
 
         const DEFAULT_DAILY_INCOME_PER_MH = 0.05; 
-        // ***** USER REQUEST: Changed this constant (0.00001 -> 0.0000011574) 
-        // to make 10 MH/s earn 1 XRP per day (1 / (10 * 86400)) *****
-        const XRP_RATE_PER_SECOND_PER_MH = 0.0000011574; 
-        const MINING_UPDATE_INTERVAL = 10000;
-[span_65](end_span) // 10 seconds (for UI update)
+        const XRP_RATE_PER_SECOND_PER_MH = 0.0000011574; // XRP 1 / day for 10 MH/s
+        const MINING_UPDATE_INTERVAL = 10000; // 10 seconds (for UI update)
         
-        let currentLocalBalance = 0.00;
-[span_66](start_span) let isMiningOnline = false;     
+        let currentLocalBalance = 0.00; 
+        let isMiningOnline = false;     
 
 
         // ----------------------------------------------------
@@ -700,51 +654,47 @@
 
         /**
          * Calculates and applies XRP earned while the user was away.
-[span_66](end_span) */
+         */
         async function calculateAndApplyMining(userDocRef, userData) {
-            const totalHashRate = userData.totalHashRate ||
-[span_67](start_span) 0.00;
+            const totalHashRate = userData.totalHashRate || 0.00;
             const lastMiningUpdate = userData.lastMiningUpdate ? userData.lastMiningUpdate.toDate() : null;
 
             if (totalHashRate <= 0 || !lastMiningUpdate) {
-                return;
-[span_67](end_span) }
+                return; 
+            }
             
             const currentTime = new Date();
-[span_68](start_span) const timeElapsedMs = currentTime.getTime() - lastMiningUpdate.getTime(); 
-            const timeElapsedSeconds = timeElapsedMs / 1000;
-[span_68](end_span) // Calculate XRP earned offline
+            const timeElapsedMs = currentTime.getTime() - lastMiningUpdate.getTime(); 
+            const timeElapsedSeconds = timeElapsedMs / 1000; 
+            
+            // Calculate XRP earned offline
             const xrpEarnedOffline = totalHashRate * timeElapsedSeconds * XRP_RATE_PER_SECOND_PER_MH;
-[span_69](start_span) if (xrpEarnedOffline > 0.000001) { 
+
+            if (xrpEarnedOffline > 0.000001) { 
                 try {
                     await db.runTransaction(async (transaction) => {
                         const doc = await transaction.get(userDocRef);
-                        if (!doc.exists) 
-[span_69](end_span) return;
+                        if (!doc.exists) return;
 
                         const currentBalance = doc.data().balance || 0;
                         const newBalance = currentBalance + xrpEarnedOffline;
                         
-                  
-[span_70](start_span)       transaction.update(userDocRef, {
+                        transaction.update(userDocRef, {
                             balance: newBalance,
                             // Set new update time to current server time
-                            
-[span_70](end_span) lastMiningUpdate: firebase.firestore.FieldValue.serverTimestamp() 
+                            lastMiningUpdate: firebase.firestore.FieldValue.serverTimestamp() 
                         });
                         
                         userData.balance = newBalance; // Update data locally
 
-                    
-[span_71](start_span)     // Update UI
+                        // Update UI
                         document.getElementById('current-balance').textContent = newBalance.toFixed(4) + ' XRP';
-                        console.log(`✅ Offline Mining Applied.
-[span_71](end_span) +${xrpEarnedOffline.toFixed(4)} XRP earned over ${timeElapsedSeconds.toFixed(0)} seconds.`);
+                        console.log(`✅ Offline Mining Applied. +${xrpEarnedOffline.toFixed(4)} XRP earned over ${timeElapsedSeconds.toFixed(0)} seconds.`);
                     });
 
                 } catch (e) {
                     console.error("Offline Mining Calculation Failed:", e);
-[span_72](start_span) }
+                }
             } 
         }
 
@@ -755,126 +705,129 @@
         function startRealTimeSimulation() {
             if (isMiningOnline || totalHashRate <= 0) {
                 return;
-[span_72](end_span) }
+            }
             
             const xrpPerSecond = totalHashRate * XRP_RATE_PER_SECOND_PER_MH;
-[span_73](start_span) const xrpPerUpdate = xrpPerSecond * (MINING_UPDATE_INTERVAL / 1000); 
+            const xrpPerUpdate = xrpPerSecond * (MINING_UPDATE_INTERVAL / 1000); 
 
             if (miningInterval) {
-                clearInterval(miningInterval);
-[span_73](end_span) }
+                clearInterval(miningInterval); 
+            }
             
-            isMiningOnline = true;
-[span_74](start_span) miningInterval = setInterval(() => {
+            isMiningOnline = true; 
+            
+            miningInterval = setInterval(() => {
                 // 1. Update local balance
                 currentLocalBalance += xrpPerUpdate;
                 
                 // 2. Update Dashboard UI
                 document.getElementById('current-balance').textContent = currentLocalBalance.toFixed(4) + ' XRP';
- 
-[span_74](end_span)                
-            }, MINING_UPDATE_INTERVAL);
-[span_75](start_span) // Update every 10 seconds
+                
+            }, MINING_UPDATE_INTERVAL); // Update every 10 seconds
         }
 
         function stopRealTimeSimulation() {
             if (miningInterval) {
                 clearInterval(miningInterval);
-[span_75](end_span) miningInterval = null;
+                miningInterval = null;
             }
             isMiningOnline = false;
-[span_76](start_span) }
+        }
 
 
         // --- Utility function to update the Free Plan UI ---
         function updateFreePlanUI() {
             const card = document.getElementById('free-plan-card');
-[span_76](end_span) const button = document.getElementById('free-plan-btn');
+            const button = document.getElementById('free-plan-btn');
             
             if (isFreePlanActive) {
                 button.disabled = true;
-[span_77](start_span) button.textContent = 'PLAN ACTIVATED';
+                button.textContent = 'PLAN ACTIVATED';
                 button.style.backgroundColor = '#555';
                 button.style.boxShadow = 'none';
-[span_77](end_span) } else {
+            } else {
                 button.disabled = false;
-[span_78](start_span) button.textContent = 'ACTIVATE FREE PLAN';
+                button.textContent = 'ACTIVATE FREE PLAN';
                 button.style.backgroundColor = 'var(--accent-color)';
                 button.style.boxShadow = '0 4px 10px rgba(76, 175, 80, 0.4)';
-[span_78](end_span) }
+            }
         }
         
         // 🟢 Function to handle Free Plan activation
         async function activateFreePlan() {
             const user = auth.currentUser;
-[span_79](start_span) if (!user) {
+            if (!user) {
                 alert("Please log in to activate a plan.");
-[span_79](end_span) return;
+                return;
             }
             if (isFreePlanActive) {
                 alert("The Free Plan is already active.");
-[span_80](start_span) return;
+                return;
             }
             
             // Get Free Plan data from ALL_PLANS_DATA
             const freePlanData = ALL_PLANS_DATA.free;
-[span_80](end_span) const freePlanHashRate = freePlanData ? freePlanData.hashRate : FREE_PLAN_HASH_RATE_DEFAULT;
+            const freePlanHashRate = freePlanData ? freePlanData.hashRate : FREE_PLAN_HASH_RATE_DEFAULT;
             const freePlanExpiryDays = freePlanData ? freePlanData.durationDays : FREE_PLAN_EXPIRY_DAYS_DEFAULT;
-[span_81](start_span) if (!confirm(`Are you sure you want to activate the Free Starter Plan (${freePlanHashRate.toFixed(2)} MH/s) for ${freePlanExpiryDays} days?`)) {
+
+
+            if (!confirm(`Are you sure you want to activate the Free Starter Plan (${freePlanHashRate.toFixed(2)} MH/s) for ${freePlanExpiryDays} days?`)) {
                 return;
-[span_81](end_span) }
+            }
 
             try {
                 const userDocRef = db.collection("users").doc(user.uid);
-[span_82](start_span) await db.runTransaction(async (transaction) => {
+                
+                await db.runTransaction(async (transaction) => {
                     const doc = await transaction.get(userDocRef);
                     if (!doc.exists) {
                         throw "User data not found.";
                     }
-  
-[span_82](end_span)                   
+                    
                     const data = doc.data();
                     
                     if (data.isFreePlanActive) {
-                 
-[span_83](start_span)        throw "Free Plan already active.";
+                        throw "Free Plan already active.";
                     }
 
                     const newTotalHashRate = (data.totalHashRate || 0) + freePlanHashRate; 
                     const newEstimatedDailyIncome = newTotalHashRate * DEFAULT_DAILY_INCOME_PER_MH; 
-               
-[span_83](end_span)      
+                    
                     transaction.update(userDocRef, {
                         isFreePlanActive: true,
                         totalHashRate: newTotalHashRate,
-                        
-[span_84](start_span) estimatedDailyIncome: newEstimatedDailyIncome,
+                        estimatedDailyIncome: newEstimatedDailyIncome,
                         freePlanActivationDate: firebase.firestore.FieldValue.serverTimestamp(),
                         lastMiningUpdate: firebase.firestore.FieldValue.serverTimestamp()
                     });
-[span_84](end_span) isFreePlanActive = true;
+
+                    isFreePlanActive = true;
                     totalHashRate = newTotalHashRate; 
                     updateFreePlanUI();
                     
                     document.getElementById('total-hash-rate').textContent = newTotalHashRate.toFixed(2) + ' MH/s';
                     document.getElementById('estimated-daily-income').textContent = '$' + newEstimatedDailyIncome.toFixed(2);
-[span_85](start_span) currentLocalBalance = data.balance || 0.00; 
+                    
+                    currentLocalBalance = data.balance || 0.00; 
                     startRealTimeSimulation(); 
 
                 });
                 
                 alert(`Free Plan Activated Successfully! Your ${freePlanHashRate.toFixed(2)} MH/s mining has started for ${freePlanExpiryDays} days.`);
-[span_85](end_span) // Manually add the Active Badge
+                
+                // Manually add the Active Badge
                 const card = document.getElementById('free-plan-card');
-[span_86](start_span) card.querySelector('.activated-badge')?.remove(); 
+                card.querySelector('.activated-badge')?.remove(); 
                 const badge = document.createElement('span');
                 badge.className = 'activated-badge';
                 badge.textContent = 'Activated';
                 card.appendChild(badge);
-[span_86](end_span) } catch (e) {
+
+                
+            } catch (e) {
                 console.error("Free Plan Activation Failed: ", e);
-[span_87](start_span) alert("Error activating Free Plan. Please try again. Reason: " + (e.message || e));
-[span_87](end_span) }
+                alert("Error activating Free Plan. Please try again. Reason: " + (e.message || e));
+            }
         }
 
         // ----------------------------------------------------
@@ -883,70 +836,65 @@
         async function fetchAndRenderPlans() {
             try {
                 const plansSnapshot = await db.collection("plans").get();
-[span_88](start_span) const plansData = {};
+                const plansData = {};
                 plansSnapshot.forEach(doc => {
                     plansData[doc.id] = doc.data(); 
                 });
-[span_88](end_span) // Update global variable
+                
+                // Update global variable
                 ALL_PLANS_DATA = plansData;
-[span_89](start_span) // Map Plan ID to their UI IDs
+
+                // Map Plan ID to their UI IDs
                 const planMap = {
                     free: {
                         hashRate: 'free-hash-rate',
                         price: 'free-price',
-   
-[span_89](end_span)                      duration: 'free-duration',
+                        duration: 'free-duration',
                         earning: 'free-earning'
                     },
                     bronze: {
-            
-[span_90](start_span)             hashRate: 'bronze-hash-rate',
+                        hashRate: 'bronze-hash-rate',
                         price: 'bronze-price',
                         duration: 'bronze-duration',
                         earning: 'bronze-earning'
-            
-[span_90](end_span)         },
+                    },
                     silver: {
                         hashRate: 'silver-hash-rate',
                         price: 'silver-price',
-                     
-[span_91](start_span)    duration: 'silver-duration',
+                        duration: 'silver-duration',
                         earning: 'silver-earning'
                     },
                     gold: {
                         hashRate: 'gold-hash-rate',
-     
-[span_91](end_span)                    price: 'gold-price',
+                        price: 'gold-price',
                         duration: 'gold-duration',
                         earning: 'gold-earning'
                     }
-          
-[span_92](start_span)       };
+                };
 
                 // Update UI
                 for (const planId in planMap) {
                     const plan = plansData[planId];
-[span_92](end_span) const uiIds = planMap[planId];
+                    const uiIds = planMap[planId];
                     
                     if (plan && uiIds) {
-                        const priceText = planId === 'free' ?
-[span_93](start_span) `$${plan.price.toFixed(2)} (FREE)` : `$${plan.price.toFixed(2)}`;
+                        const priceText = planId === 'free' ? `$${plan.price.toFixed(2)} (FREE)` : `$${plan.price.toFixed(2)}`;
                         const durationText = `${plan.durationDays} Days${planId === 'free' ? ' Trial' : ''}`;
-[span_93](end_span) // Load data
+                        
+                        // Load data
                         document.getElementById(uiIds.hashRate).innerHTML = `Hash Rate: **${plan.hashRate.toFixed(2)} MH/s**`;
-[span_94](start_span) document.getElementById(uiIds.price).innerHTML = `Price: **${priceText}**`;
+                        document.getElementById(uiIds.price).innerHTML = `Price: **${priceText}**`;
                         document.getElementById(uiIds.duration).innerHTML = `Duration: **${durationText}**`;
                         document.getElementById(uiIds.earning).innerHTML = `Full Earning: **${plan.fullEarningXRP.toFixed(2)} XRP**`;
-[span_94](end_span) }
+                    }
                 }
                 
             } catch (e) {
                 console.error("Error fetching and rendering plans:", e);
-[span_95](start_span) // Display error message if data fetching fails
+                // Display error message if data fetching fails
                 const plansSection = document.getElementById('plans');
-[span_95](end_span) if(plansSection) {
-                   plansSection.innerHTML = '<h2 class="section-title error-message" style="color: #d32f2f;">⚠️ Failed to load plans.
-[span_96](start_span) Please check Firebase config and security rules.</h2>';
+                if(plansSection) {
+                   plansSection.innerHTML = '<h2 class="section-title error-message" style="color: #d32f2f;">⚠️ Failed to load plans. Please check Firebase config and security rules.</h2>';
                 }
             }
         }
@@ -957,35 +905,32 @@
         // -----------------------------------------------------------
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
-             
-[span_96](end_span)    stopRealTimeSimulation(); 
+                stopRealTimeSimulation(); 
                 window.location.href = "register.html"; 
                 return;
             }
 
             try {
                 await user.reload(); 
-                user = 
-[span_97](start_span) auth.currentUser;
+                user = auth.currentUser;
 
                 if (!user.emailVerified) {
                     await auth.signOut();
                     window.location.href = "register.html";
                     return;
                 }
-   
-[span_97](end_span)              
+                
                 // 🟢 5. Load Plan Configurations before proceeding
                 await fetchAndRenderPlans();
 
 
                 const userDocRef = db.collection("users").doc(user.uid);
                 let userDoc = await userDocRef.get();
-        
-[span_98](start_span)         let data = userDoc.data();
-[span_98](end_span) if (!userDoc.exists) {
+                let data = userDoc.data();
+                
+                if (!userDoc.exists) {
                     console.warn("User data not found in Firestore! Forcing logout.");
-[span_99](start_span) await auth.signOut(); 
+                    await auth.signOut(); 
                     return;
                 }
 
@@ -993,73 +938,76 @@
                 if (data.isFreePlanActive && data.freePlanActivationDate) {
                     // Get Free Plan data
                     const freePlanData = ALL_PLANS_DATA.free;
-[span_99](end_span) const freePlanHashRate = freePlanData ? freePlanData.hashRate : FREE_PLAN_HASH_RATE_DEFAULT;
+                    const freePlanHashRate = freePlanData ? freePlanData.hashRate : FREE_PLAN_HASH_RATE_DEFAULT;
                     const freePlanExpiryDays = freePlanData ? freePlanData.durationDays : FREE_PLAN_EXPIRY_DAYS_DEFAULT;
                     
                     const activationTime = data.freePlanActivationDate.toDate().getTime();
-[span_100](start_span) const expiryTime = activationTime + (freePlanExpiryDays * 24 * 60 * 60 * 1000); 
+                    const expiryTime = activationTime + (freePlanExpiryDays * 24 * 60 * 60 * 1000); 
                     const currentTime = Date.now();
-[span_100](end_span) if (currentTime > expiryTime) {
+
+                    if (currentTime > expiryTime) {
                         console.log("Free Plan Expired. Initiating deactivation and credit.");
-[span_101](start_span) await calculateAndApplyMining(userDocRef, data); 
+
+                        await calculateAndApplyMining(userDocRef, data); 
 
                         await db.runTransaction(async (transaction) => {
                             const currentDoc = await transaction.get(userDocRef);
                             const currentData = currentDoc.data();
                             
-  
-[span_101](end_span)                           if (!currentData.isFreePlanActive) return; 
+                            if (!currentData.isFreePlanActive) return; 
 
                             const newTotalHashRate = Math.max(0, (currentData.totalHashRate || 0) - freePlanHashRate);
                             const newEstimatedDailyIncome = newTotalHashRate * DEFAULT_DAILY_INCOME_PER_MH; 
- 
-[span_102](start_span)                            
+                            
                             transaction.update(userDocRef, {
                                 isFreePlanActive: false, 
-          
-[span_102](end_span)                       totalHashRate: newTotalHashRate,
+                                totalHashRate: newTotalHashRate,
                                 estimatedDailyIncome: newEstimatedDailyIncome,
                                 freePlanActivationDate: firebase.firestore.FieldValue.delete(),
-           
-[span_103](start_span)                      lastMiningUpdate: firebase.firestore.FieldValue.serverTimestamp() 
+                                lastMiningUpdate: firebase.firestore.FieldValue.serverTimestamp() 
                             });
-[span_103](end_span) data.isFreePlanActive = false;
+                            
+                            data.isFreePlanActive = false;
                             data.totalHashRate = newTotalHashRate;
                             data.estimatedDailyIncome = newEstimatedDailyIncome;
                         });
-[span_104](start_span) alert(`Your Free Plan (${freePlanHashRate.toFixed(2)} MH/s) has expired after ${freePlanExpiryDays} days. Your total earnings have been credited to your balance.`);
-                        window.location.reload();
-[span_104](end_span) return;
+
+                        alert(`Your Free Plan (${freePlanHashRate.toFixed(2)} MH/s) has expired after ${freePlanExpiryDays} days. Your total earnings have been credited to your balance.`);
+                        window.location.reload(); 
+                        return;
                     }
                 }
                 
                 // 1. 🔴 Set lastMiningUpdate on first login if not set.
-[span_105](start_span) if (!data.lastMiningUpdate) {
+                if (!data.lastMiningUpdate) {
                     await userDocRef.update({
                         lastMiningUpdate: firebase.firestore.FieldValue.serverTimestamp() 
                     });
-[span_105](end_span) userDoc = await userDocRef.get(); 
+                    userDoc = await userDocRef.get(); 
                     data = userDoc.data();
                 }
 
                 // 2. 🟢 Calculate and Apply Offline Mining
                 await calculateAndApplyMining(userDocRef, data);
-[span_106](start_span) // 3. 🖥️ Update UI and add Activated Badge (New Logic)
-                const userName = data.username ||
-[span_106](end_span) 'Miner'; 
+
+                
+                // 3. 🖥️ Update UI and add Activated Badge (New Logic)
+                const userName = data.username || 'Miner'; 
                 document.getElementById('header-user-display-name').textContent = userName;
                 document.getElementById('hero-user-display-name').textContent = userName;
                 document.getElementById('side-user-display-name').textContent = userName;
 
                 document.getElementById('current-balance').textContent = (data.balance || 0.00).toFixed(4) + ' XRP';
-[span_107](start_span) document.getElementById('total-hash-rate').textContent = (data.totalHashRate || 0.00).toFixed(2) + ' MH/s';
+                document.getElementById('total-hash-rate').textContent = (data.totalHashRate || 0.00).toFixed(2) + ' MH/s';
                 document.getElementById('estimated-daily-income').textContent = '$' + (data.estimatedDailyIncome || 0.00).toFixed(2);
                 document.getElementById('total-referrals').textContent = data.referrals || 0;
-[span_107](end_span) isFreePlanActive = data.isFreePlanActive || false;
-                totalHashRate = data.totalHashRate || 0.00;
-[span_108](start_span) // 💡 Add 'Activated' Badge for all active plans
-                const activePlans = data.activePlans ||
-[span_108](end_span) []; 
+                
+                isFreePlanActive = data.isFreePlanActive || false;
+                totalHashRate = data.totalHashRate || 0.00; 
+                
+                
+                // 💡 Add 'Activated' Badge for all active plans
+                const activePlans = data.activePlans || []; 
                 const planCards = document.querySelectorAll('.plan-container .plan-card'); 
 
                 planCards.forEach(card => {
@@ -1067,28 +1015,24 @@
                     if (!planTypeElement) return;
 
                     // Extract plan type (e.g., 'BRONZE (1 Month)' => 'bronze')
-                  
-[span_109](start_span)   const planType = planTypeElement.textContent.toLowerCase().split('(')[0].trim().replace('elite ', '').replace('<i class="fas fa-gift"></i>', '').trim();
+                    const planType = planTypeElement.textContent.toLowerCase().split('(')[0].trim().replace('elite ', '').replace('<i class="fas fa-gift"></i>', '').trim();
                     
                     card.querySelector('.activated-badge')?.remove(); // Remove existing badge
                     
                     let shouldActivate = false;
-   
-[span_109](end_span)                  
+                    
                     // 1. Check if Free Plan is active
                     if (planType.includes('free') && isFreePlanActive) {
                         shouldActivate = true;
-      
-[span_110](start_span)               } 
+                    } 
                     // 2. Check if Paid Plan is active (using Firebase Array)
                     else if (activePlans.includes(planType)) {
                         shouldActivate = true;
-      
-[span_110](end_span)               }
+                    }
 
                     if (shouldActivate) {
                         const badge = document.createElement('span');
-[span_111](start_span) badge.className = 'activated-badge';
+                        badge.className = 'activated-badge';
                         badge.textContent = 'Activated';
                         card.appendChild(badge);
                     }
@@ -1096,26 +1040,28 @@
                     // Update Free Plan Button status
                     if (planType.includes('free')) {
                          updateFreePlanUI();
-[span_111](end_span) }
+                    }
                 });
-[span_112](start_span) // 🟢 Generate Referral Link
+                
+                // 🟢 Generate Referral Link
                 const referralLinkInput = document.getElementById("referralLink");
-[span_112](end_span) const referralCode = data.referralCode || user.uid.substring(0, 8); 
+                const referralCode = data.referralCode || user.uid.substring(0, 8); 
                 const BASE_REGISTER_URL = 'https://ripple-com.github.io/xrp-mine-pro.github.io/register.html'; 
-                referralLinkInput.value = `${BASE_REGISTER_URL}?ref=${referralCode}`;
-[span_113](start_span) // 4. 🚀 Start Real-time Simulation
+                referralLinkInput.value = `${BASE_REGISTER_URL}?ref=${referralCode}`; 
+ 
+                
+                // 4. 🚀 Start Real-time Simulation
                 if (totalHashRate > 0) {
-                    currentLocalBalance = data.balance ||
-[span_113](end_span) 0.00;
+                    currentLocalBalance = data.balance || 0.00;
                     startRealTimeSimulation(); 
                 } else {
                     stopRealTimeSimulation();
-[span_114](start_span) }
+                }
 
 
             } catch (error) {
                 console.error("Error during authentication or data fetch:", error);
-[span_114](end_span) }
+            }
         });
 
         // -----------------------------------------------------------
@@ -1125,81 +1071,83 @@
             auth.signOut().then(() => {
                 stopRealTimeSimulation(); 
                 window.location.href = "register.html";
-           
-[span_115](start_span)  }).catch((error) => {
+            }).catch((error) => {
                 console.error("Logout Error:", error);
             });
-[span_115](end_span) }
+        }
 
         // -----------------------------------------------------------
         // 🛠️ Utility Functions
         // ----------------------------------------------------------
         function toggleNav() {
             const sideMenu = document.getElementById("mySideMenu");
-[span_116](start_span) sideMenu.classList.toggle('open');
+            sideMenu.classList.toggle('open');
         }
 
         // Referral System JavaScript Function (copyReferralLink) 
         function copyReferralLink() {
             const referralLinkInput = document.getElementById("referralLink");
-[span_116](end_span) const feedback = document.getElementById("copy-feedback");
+            const feedback = document.getElementById("copy-feedback");
 
             referralLinkInput.select();
             referralLinkInput.setSelectionRange(0, 99999); 
 
             try {
                 navigator.clipboard.writeText(referralLinkInput.value);
-[span_117](start_span) feedback.style.display = 'block';
+                
+                feedback.style.display = 'block';
                 setTimeout(() => {
                     feedback.style.display = 'none';
-                }, 2000);
-[span_117](end_span) } catch (err) {
+                }, 2000); 
+
+            } catch (err) {
                 console.error('Could not copy text: ', err);
-[span_118](start_span) alert("Could not copy link. Please manually copy: " + referralLinkInput.value);
-[span_118](end_span) }
+                alert("Could not copy link. Please manually copy: " + referralLinkInput.value);
+            }
         }
         
         // --- goToPayment Function ---
         function goToPayment(planId) {
             const user = auth.currentUser;
-[span_119](start_span) const plan = ALL_PLANS_DATA[planId]; 
+            const plan = ALL_PLANS_DATA[planId]; 
 
             if (!user) {
                 alert("Please log in before purchasing a plan.");
-[span_119](end_span) return;
+                return;
             }
             
             if (!plan) {
                 alert("Plan data not loaded yet, or invalid plan ID.");
-[span_120](start_span) return;
+                return;
             }
 
             const planName = planId.toUpperCase();
-[span_120](end_span) const planPrice = plan.price; 
+            const planPrice = plan.price; 
 
             // Redirect to payment.html with plan details
             window.location.href = `payment.html?planId=${planId}&name=${encodeURIComponent(planName)}&price=${planPrice}`;
-[span_121](start_span) }
+        }
 
 
         
         // --- Telegram Draggable Button JavaScript ---
         function makeDraggable(element) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-[span_121](end_span) let isDragging = false;
+            let isDragging = false;
             
             element.onmousedown = dragMouseDown;
-            element.ontouchstart = dragTouchStart;
-[span_122](start_span) // Prevent link from opening on click if dragged
+            element.ontouchstart = dragTouchStart; 
+            
+            // Prevent link from opening on click if dragged
             element.onclick = function(e) {
                 if (isDragging) {
                     e.preventDefault();
-[span_122](end_span) isDragging = false; 
+                    isDragging = false; 
                 }
             };
-[span_123](start_span) function dragMouseDown(e) {
-                e = e ||
-[span_123](end_span) window.event;
+            
+            function dragMouseDown(e) {
+                e = e || window.event;
                 e.preventDefault(); 
                 
                 pos3 = e.clientX;
@@ -1208,11 +1156,10 @@
                 element.classList.add('dragging'); 
                 document.onmouseup = closeDragElement;
                 document.onmousemove = elementDrag;
-[span_124](start_span) }
+            }
             
             function dragTouchStart(e) {
-                e = e ||
-[span_124](end_span) window.event;
+                e = e || window.event;
                 
                 pos3 = e.targetTouches[0].clientX;
                 pos4 = e.targetTouches[0].clientY;
@@ -1220,64 +1167,64 @@
                 element.classList.add('dragging'); 
                 document.ontouchend = closeDragElement;
                 document.ontouchmove = elementDragTouch;
-[span_125](start_span) }
+            }
 
             function elementDrag(e) {
-                e = e ||
-[span_125](end_span) window.event;
+                e = e || window.event;
                 e.preventDefault();
                 
                 pos1 = pos3 - e.clientX;
                 pos2 = pos4 - e.clientY;
                 pos3 = e.clientX;
                 pos4 = e.clientY;
-[span_126](start_span) // Set isDragging to true only after moving a few pixels
+                
+                // Set isDragging to true only after moving a few pixels
                 if (Math.abs(pos1) > 2 || Math.abs(pos2) > 2) {
                     isDragging = true;
-[span_126](end_span) }
+                }
                 
                 element.style.top = (element.offsetTop - pos2) + "px";
-[span_127](start_span) element.style.left = (element.offsetLeft - pos1) + "px";
+                element.style.left = (element.offsetLeft - pos1) + "px";
             }
 
             function elementDragTouch(e) {
-                e = e ||
-[span_127](end_span) window.event;
+                e = e || window.event;
                 
                 pos1 = pos3 - e.targetTouches[0].clientX;
                 pos2 = pos4 - e.targetTouches[0].clientY;
                 pos3 = e.targetTouches[0].clientX;
                 pos4 = e.targetTouches[0].clientY;
-[span_128](start_span) if (Math.abs(pos1) > 2 || Math.abs(pos2) > 2) {
+                
+                if (Math.abs(pos1) > 2 || Math.abs(pos2) > 2) {
                     isDragging = true;
-[span_128](end_span) }
+                }
                 
                 element.style.top = (element.offsetTop - pos2) + "px";
-[span_129](start_span) element.style.left = (element.offsetLeft - pos1) + "px";
+                element.style.left = (element.offsetLeft - pos1) + "px";
             }
 
             function closeDragElement() {
                 document.onmouseup = null;
-[span_129](end_span) document.onmousemove = null;
+                document.onmousemove = null;
                 document.ontouchend = null;
                 document.ontouchmove = null;
                 element.classList.remove('dragging');
-[span_130](start_span) // If dragging occurred, prevent the link from opening
+                
+                // If dragging occurred, prevent the link from opening
                 setTimeout(() => {
                     if(isDragging) {
                         isDragging = false; 
                     }
-      
-[span_130](end_span)           }, 50);
-[span_131](start_span) }
+                }, 50); 
+            }
         }
 
         // Make the Telegram button draggable on window load
         window.onload = function() {
             const telegramBtn = document.getElementById('telegram-btn');
-[span_131](end_span) if (telegramBtn) {
+            if (telegramBtn) {
                 makeDraggable(telegramBtn);
-[cite_start][cite: 265] }
+            }
         };
         // --- End Draggable JavaScript Code ---
         
