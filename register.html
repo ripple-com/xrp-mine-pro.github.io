@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XRP Mine Pro - Auth Center (Login/Register) - Firebase Ready</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico"> 
-<link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16">
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -20,9 +17,6 @@
             --error-color: #f44336; /* Red - Error Messages */
             --card-bg: #212121; 
             --border-color: #333333;
-            /* නව XRP වර්ණ */
-            --xrp-color: #ffffff; /* White XRP logo */
-            --xrp-bg-color: #000000; /* Black background of the logo (for blending) */
         }
 
         body {
@@ -36,111 +30,7 @@
             align-items: center;
             min-height: 100vh;
             line-height: 1.6;
-            /* ❗️ පසුබිම් සජීවීකරණය සඳහා අත්‍යවශ්‍යයි */
-            position: relative; 
-            overflow: hidden; 
-            /* 3D දර්ශනය සඳහා perspective එකතු කරයි */
-            perspective: 1000px; 
         }
-        
-        /* ========================================================= */
-        /* 🔵 XRP 3D ANIMATION STYLES - New Addition */
-        /* ========================================================= */
-        .background-animation {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1; /* මූලද්‍රව්‍ය පසුබිමට යවයි */
-            opacity: 0.2; /* මදක් අඳුරු කරයි */
-            /* XRP ලාංඡනය සඳහා අඳුරු පසුබිම */
-            background-color: #121212;
-        }
-
-        .xrp-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .xrp-icon {
-            position: absolute;
-            display: block;
-            width: 150px; /* ලාංඡනයේ මූලික ප්‍රමාණය */
-            height: 150px;
-            background-image: url('1000110703.png'); /* 🖼️ ඔබගේ XRP PNG රූපය */
-            background-size: contain; 
-            background-repeat: no-repeat;
-            background-position: center;
-            
-            /* 3D පරිවර්තනයන් සඳහා මූලික සැකසුම් */
-            transform-style: preserve-3d; 
-            animation: moveAndRotate 40s linear infinite alternate, 
-                       spin3D 20s linear infinite; 
-        }
-
-        /* 3D භ්‍රමණය කිරීමේ සහ ස්ථානගත කිරීමේ සජීවීකරණය */
-        @keyframes spin3D {
-            0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
-            100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
-        }
-
-        /* තිරය හරහා සෙමින් ගමන් කිරීමේ සජීවීකරණය (එහා මෙහා යන විදියට) */
-        @keyframes moveAndRotate {
-            0% {
-                transform: translate3d(0vw, 0vh, 0px) scale(0.8) rotate(0deg); 
-            }
-            25% {
-                transform: translate3d(80vw, 10vh, -100px) scale(1.0) rotate(90deg);
-            }
-            50% {
-                transform: translate3d(50vw, 80vh, 50px) scale(1.2) rotate(180deg);
-            }
-            75% {
-                transform: translate3d(10vw, 50vh, -50px) scale(0.9) rotate(270deg);
-            }
-            100% {
-                transform: translate3d(0vw, 0vh, 0px) scale(0.8) rotate(360deg); 
-            }
-        }
-        
-        /* විවිධ ලාංඡන සඳහා විවිධ ආරම්භක පිහිටීම් සහ ප්‍රමාදයන් */
-        .xrp-icon:nth-child(1) {
-            top: 10%; left: 5%; 
-            width: 100px; height: 100px;
-            animation-duration: 50s; 
-            animation-delay: 0s;
-        }
-        .xrp-icon:nth-child(2) {
-            top: 50%; left: 90%; 
-            width: 80px; height: 80px;
-            animation-duration: 35s; 
-            animation-delay: -5s; /* සෘණ ප්‍රමාදය මඟින් සජීවීකරණය ආරම්භයේදීම මධ්‍යයේ ඇති කරයි */
-        }
-        .xrp-icon:nth-child(3) {
-            top: 80%; left: 30%; 
-            width: 120px; height: 120px;
-            animation-duration: 60s; 
-            animation-delay: -15s;
-        }
-        .xrp-icon:nth-child(4) {
-            top: 20%; left: 70%; 
-            width: 90px; height: 90px;
-            animation-duration: 45s; 
-            animation-delay: -8s;
-        }
-        .xrp-icon:nth-child(5) {
-            top: 60%; left: 15%; 
-            width: 140px; height: 140px;
-            animation-duration: 70s; 
-            animation-delay: -20s;
-        }
-        
-        /* ========================================================= */
-        /* 🔵 END XRP 3D ANIMATION STYLES */
-        /* ========================================================= */
         
         a { color: var(--primary-color); text-decoration: none; transition: color 0.3s; }
         a:hover { color: #81d4fa; }
@@ -149,10 +39,6 @@
             background-color: var(--card-bg); 
             padding: 20px 35px 40px;
             border-radius: 12px;
-            /* ❗️ පසුබිම් සජීවීකරණයට උඩින් තැබීමට */
-            z-index: 10; 
-            position: relative; 
-            /* ------------------------------------- */
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
             width: 100%;
             max-width: 480px;
@@ -235,16 +121,7 @@
     </style>
 </head>
 <body>
-    
-    <div class="background-animation">
-        <div class="xrp-container">
-            <div class="xrp-icon"></div>
-            <div class="xrp-icon"></div>
-            <div class="xrp-icon"></div>
-            <div class="xrp-icon"></div>
-            <div class="xrp-icon"></div>
-        </div>
-    </div>
+
     <div class="auth-container">
         <div class="logo">XRP MINE PRO</div>
         
@@ -291,15 +168,7 @@
             <form id="reg-form" onsubmit="event.preventDefault(); handleRegistration();" method="POST">
                 <div class="input-group">
                     <label for="reg-username"><i class="fas fa-user"></i> Username</label>
-                    <input 
-                        type="text" 
-                        id="reg-username" 
-                        name="username" 
-                        placeholder="First Capital, then simple. Max 14 characters, Max 4 digits." 
-                        required
-                        oninput="formatUsername(this)"
-                        maxlength="14"
-                    >
+                    <input type="text" id="reg-username" name="username" placeholder="Choose a username" required>
                 </div>
                 <div class="input-group">
                     <label for="reg-email"><i class="fas fa-envelope"></i> Email Address</label>
@@ -461,73 +330,26 @@
             }
         }
 
-        // --- Username Formatting Function ---
-        function formatUsername(input) {
-            let value = input.value;
-            if (value.length > 0) {
-                // පළමු අකුර කැපිටල්, අනෙක් අකුරු සිම්පල්
-                value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-            }
-            input.value = value;
-        }
-
 
      // 🟢 FIREBASE REGISTER FUNCTION (Referral Logic සහිතව)
 async function handleRegistration() {
-    let username = document.getElementById('reg-username').value;
+    const username = document.getElementById('reg-username').value;
     const email = document.getElementById('reg-email').value;
     const password = document.getElementById('reg-password').value;
     const confirmPassword = document.getElementById('reg-confirm-password').value;
     
     displayFeedback('register-feedback', 'Creating account...', 'pending');
 
-    // 1. Password ගැලපීම පරීක්ෂා කිරීම
     if (password !== confirmPassword) {
         displayFeedback('register-feedback', 'Error: Passwords do not match!', 'error');
         return; 
     }
-    
-    // 2. Username වලංගුකරණය (Validation)
-    // අකුරු 15 ට අඩු (උපරිම 14) - HTML maxlength="14" වලින් සීමා වේ
-    if (username.length === 0 || username.length > 14) {
-         displayFeedback('register-feedback', 'Error: Username must be 1 to 14 characters long.', 'error');
-         return;
-    }
-    
-    // ඉලක්කම් 5 ට අඩු (උපරිම 4) - RegEx මගින් පරීක්ෂා කරයි
-    const digitCount = (username.match(/\d/g) || []).length;
-    if (digitCount > 4) {
-         displayFeedback('register-feedback', 'Error: Username can have a maximum of 4 digits.', 'error');
-         return;
-    }
-    
-    // පළමු අකුර කැපිටල්, අනෙක්වා සිම්පල් දැයි පරීක්ෂා කිරීම
-    if (username.length > 0 && (username.charAt(0) !== username.charAt(0).toUpperCase() || username.slice(1) !== username.slice(1).toLowerCase())) {
-        // මෙය HTML oninput එක මගින් ස්වයංක්‍රීයව නිවැරදි කළ යුතු නමුත්,
-        // පරිශීලකයා JavaScript Disabled කර ඇත්නම් මේ පරීක්ෂාව වැදගත් වේ.
-        // ආරක්ෂාව සඳහා අපි නැවතත් මෙහිදී නිවැරදි කරමු.
-        username = username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
-    }
-    
-    // 3. පවතින Username පරීක්ෂාව (Uniqueness Check) - පෙර ගැටළු නිරාකරණය කර ඇත
-    try {
-        const usernameQuery = await db.collection("users").where("username", "==", username).limit(1).get();
-        if (!usernameQuery.empty) {
-            displayFeedback('register-feedback', 'Error: This username is already taken. Please choose another one.', 'error');
-            return;
-        }
-    } catch (error) {
-        // මෙය සාමාන්‍යයෙන් Security Rules ගැටළුවක් නිසා ඇති වේ
-        console.error("Firebase Username Check Error:", error);
-        displayFeedback('register-feedback', 'Error: Failed to check username availability. Try again.', 'error');
-        return;
-    }
 
-    // 4. Firebase Authentication සහ Firestore වෙත දත්ත එකතු කිරීම
     try {
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         const user = userCredential.user;
         
+        // 🟢 නව කේතය: සත්‍යාපනයෙන් පසු යා යුතු පිටුව සකසයි
         const actionCodeSettings = {
             url: DASHBOARD_URL, 
             handleCodeInApp: false, 
@@ -537,14 +359,17 @@ async function handleRegistration() {
         await user.updateProfile({ displayName: username }); 
         
         const userDocRef = db.collection("users").doc(user.uid);
-        const newReferralCode = user.uid.substring(0, 8); 
+        const newReferralCode = user.uid.substring(0, 8); // නව පරිශීලකයාගේ කේතය
         
-        // Firestore වෙත දත්ත සුරැකීම
+        // Firestore වෙත දත්ත සුරැකීම (නව පරිශීලකයා සඳහා)
         await userDocRef.set({
             username: username,
             email: email,
-            referralCode: newReferralCode,             
-            referredBy: referralIdFromUrl || null,    
+            
+            // ⚡️ REFERRAL SYSTEM FIELDS
+            referralCode: newReferralCode,             // තමන්ගේම Referral Code එක
+            referredBy: referralIdFromUrl || null,    // URL එකෙන් ආව Referrer ගේ ID එක (ref)
+            
             balance: 0.00, 
             totalMined: 0.00,
             referrals: 0, 
@@ -556,20 +381,28 @@ async function handleRegistration() {
         // ⚡️ REFERRAL LOGIC යාවත්කාලීන කිරීම (Referrer ගේ ගණන වැඩි කිරීම)
         if (referralIdFromUrl) {
             try {
+                // referralIdFromUrl (ref) එකට අදාළ Referrer ව සොයා ගැනීම.
                 const referrerQuery = await db.collection("users").where("referralCode", "==", referralIdFromUrl).limit(1).get();
                 
                 if (!referrerQuery.empty) {
                     const referrerDoc = referrerQuery.docs[0];
                     const referrerDocRef = db.collection("users").doc(referrerDoc.id);
                     
+                    // Transaction භාවිතයෙන් referrals ගණන 1කින් වැඩි කිරීම.
                     await db.runTransaction(async (transaction) => {
                         const doc = await transaction.get(referrerDocRef);
-                        if (!doc.exists) { throw "Referrer document does not exist during transaction!"; }
+                        if (!doc.exists) {
+                            // මෙහිදී දෝෂය නොසලකා හැරීමට හෝ ලොග් කිරීමට පුළුවන්
+                            throw "Referrer document does not exist during transaction!";
+                        }
                         
                         const currentReferrals = doc.data().referrals || 0;
                         const newReferrals = currentReferrals + 1;
                         
-                        transaction.update(referrerDocRef, { referrals: newReferrals });
+                        transaction.update(referrerDocRef, {
+                            referrals: newReferrals 
+                        });
+                        
                         console.log(`✅ Referral count updated for referrer: ${referrerDoc.data().username}. New count: ${newReferrals}`);
                     });
                 } else {
@@ -585,7 +418,7 @@ async function handleRegistration() {
         sendTelegramNotification('Registration', {
             Username: username,
             Email: email,
-            ReferralCode: newReferralCode, 
+            ReferralCode: newReferralCode, // නව කේතය මෙහි යොදන්න
             ReferredBy: referralIdFromUrl || 'None',
             Status: 'Created, Verification Pending'
         });
